@@ -1,0 +1,35 @@
+
+
+/* Image Properties */
+
+@mixin img-size-inherit {
+	height: inherit;
+	width: inherit;
+}
+@mixin img-size-contain {
+	height: 100%;
+	width: 100%;
+}
+
+
+@mixin img-cover {
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+@mixin img-contain {
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+
+@mixin svg-cover {
+  mask-size: cover;
+  mask-repeat: no-repeat;
+} 
+@mixin svg-contain {
+  mask-size: contain;
+  mask-repeat: no-repeat;
+}
+
+
+

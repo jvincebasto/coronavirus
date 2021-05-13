@@ -1,0 +1,198 @@
+@use "abstracts/abstracts" as abs;
+
+
+.btn {
+
+	overflow: hidden;
+	cursor: pointer;
+
+	&-section {
+		height: 4rem;
+		padding: .5rem 1rem;
+
+		// border: .2rem solid abs.$vars-c-line;
+		border-radius: .4rem;
+
+		position: absolute;
+		z-index: 1;
+
+		text-align: center;
+		overflow: hidden;
+
+		@include abs.mxs-flexCenter;
+		@include abs.mxs-transformOriginTransition;
+
+		&--left, &--right {
+
+			&::before {
+				@include abs.mxs-psuedoElement;
+
+				@include abs.mxs-absPosCOLT;
+				background: rgba(0,0,0,.5);
+				@include abs.mxs-transformOriginBottom;
+			  transform: translate(-50%,-50%) scaleY(0);
+				@include abs.mxs-transformOriginTransition;
+			}
+
+			&:hover::before {
+				@include abs.mxs-transformOriginHoverTop;
+			  transform: translate(-50%,-50%) scaleY(1);
+			}
+
+			&:hover > span {
+				color: abs.$vars-c-font;
+			}
+			&:active > span {
+				color: abs.$vars-c-font;
+			}
+
+			span {
+				transition: all .2s;
+			}
+		}
+
+		&--left { 
+			@include abs.mxs-absPosOffsetLeft; 			
+		}
+		&--right { 
+			@include abs.mxs-absPosOffsetRight; 
+		}
+	}
+
+
+	&-return {
+
+		height: 3rem;
+		padding: 0rem .5rem;
+
+		border-radius: .5rem;
+		// border: .2rem solid abs.$vars-c-line; 
+
+		@include abs.mxs-flexCenter;
+		overflow: hidden;
+
+		transition: all .2s;
+
+
+		&--left, &--right {
+
+			&::before {
+				@include abs.mxs-psuedoElement;
+
+				background: rgba(0,0,0,.5);
+				@include abs.mxs-absPosCOLT;
+				@include abs.mxs-transformOriginTransition;
+			}
+			&:hover::before {
+			  transform: translate(-50%,-50%) scaleX(1);
+			}
+		}
+		&--left {
+			@include abs.mxs-absPosCornerTL;
+			transform: translate(-25%,50%);
+			&::before {
+				@include abs.mxs-transformOriginRight;
+			  transform: translate(-50%,-50%) scaleX(0);
+			}
+			&:hover::before {
+				@include abs.mxs-transformOriginLeft;
+			  transform: translate(-50%,-50%) scaleX(1);
+			}
+		}
+		&--right {
+			@include abs.mxs-absPosCornerTR;
+			transform: translate(25%,50%);
+			&::before {
+				@include abs.mxs-transformOriginLeft;
+			  transform: translate(-50%,-50%) scaleX(0);
+			}
+			&:hover::before {
+				@include abs.mxs-transformOriginRight;
+			  transform: translate(-50%,-50%) scaleX(1);
+			}
+		}
+
+
+		&:active {
+			background: rgba(0,0,0.5);
+		}
+		&:active > * {
+			color: abs.$vars-c-font-active; 
+		}
+	}
+
+
+	&-arrow, &-text {
+		font-size: 1.1rem;
+		color: abs.$vars-c-font;
+		margin: 0rem .5rem;
+
+		@include abs.mxs-flexCenter;
+
+		transition: all .4s;
+	}
+	&-arrow {
+		font-size: 1.5rem;
+	}
+}
+
+
+
+
+
+.textHover {
+
+	&--1 {
+		-webkit-text-fill-color: transparent;
+		-webkit-text-stroke: 1px abs.$vars-c-font;
+		cursor: pointer;
+
+		display: inline-block;
+		padding: 0rem .1rem;
+		margin: .1rem;
+		
+		transition: all .4s;
+
+		&:hover {
+			background: rgba(0,0,0.5);
+			color: abs.$vars-c-font-hover;
+			-webkit-text-fill-color: unset;
+			-webkit-text-stroke: unset;
+			
+			transform: rotate(-4deg) translateY(-2px);
+		}
+		&:active {
+			transform: translateY(-1px);
+		}
+	}
+
+	&--2 {
+		color: abs.$vars-c-font-grey-light;
+		cursor: pointer;
+		position: relative;
+		z-index: 1;
+
+		display: inline-block;
+
+		&::before {
+			@include abs.mxs-psuedoElement;
+			height: 2px;
+			z-index: -1;
+
+			background: abs.$vars-c-font;
+			position: relative;
+			@include abs.mxs-absPosCornerBL;
+			@include abs.mxs-transformOriginRight;
+			@include abs.mxs-transformOriginTransition;
+		}
+		&:hover::before {
+			@include abs.mxs-transformOriginHoverLeft;
+		}
+
+		&:hover {
+			transition: color 1s .4s;
+			color: abs.$vars-c-font;
+		}
+	}
+}
+

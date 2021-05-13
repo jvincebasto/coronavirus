@@ -1,0 +1,260 @@
+@use "abstracts/abstracts" as abs;
+
+
+
+
+
+/* ~~~~~ Typefaces ~~~~~ */
+
+/*
+
+2 typefaces
+Serif - Sans-serif
+Sans-serif - Sans-serif
+
+
+Font weight:
+1 Regular
+1 Bold
+1 Italic Bold
+1 (Thin or Light or Light)
+
+
+Font Family:
+Headline (Class Attribute)
+Heading
+Body
+(Thin or Light or Italic)
+
+*/
+
+/*
+@font-face {
+	font-family: headline;
+	src: url(./../assets/fonts/Oswald/Oswald-VariableFont_wght.ttf) format('truetype');
+	font-weight: 600;
+}
+*/
+
+@font-face {
+	font-family: hblack;
+	src: url(./../assets/fonts/RobotoSlab/RobotoSlab-VariableFont_wght.ttf) format('truetype');
+	font-weight: 900;
+}
+@font-face {
+	font-family: hbold;
+	src: url(./../assets/fonts/RobotoSlab/RobotoSlab-VariableFont_wght.ttf) format('truetype');
+	font-weight: 700;
+}
+@font-face {
+	font-family: hbody;
+	src: url(./../assets/fonts/RobotoSlab/RobotoSlab-VariableFont_wght.ttf) format('truetype');
+	font-weight: 400;
+}
+@font-face {
+	font-family: hlight;
+	src: url(./../assets/fonts/RobotoSlab/RobotoSlab-VariableFont_wght.ttf) format('truetype');
+	font-weight: 300;
+}
+
+
+
+@font-face {
+	font-family: tbold;
+	src: url(./../assets/fonts/Roboto/Roboto-Bold.ttf) format('truetype');
+}
+@font-face {
+	font-family: tbody;
+	src: url(./../assets/fonts/Roboto/Roboto-Regular.ttf) format('truetype');
+}
+@font-face {
+	font-family: tlight;
+	src: url(./../assets/fonts/Roboto/Roboto-Light.ttf) format('truetype');
+}
+
+/*
+base font: 16px;
+
+typographic scales:
+Sample Site: type-scales.com
+
+Major Third: 1.250
+Perfect Fourth: 1.333
+Golden Rule: 1.618
+
+
+Symbols:
+Multiply -> (*) 
+Divide -> (/)
+Raise to (^) / Power of  -> (**) 
+
+
+Formula Scale Up: 
+1) (base-font) * (Scale)   
+2) (base-font) * (Scale) ** (n)   
+
+Formula Scale Up: 
+3) (base-font) / (Scale)
+
+
+label: 16/1.25 = 12.8px;
+body: 16px;
+h4: 16*1.25 = 20px;
+h3: 16*1.25^2 = 25px;
+h2: 16*1.25^3 = aprrox. 32px;
+h1: 16*1.25^4 = aprrox. 40px;
+
+
+Convert Pixels to REM:
+
+base-font: 
+10/16px = 62.5%;
+1rem = 10px;
+
+html { font-size: 62.5% }
+body { font-size: 1.6rem }
+
+
+Formula: (font-size / 10)
+
+
+label: 12.8/10 = 1.2rem;
+body: 16/10 = 1.6rem;
+h4: 20/10 = 2rem;
+h3: 25/10 = 2.5rem;
+h2: 32/10 = 3.2rem;
+h1: 40/10 = 4rem;
+
+*/
+
+/*
+
+
+
+Line Heights: 
+1) 130% to 150% (recommended)
+2) 120% to 180% (flexible)
+3) 1.3 to 1.5 (In Scale Value)
+
+Formula: 
+(font-size) * (Scale or Percentage)
+
+
+body: 1.6 * 1.2 = 1.92rem;
+body: 1.6 * 120% = 1.92rem;
+
+
+Line Length (Characters per Line)
+1) 45 to 60 or 75 characters
+2) 45 to 90 characters
+
+Units:
+Viewport Width (vw)
+Characters (ch)
+
+max-width: vw;
+max-width: 75ch;
+
+*/
+
+
+h1,h2,h3,h4 {
+	font-family: hbody, serif;
+}
+
+h1 { font-size: 4rem; }
+h2 { font-size: 3.2rem; }
+h3 { font-size: 2.5rem; }
+h4 { font-size: 2rem; }
+
+label { 
+	font-size: 1.3rem;
+}
+
+
+
+
+
+/* ~~~~~ Global Resets ~~~~~ */
+
+*,
+::before,
+::after {
+	padding: 0;
+	margin: 0;
+	box-sizing: inherit;
+
+	line-height: 145%;
+	font-family: tbody, sans-serif;
+
+
+	// outline: none !important;
+	// -webkit-tap-highlight-color: transparent !important;
+	// box-shadow: none;
+}
+
+html { scroll-behavior: smooth; }
+::selection { background: rgba(black,.5); }
+
+/* 
+
+16px (Web Font) = 12 points (Text File/Microsoft Word)
+
+Body Web Font Boundaries: 
+1) 14px to 25px
+2) 2px Larger or Smaller or Aprroximate to 16px
+
+
+Minimum Font Sizes:
+1) 16px (Minimum)
+	10 / 16px = 62.5%
+	1rem = 10px
+	font-size: 1.6rem * 10px
+
+	Html { font-size: 62.5%; }
+	Body { font-size: 1.6rem * 10px = 16px; }
+
+2) 2px Larger or Smaller than 16px = 18px
+
+
+Mobile Font Sizes:
+1) 2px Smaller than 16px = 14px
+2) Approximate to 16px
+
+
+Mobile Font Size 2px Smaller:
+
+Formula: From 16px to 14px 
+
+1.6 * x = 14px
+x = 14/1.6 = 8.75
+
+font-size: 8.75/16 = 54.6875%
+1rem = 8.75;
+
+Html { font-size: 54.6875%; }
+Body { font-size: 1.6rem * 8.75 = 14px; }
+	
+
+
+*/
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-size: 1.6rem;
+	box-sizing: border-box;
+}
+
+li { list-style: none; }
+a { text-decoration: none; }
+a,input[type=text] { outline: none; }
+
+ 
+
+
+/* ~~~~~ ~~~~~ */
+/* ~~~~~ ~~~~~ */
+/* ~~~~~ ~~~~~ */

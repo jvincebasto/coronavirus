@@ -1,0 +1,220 @@
+@use "transforms" as trans;
+
+
+
+
+/* ~~~~~ Position Mixins ~~~~~ */
+
+
+
+
+@mixin d-flex-center {
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+
+/* Pseudo Element */
+
+@mixin pseudoElement {
+  content: "";
+
+  display: inline-block;
+  height: inhert;
+  width: inhert;
+  z-index: -1;
+} 
+
+
+
+
+/* Position Properties */
+
+@mixin p-relative {
+  position: relative;
+}
+@mixin p-absolute {
+  position: absolute;
+}
+@mixin p-fixed {
+  position: fixed;
+}
+
+
+/* Position Corners */
+
+@mixin p-topleft {
+  top: 0;  
+  right: unset;
+  bottom: unset;
+  left: 0;
+}
+@mixin p-topright {
+  top: 0;
+  right: 0;
+  bottom: unset;
+  left: unset;
+}
+@mixin p-bottomleft {
+  top: unset;
+  right: unset;
+  bottom: 0;
+  left: 0;
+}
+@mixin p-bottomright {
+  top: unset;
+  right: 0;
+  bottom: 0;
+  left: unset;
+}
+
+
+/* Position Relative Corners */
+
+@mixin p-relativec-topleft {
+  @include p-relative;
+  @include p-topleft;
+}
+@mixin p-relativec-topright {
+  @include p-relative;
+  @include p-topright;
+}
+@mixin p-relativec-bottomleft {
+  @include p-relative;
+  @include p-bottomleft;
+}
+@mixin p-relativec-bottomright {
+  @include p-absolute;
+  @include p-bottomright;
+}
+
+
+/* Position Absolute Corners */
+
+@mixin p-absolutec-topleft {
+  @include p-absolute;
+  @include p-topleft;
+}
+@mixin p-absolutec-topright {
+  @include p-absolute;
+  @include p-topright;
+}
+@mixin p-absolutec-bottomleft {
+  @include p-absolute;
+  @include p-bottomleft;
+}
+@mixin p-absolutec-bottomright {
+  @include p-absolute;
+  @include p-bottomright;
+}
+
+
+/* Position Fixed Corners */
+
+@mixin p-fixedc-topleft {
+  @include p-fixed;
+  @include p-topleft;
+}
+@mixin p-fixedc-topright {
+  @include p-fixed;
+  @include p-topright;
+}
+@mixin p-fixedc-bottomleft {
+  @include p-fixed;
+  @include p-bottomleft;
+}
+@mixin p-fixedc-bottomright {
+  @include p-fixed;
+  @include p-bottomright;
+}
+
+
+/* Position Inward Corners */
+
+@mixin p-icorner-left {
+  left: 50%;
+  @include trans.t-translatex-ncenter;
+}
+@mixin p-icorner-right {
+  right: 50%;
+  @include trans.t-translatex-pcenter;
+}
+@mixin p-icorner-top {
+  top: 50%;
+  @include trans.t-translatey-ncenter;
+}
+@mixin p-icorner-bottom {
+  bottom: 50%;
+  @include trans.t-translatey-pcenter;
+}
+
+
+/* Position Inward Center */
+
+@mixin p-icenter-topleft {
+  @include p-icorner-top;
+  @include p-icorner-left;
+}
+@mixin p-icenter-topright {
+  @include p-icorner-top;
+  @include p-icorner-right;
+}
+@mixin p-icenter-bottomleft {
+  @include p-icorner-bottom;
+  @include p-icorner-left;
+}
+@mixin p-icenter-bottomright {
+  @include p-icorner-bottom;
+  @include p-icorner-right;
+}
+
+
+
+/* Position Outward Corner */
+
+@mixin p-ocorner-left {
+  left: -50%;
+  @include trans.t-translatex-pcenter;
+}
+@mixin p-ocorner-right {
+  right: -50%;
+  @include trans.t-translatex-ncenter;
+}
+@mixin p-ocorner-top {
+  top: -50%;
+  @include trans.t-translatey-pcenter;
+}
+@mixin p-ocorner-bottom {
+  bottom: -50%;
+  @include trans.t-translatey-ncenter;
+}
+
+/* Position Outward Center */
+
+@mixin p-ocenter-topleft {
+  @include p-ocorner-top;
+  @include p-ocorner-left;
+}
+@mixin p-ocenter-topright {
+  @include p-ocorner-top;
+  @include p-ocorner-right;
+}
+@mixin p-ocenter-bottomleft {
+  @include p-ocorner-bottom;
+  @include p-ocorner-left;
+}
+@mixin p-ocenter-bottomright {
+  @include p-ocorner-bottom;
+  @include p-ocorner-right;
+}
+
+
+
+
+/* ~~~~~ ~~~~~ */
+/* ~~~~~ ~~~~~ */
+/* ~~~~~ ~~~~~ */

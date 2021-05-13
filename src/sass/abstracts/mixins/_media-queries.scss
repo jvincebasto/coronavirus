@@ -1,0 +1,117 @@
+@use "../variables" as var;
+
+
+
+
+/* ~~~~~ Media Queries Mixins ~~~~~ */
+
+/*
+
+Basic Media Query Sample 
+
+1em = 16px
+
+0 - 600px:			Phone
+600 - 900px:    Tablet Portrait
+900 - 1200px:   Tablet Landscape
+1200 - 1800:	 	Normal
+1800 & above:   Big Desktop
+
+*/
+
+
+/*
+
+Largest to Lowest Media Screens
+
+Large Desktop Screen: min-width
+Regular to Smaller Screen: max-width
+
+*/
+
+
+/*
+
+Webflow Media Query Format:
+
+480max: phone portrait
+768max: phone landscape
+
+992max: tablet portrait
+1280max: tablet landscape
+
+1440max: laptop / default
+1440min: desktop
+1920min: Large Desktop
+
+*/
+
+
+/*
+
+Em Convertion:
+
+$mq-pphone: 30em;
+$mq-lphone: 42.375em;
+
+$mq-ptablet: 62em;
+$mq-ltablet: 80em;
+
+$mq-laptop: 90em;
+$mq-desktop: 90em;
+$mq-ldesktop: 120em;
+
+*/
+
+
+@mixin respond($breakpoint) { 
+
+  @if $breakpoint == pphone { // 480max - 30em
+    @media only screen and (max-width: var.$mq-pphone) 
+    { @content };
+  }
+  @if $breakpoint == lphone { // 768max - 42.375em
+    @media only screen and (max-width: var.$mq-lphone) 
+    { @content };
+  }
+
+
+  @if $breakpoint == ptablet { // 992max - 62em
+    @media only screen and (max-width: var.$mq-ptablet) 
+    { @content };
+  }
+  @if $breakpoint == ltablet { // 1280max - 80em
+    @media only screen and (max-width: var.$mq-ltablet) 
+    { @content };
+  }
+
+
+  @if $breakpoint == laptop { // 1440max - 90em
+    @media only screen and (max-width: var.$mq-laptop) 
+    { @content }; 
+  }
+  @if $breakpoint == desktop { // 1440min - 90em
+    @media only screen and (min-width: var.$mq-desktop) 
+    { @content }; 
+  }
+  @if $breakpoint == ldesktop { // 1920min - 120em
+    @media only screen and (min-width: var.$mq-ldesktop) 
+    { @content }; 
+  }
+}
+
+
+
+@mixin respond-minmax($min,$max) { 
+  @media only screen and (min-width: $min) and (max-width: $max)
+  { @content }; 
+}
+
+
+
+
+
+
+/* ~~~~~ ~~~~~ */
+/* ~~~~~ ~~~~~ */
+/* ~~~~~ ~~~~~ */
