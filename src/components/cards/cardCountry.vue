@@ -138,7 +138,7 @@ export default {
 </script>
 
 <style lang="scss">
-@use "./../sass/abstracts/abstracts" as abs;
+@use "~@/sass/abstracts/abstracts" as abs;
 
 .card {
   max-width: 33rem;
