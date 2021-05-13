@@ -33,7 +33,7 @@ export default {
     },
     cardImage(value) {
       const continent = this.continentNames(value);
-      const path = `${require(`@/assets/continents/${continent}@2x.png`)}`;
+      const path = `${require(`@/assets/continent/${continent}.png`)}`;
       return `background-image: url(${path})`;
     }
   },
@@ -74,29 +74,29 @@ export default {
     width: 100%;
 
     // &--world {
-    //   background-image: url("~@/assets/continents/worldmap@2x.png");
+    //   background-image: url("~@/assets/continent/worldmap.png");
     // }
     // &--north-america {
-    //   background-image: url("~@/assets/continents/north-america@2x.png");
+    //   background-image: url("~@/assets/continent/north-america.png");
     // }
     // &--south-america {
-    //   background-image: url("~@/assets/continents/south-america@2x.png");
+    //   background-image: url("~@/assets/continent/south-america.png");
     // }
     // &--europe {
-    //   background-image: url("~@/assets/continents/europe@2x.png");
+    //   background-image: url("~@/assets/continent/europe.png");
     // }
     // &--australia {
-    //   background-image: url("~@/assets/continents/australia@2x.png");
+    //   background-image: url("~@/assets/continent/australia.png");
     // }
     // &--antartica {
-    //   background-image: url("~@/assets/continents/antartica@2x.png");
+    //   background-image: url("~@/assets/continent/antartica.png");
     // }
     //
     // &--africa {
-    //   background-image: url("~@/assets/continents/africa@2x.png");
+    //   background-image: url("~@/assets/continent/africa.png");
     // }
     // &--asia {
-    //   background-image: url("~@/assets/continents/asia.png");
+    //   background-image: url("~@/assets/continent/asia.png");
     // }
   }
   &-img {
