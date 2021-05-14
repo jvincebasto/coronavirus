@@ -1,22 +1,30 @@
 export default {
   state() {
+    // Data
     let data = [];
+
+
+    // Elements
     let slides = [];
     let els = {
     	container: null,
     	slider: null
     };
 
+
+
+    // Slider Options
     let options = {
     	loop: false,
     	center: false,
-    	animation: true,
     };
-    let offset = {
-    	initial: false,
-    	mutate: false,
-    }
+    let animations = {
+      default: true,
+    } 
 
+
+
+    // Indices
     let indices = {
       offset: Math.floor(slides.length / 2),
       curIndex: 0,
@@ -25,6 +33,10 @@ export default {
       nextIndex: 0,
       trails: [],
     };
+
+
+
+    // Positions
     let positions = {
       direction: 0,
       curPos: 0,
@@ -38,6 +50,15 @@ export default {
     };
 
 
+
+    // Transpose
+    let offset = {
+      initial: false,
+      mutate: false,
+    }
+
+
+    // Events
     let btns = {
       start: true,
       animating: false
@@ -46,7 +67,6 @@ export default {
       start: true,
       dragging: false,
       dragged: false,
-      keyup: false,
       animated: false
     };
 
@@ -56,10 +76,14 @@ export default {
       els,
 
       options,
+      animations,
+
       offset,
       indices,
+      
       positions,
       dragPositions,
+      
       btns,
       drag,
     };
@@ -140,7 +164,7 @@ export default {
       return values;
     },
     totalComputedValues: (state,getters) => (el, props) => {
-      const computedProps = getComputedStyle(el);
+      const computedProps = window.getComputedStyle(el);
       let width = 0;
 
       // Single Property Only 
@@ -389,7 +413,6 @@ export default {
         drag: {
           start: true,
           animating: false,
-          keyup: false
         },
         btns: {
           start: true

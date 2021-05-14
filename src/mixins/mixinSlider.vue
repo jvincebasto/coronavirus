@@ -13,7 +13,7 @@ export default {
     ...mapMutations(["stateObjs"]),
     ...mapActions(["resetProps"]),
     ...mapActions(["slideIndices", "sliderCenterPos", "sliderCurPos"]),
-    ...mapActions(["moveSlider", "transposeSlides"]),
+    ...mapActions(["transposeSlides"]),
 
     // Animate Slider
     moveSlider(pos) {
@@ -47,8 +47,8 @@ export default {
 
       const duration = 0.3;
       const curObj = { scale: 1.05, duration };
-      const prevObj = { scale: 1, /*rotateY: 10,*/ duration };
-      const nextObj = { scale: 1, /*rotateY: -10,*/ duration };
+      const prevObj = { scale: 1, duration };
+      const nextObj = { scale: 1, duration };
 
       const animate = gsap.timeline();
       animate.to(state.slides[cur].value, curObj, "<");
@@ -57,13 +57,16 @@ export default {
 
       return animate;
     },
-    animateSlider(position) {
-      const state = this.sliderStates(["options"]);
-      const masterSlider = gsap.timeline({ onComplete: this.resetSlider });
 
-      masterSlider.add(this.moveSlider(position));
-      if (state.options.animation) masterSlider.add(this.animateSlides(), "<");
+
+    animateSlider(position) {
+      const state = this.sliderStates(["animations"]);
+      const animate = gsap.timeline({ onComplete: this.resetSlider });
+
+      animate.add(this.moveSlider(position));
+      if (state.animations.default) animate.add(this.animateSlides(), "<");
     },
+
 
     // Reset Slider
     animateResetSlider(direction) {

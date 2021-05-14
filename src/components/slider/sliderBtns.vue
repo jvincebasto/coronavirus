@@ -32,7 +32,8 @@ export default {
         "offset",
         "indices",
         "positions",
-        "els"
+        "els",
+        "animations"
       ]);
 
       if (state.btns.start && !state.btns.animating) {
@@ -48,9 +49,11 @@ export default {
           },
           positions: { direction }
         });
+        
         this.sliderEndPos(state.els.container);
-        this.sliderDirection(direction);
         this.sliderCenterPos(state.els);
+
+        this.sliderDirection(direction);
         this.sliderCurPos(state.indices.trails);
         this.animateSlider(state.positions.curPos);
       }

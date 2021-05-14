@@ -4,20 +4,21 @@
 
     <div class="carousel-slider" ref="slider">
       <template v-for="(value, index) in continents" :key="index">
-        <div class="carousel-items" :class="`carousel-items--${(index += 1)}`"
-          :ref="el=>{slideList(el)}">
+        <slider-card :index="`${(index += 1)}`" :ref="el=>{componentList(el)}">
           <slot name="component" :prop="value">
             {{ `item-${index}` }}
           </slot>
-        </div>
+        </slider-card>
       </template>
     </div>
+
   </div>
 </template>
 
 <script>
 import { gsap } from "gsap";
 import sliderBtns from "@/components/slider/sliderBtns.vue";
+import sliderCard from "@/components/slider/sliderCard.vue";
 import mixinSlider from "@/mixins/mixinSlider.vue";
 import { ref, reactive } from "vue";
 import { createNamespacedHelpers } from "vuex";
@@ -27,21 +28,24 @@ const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers(
 
 export default {
   components: {
-    sliderBtns
+    sliderBtns,
+    sliderCard,
   },
   props: ["data"],
   mixins: [mixinSlider],
   setup(props) {
     const continents = reactive(props.data);
     let slides = ref([]);
+    let start = ref(false);
 
     return {
       continents,
-      slides
+      slides,
+      start
     };
   },
   computed: {
-    ...mapGetters(["sliderStates"])
+    ...mapGetters(["sliderStates"]),
   },
   methods: {
     slideList(el) {
@@ -50,19 +54,29 @@ export default {
         this.pushState({ prop: "slides", data: ref(el) });
       }
     },
+    componentList(comp) {
+      if (comp) {
+        const el = comp.$el
+        this.slides.push(ref(el));
+        this.pushState({ prop: "slides", data: ref(el) });
+      }
+    },
     ...mapMutations(["stateItems", "stateObjs", "pushState", "spliceState"]),
-    ...mapActions(["sliderCenterPos", "sliderCurPos", "transposeSlides"]),
+    ...mapActions(["sliderEndPos","sliderCenterPos", "sliderCurPos", "transposeSlides"]),
     ...mapActions(["slideIndices"]),
 
     // Init
     sliderInit() {
-      const state = this.sliderStates(["options", "positions", "indices"]);
-
-      if (state.options.center && state.options.loop) {
-        const els = {
+      const state = this.sliderStates(["options", "positions", "indices","els"]);
+      this.stateObjs({
+        els: {
           container: this.$refs.container,
           slider: this.$refs.slider
-        };
+        }
+      });
+
+
+      if (state.options.center && state.options.loop) {
         this.stateObjs({
           options: {
             offset: true,
@@ -76,28 +90,33 @@ export default {
             offset: Math.floor(this.slides.length / 2)
           }
         });
+
+
+        this.sliderEndPos(state.els.container);
+        this.sliderCenterPos(state.els);
+
+
         this.transposeSlides({
-          slider: els.slider,
+          slider: state.els.slider,
           mode: "prepend",
           value: state.indices.offset
         });
         this.slideIndices("decr");
-        this.sliderCenterPos(els);
         this.sliderCurPos(state.indices.trails);
 
         const init = gsap.timeline({
           onComplete: function() {
             const fadeinSlide = gsap.timeline();
-            fadeinSlide.to(els.container, {
+            fadeinSlide.to(state.els.container, {
               opacity: 1,
               transition: "ease-in-out",
               duration: 0.3
             });
           }
         });
-        init.to(els.container, { opacity: 0, transition: "none", duration: 0 });
+        init.to(state.els.container, { opacity: 0, transition: "none", duration: 0 });
         init.add(this.animateSlider(state.positions.curPos));
-        init.to(els.container, { opacity: 1, duration: 0.3 });
+        init.to(state.els.container, { opacity: 1, duration: 0.3 });
 
         return init;
       }
@@ -118,13 +137,15 @@ export default {
   },
   mounted() {
     this.stateItems({ data: this.data });
-    this.stateObjs({
-      els: {
-        container: this.$refs.container,
-        slider: this.$refs.slider
-      }
-    });
     this.sliderInit();
+
+
+    const container = this.$refs.container;
+    container.oncontextmenu = event => {
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    };
   }
 };
 </script>

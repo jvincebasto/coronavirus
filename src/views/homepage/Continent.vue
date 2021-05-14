@@ -19,6 +19,7 @@
     <p ref="text">block text</p> -->
 
     <div class="section-margin slider-container">
+
       <template v-if="continentBool">
         <slider :data="continents">
           <template #component="slot">
@@ -26,12 +27,13 @@
           </template>
         </slider>
       </template>
+
     </div>
   </section>
 </template>
 
 <script>
-import cardContinent from "@/components/cards/cardContinent.vue";
+// import cardContinent from "@/components/cards/cardContinent.vue";
 import { ref, reactive, defineAsyncComponent } from "vue";
 import { /*useStore,*/ createNamespacedHelpers } from "vuex";
 const { mapActions: covidActions } = createNamespacedHelpers("covid");
@@ -416,7 +418,14 @@ export default {
       // errorComponent: errorComponent,
       // loadingComponent: loadingComponent,
     }),
-    cardContinent
+    cardContinent: defineAsyncComponent({
+      loader: () => import("@/components/cards/cardContinent.vue")
+      // delay: 200,
+      // timeout: 3000,
+      // errorComponent: errorComponent,
+      // loadingComponent: loadingComponent,
+    }),
+    // cardContinent
   },
   setup() {
     const continents = reactive([]);
