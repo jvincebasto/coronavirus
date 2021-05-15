@@ -15,8 +15,8 @@ export default {
 
     // Slider Options
     let options = {
-    	loop: false,
-    	center: false,
+    	loop: true,
+    	center: true,
     };
     let animations = {
       default: true,
@@ -67,6 +67,7 @@ export default {
     let drag = {
       start: true,
       dragging: false,
+      dragged: false,
       animating: false
     };
 
@@ -348,7 +349,6 @@ export default {
       // left margin of current slide
       width += getters.totalComputedValues(curSlide, ["margin-left"]);
 
-
       commit("stateObjs",{
         positions: { curPos: -width },
         dragPositions: { curPos: -width }
@@ -410,6 +410,7 @@ export default {
         drag: {
           start: true,
           dragging: false,
+          dragged: false,
           animating: false,
         },
         dragPositions: {

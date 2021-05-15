@@ -82,7 +82,7 @@ export default {
 
       const animate = gsap.timeline();
       animate.add(this.moveSlider(state.dragPositions.curPos));
-      animate.add(this.animateDragSlide(curObj, prevObj, nextObj),"<");
+      animate.add(this.animateDragSlide(curObj, prevObj, nextObj));
 
       return animate;
     },
@@ -90,9 +90,14 @@ export default {
 
     // Touch Events
     dragStart(direction) {
-      const state = this.sliderStates(["positions","indices","els"]);
+      const state = this.sliderStates(["positions","indices","offset","els"]);
       this.stateObjs({
-        drag: { animating: true }
+        drag: { animating: true },
+        positions: { direction },
+        offset: {
+          initial: false,
+          mutate: true
+        },
       });
 
       this.sliderEndPos(state.els.container);
@@ -107,7 +112,7 @@ export default {
       this.sliderEndPos(state.els.container);
       this.sliderCenterPos(state.els);
 
-      if (state.drag.start && !state.drag.dragging) {
+      if (state.drag.start && !state.drag.dragging && !state.drag.animating) {
         this.stateObjs({
           btns: { start: false },
           drag: { 
@@ -131,15 +136,15 @@ export default {
         });
 
 
-        const duration = 0.3;
-        const curObj = { scale: 1.05, duration };
-        const prevObj = { scale: 1, duration };
-        const nextObj = { scale: 1, duration };
+        // const duration = 0.3;
+        // const curObj = { scale: 1.05, duration };
+        // const prevObj = { scale: 1, duration };
+        // const nextObj = { scale: 1, duration };
 
 
         const animate = gsap.timeline();
-        animate.add(this.moveSlider(state.positions.curPos));
-        animate.add(this.animateDragSlide(curObj,prevObj,nextObj));
+        animate.add(this.moveSlider(state.dragPositions.curPos));
+        // animate.add(this.animateDragSlide(curObj,prevObj,nextObj));
         // state.slides[state.indices.curIndex].classList.add('drag-grabbing');
       }
     },
@@ -152,38 +157,44 @@ export default {
           dragPositions: { 
             prevPos: state.positions.curPos, 
             curPos: state.dragPositions.prevPos + curDragPos - state.dragPositions.startPos,
-            movedBy: state.dragPositions.curPos - state.dragPositions.prevPos
           },
+          drag: { dragged: true },
         });
 
         const animate = gsap.timeline();
         animate.add(this.moveSlider(state.dragPositions.curPos));
-        animate.add(this.animateDragDirection(),"<");
+
+        // This is the glitch while dragging
+        // animate.add(this.animateDragDirection(),"<");
       }
     },
     touchEnd() {
       const state = this.sliderStates(["drag","dragPositions","positions","slides","indices"]);
       this.stateObjs({
-        drag: { dragging: false },
+        drag: { 
+          dragging: false,
+          start: true
+        },
+        btns: { start: true },
       });
 
-      if (!state.drag.dragging && !state.drag.animating) {
+      if (state.drag.dragged && !state.drag.animating) {
         const limit = 150;
+        this.stateObjs({
+          dragPositions: { 
+            movedBy: state.dragPositions.curPos - state.dragPositions.prevPos
+          },
+        });
 
-        if (state.dragPositions.movedBy > limit) {
-          this.stateObjs({ positions: { direction: 1 } });
-          this.dragStart(1);
-        } 
-        else if (state.dragPositions.movedBy < -limit) {
-          this.stateObjs({ positions: { direction: -1 } });
-          this.dragStart(-1);
-        }
+        if (state.dragPositions.movedBy > limit) this.dragStart(1);
+        else if (state.dragPositions.movedBy < -limit) this.dragStart(-1);
         else { 
           const animate = gsap.timeline({ onComplete: this.resetProps });
-          animate.add(this.moveSlider(state.positions.curPos),"+2");
-          animate.add(this.animateSlides(),"<");
+          animate.add(this.moveSlider(state.positions.curPos),"+1");
+          // animate.add(this.animateSlides(),"<");
         }
       }
+
       // state.slides[state.indices.curIndex].classList.remove('drag-grabbing');
     },
 
