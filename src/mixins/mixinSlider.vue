@@ -44,11 +44,19 @@ export default {
       const state = this.sliderStates(["slides", "indices"]);
       const cur = state.indices.curIndex;
       const { prev, next } = this.adjacentIndices();
+      this.stateObjs({
+        indices: {
+          prevIndex: prev,
+          nextIndex: next,
+        }
+      });
+
 
       const duration = 0.3;
       const curObj = { scale: 1.05, duration };
       const prevObj = { scale: 1, duration };
       const nextObj = { scale: 1, duration };
+
 
       const animate = gsap.timeline();
       animate.to(state.slides[cur].value, curObj, "<");
@@ -118,7 +126,8 @@ export default {
         this.sliderCenterPos(state.els);
         this.sliderCurPos(state.indices.trails);
         this.animateResetSlider(state.positions.direction);
-      } else this.resetProps();
+      } 
+      else this.resetProps();
     }
   }
 };

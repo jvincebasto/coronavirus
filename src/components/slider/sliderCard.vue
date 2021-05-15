@@ -90,14 +90,13 @@ export default {
 
     // Touch Events
     dragStart(direction) {
-      const state = this.sliderStates(["positions","indices"]);
+      const state = this.sliderStates(["positions","indices","els"]);
       this.stateObjs({
-        drag: { 
-          start: false, 
-          dragged: false,
-          animating: true,
-        }
+        drag: { animating: true }
       });
+
+      this.sliderEndPos(state.els.container);
+      this.sliderCenterPos(state.els);
 
       this.sliderDirection(direction);
       this.sliderCurPos(state.indices.trails);
@@ -105,27 +104,31 @@ export default {
     },
     touchStart(event) {
       const state = this.sliderStates(["drag","btns","positions","dragPositions","els","animations"]);
+      this.sliderEndPos(state.els.container);
+      this.sliderCenterPos(state.els);
 
-      if (state.drag.start) {
-        const { prev, next } = this.adjacentIndices();
-
+      if (state.drag.start && !state.drag.dragging) {
         this.stateObjs({
           btns: { start: false },
           drag: { 
-            dragging: true 
-          },
-          indices: {
-            prevIndex: prev,
-            nextIndex: next,
+            start: false,
+            dragging: true,
           },
           dragPositions: { 
             curPos: state.positions.curPos, 
-            startPos: this.dragPositionX(event)
+            startPos: this.dragPositionX(event),
+            movedBy: 0
           },
         });
 
-        this.sliderEndPos(state.els.container);
-        this.sliderCenterPos(state.els);
+
+        const { prev, next } = this.adjacentIndices();
+        this.stateObjs({
+          indices: {
+            prevIndex: prev,
+            nextIndex: next,
+          }
+        });
 
 
         const duration = 0.3;
@@ -135,58 +138,52 @@ export default {
 
 
         const animate = gsap.timeline();
-        animate.add(this.moveSlider(state.dragPositions.curPos));
+        animate.add(this.moveSlider(state.positions.curPos));
         animate.add(this.animateDragSlide(curObj,prevObj,nextObj));
         // state.slides[state.indices.curIndex].classList.add('drag-grabbing');
       }
     },
     touchMove(event) {
-      const state = this.sliderStates(["drag"]);
-
-      if (state.drag.dragging) {
       const state = this.sliderStates(["drag","dragPositions","positions"]);
 
+      if (state.drag.dragging) {
         const curDragPos = this.dragPositionX(event);
-        const curPos = state.dragPositions.prevPos + curDragPos - state.dragPositions.startPos;
         this.stateObjs({
-          drag: { dragged: true },
           dragPositions: { 
             prevPos: state.positions.curPos, 
-            curPos
+            curPos: state.dragPositions.prevPos + curDragPos - state.dragPositions.startPos,
+            movedBy: state.dragPositions.curPos - state.dragPositions.prevPos
           },
         });
 
         const animate = gsap.timeline();
-        animate.add(this.moveSlider(curPos));
+        animate.add(this.moveSlider(state.dragPositions.curPos));
         animate.add(this.animateDragDirection(),"<");
       }
     },
     touchEnd() {
       const state = this.sliderStates(["drag","dragPositions","positions","slides","indices"]);
       this.stateObjs({
-        drag: {
-          dragging: false,
-        }
+        drag: { dragging: false },
       });
 
-
-      if (state.drag.dragged) {
+      if (!state.drag.dragging && !state.drag.animating) {
         const limit = 150;
-        const movedBy = state.dragPositions.curPos - state.dragPositions.prevPos;
 
-
-        if (movedBy > limit) {
+        if (state.dragPositions.movedBy > limit) {
           this.stateObjs({ positions: { direction: 1 } });
           this.dragStart(1);
         } 
-        else if (movedBy < -limit) {
+        else if (state.dragPositions.movedBy < -limit) {
           this.stateObjs({ positions: { direction: -1 } });
           this.dragStart(-1);
         }
-        else this.resetProps();
-      } 
-      else this.resetProps();
-
+        else { 
+          const animate = gsap.timeline({ onComplete: this.resetProps });
+          animate.add(this.moveSlider(state.positions.curPos),"+2");
+          animate.add(this.animateSlides(),"<");
+        }
+      }
       // state.slides[state.indices.curIndex].classList.remove('drag-grabbing');
     },
 
@@ -195,7 +192,6 @@ export default {
     // Drag Events
     dragEvents() {
       const state = this.sliderStates(["slides","els"]);
-
 
       for (const cur of state.slides) {
         const el = cur.value;

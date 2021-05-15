@@ -46,7 +46,8 @@ export default {
     let dragPositions = {
       curPos: 0,
       prevPos: 0,
-      startPos: 0
+      startPos: 0,
+      moveBy: 0
     };
 
 
@@ -66,8 +67,7 @@ export default {
     let drag = {
       start: true,
       dragging: false,
-      dragged: false,
-      animated: false
+      animating: false
     };
 
     return {
@@ -273,12 +273,12 @@ export default {
       else {
         if (direction === 1) {
           if (indices.curIndex > 0) dispatch("slideBackward");
-        }
+          }
         else if (direction === -1) {
           const isLastSlide = indices.curIndex < slides.length - 1;
           const isEndSlide = positions.curPos > positions.endPos ? true : false;
           if (isLastSlide && isEndSlide) dispatch("slideForward");
-        }
+          }
       }
     },
 
@@ -403,26 +403,23 @@ export default {
           start: true,
           animating: false
         },
-        drag: {
-          start: true
-        }
       });
     },
     resetDragState({ commit }) {
       commit("stateObjs",{
         drag: {
           start: true,
+          dragging: false,
           animating: false,
         },
-        btns: {
-          start: true
-        }
+        dragPositions: {
+          moveBy: 0
+        },
       });
     },
-    resetProps({ state, commit, dispatch }) {
-      const { btns, drag } = state;
-      if (!btns.start) dispatch("resetBtnState");
-      if (!drag.start) dispatch("resetDragState");
+    resetProps({ commit, dispatch }) {
+      dispatch("resetDragState");
+      dispatch("resetBtnState");
 
       commit("stateObjs",{
         offset: {
