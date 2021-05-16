@@ -1,9 +1,5 @@
 <template>
-  <section
-    class="section section-continents"
-    id="continents"
-    ref="sectContinents"
-  >
+  <section class="section section-continents" id="continents" ref="sectContinents">
     <div class="section-margin section-margin--titlegroup">
       <div class="section--titlegroup">
         <h1 class="section--title">Continental Cases</h1>
@@ -19,7 +15,7 @@
     <p ref="text">block text</p> -->
 
     <div class="section-margin slider-container">
-
+      <div class="section-grid section-grid--1">&nbsp;</div>
       <template v-if="continentBool">
         <slider :data="continents">
           <template #component="slot">
@@ -27,8 +23,9 @@
           </template>
         </slider>
       </template>
-
     </div>
+
+    <div class="section-grid section-grid--2">&nbsp;</div>
   </section>
 </template>
 
@@ -104,7 +101,11 @@ $case-bg: darken(abs.$vars-c-lprimary, 10%);
 
 .slider-container {
   margin: auto;
-  margin-bottom: 15rem;
+  margin-bottom: 10rem;
+
+  position: relative;
+  z-index: 100;
+
 }
 
 .section {
@@ -112,6 +113,8 @@ $case-bg: darken(abs.$vars-c-lprimary, 10%);
     $section-bg: lighten(abs.$vars-c-lprimary, 5%);
     background: $section-bg;
     min-height: 50vh;
+
+    position: relative;
   }
   &-margin {
     &--titlegroup {
@@ -122,18 +125,32 @@ $case-bg: darken(abs.$vars-c-lprimary, 10%);
       }
     }
   }
-  &--titlegroup {
-    text-align: center;
-    margin-bottom: 10rem;
+}
+
+.section {
+  &-grid {
+    height: 15rem;
+    width: 15rem;
+    position: absolute;
+
+    @include abs.mxs-respond(pphone) {
+      // display: none;
+    }
+
+    &--1 {
+      background-image: url("~@/assets/bgs/circle-grid-10@2x.png");
+      top: -4rem;
+      left: -10rem;
+    }
+    &--2 {
+      background-image: url("~@/assets/bgs/circle-grid-10@2x.png");
+      bottom: -10.5rem;
+      right: 0rem;
+    }
   }
-  &--title {
-    font-family: tbold;
-    line-height: 1;
-  }
-  &--subtitle {
-    font-family: tbold;
-    color: abs.$vars-c-dprimary;
-    text-transform: lowercase;
+  &-grid {
+    @include abs.mxs-img-contain;
   }
 }
+
 </style>

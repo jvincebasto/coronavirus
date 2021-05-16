@@ -21,7 +21,7 @@
 
         <div class="headline-btn headline-btnblock">
           <div class="headline-btn headline-btngroup">
-            <p class="headline-btn--text">Go Search!</p>
+            <a class="headline-btn--text" href="#countries">Go Search!</a>
             <span class="headline-btn--icon">&nbsp;</span>
           </div>
           <div class="headline-btn--fill">&nbsp;</div>
@@ -268,6 +268,7 @@ export default {};
     }
     @include abs.mxs-respond(pphone) {
       max-width: 39rem;
+      text-align: unset;
     }
   }
 
@@ -280,6 +281,10 @@ export default {};
     &--2 {
       font-size: 4.8rem;
       font-family: hblack;
+
+      @include abs.mxs-respond(pphone) {
+        font-size: 4rem;
+      }
     }
   }
 
@@ -304,6 +309,9 @@ export default {};
 
     @include abs.mxs-respond(ptablet) {
       margin-left: 3rem;
+    }
+    @include abs.mxs-respond(pphone) {
+      margin-left: 0;
     }
   }
   &-btngroup {

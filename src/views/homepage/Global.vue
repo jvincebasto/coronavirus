@@ -1,7 +1,7 @@
 <template>
   <section class="section section-global" id="global" ref="sectGlobal">
     <div class="section-margin section-margin--global">
-      <div class="section-titlegroup">
+      <div class="section--titlegroup">
         <h1 class="section--title">Global Cases</h1>
         <p class="section--subtitle">
           Daily records of the virus around the world
@@ -119,20 +119,6 @@ export default {
         margin-top: 6rem;
       }
     }
-  }
-
-  &-titlegroup {
-    text-align: center;
-    margin-bottom: 10rem;
-  }
-  &--title {
-    font-family: tbold;
-    line-height: 1;
-  }
-  &--subtitle {
-    font-family: tbold;
-    color: abs.$vars-c-dprimary;
-    text-transform: lowercase;
   }
 
   &-grid {

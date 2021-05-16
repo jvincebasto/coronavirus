@@ -1,8 +1,8 @@
 <template>
-  <div class="slide slide-container" ref="continentSlide">
-    <div class="slide-imgbox">
+  <div class="card card-container" ref="continentSlide">
+    <div class="card-imgbox">
       <div
-        class="slide-img"
+        class="card-img"
         :style="`${cardImage(data.continent)}`"
         ref="img"
       ></div>
@@ -46,7 +46,7 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/abstracts/abstracts" as abs;
 
-.slide {
+.card {
   &-container {
     height: auto;
     width: 35rem;
@@ -56,6 +56,12 @@ export default {
     padding: 2rem;
 
     box-shadow: 0px 0px 10px rgba(black, 0.8), 0px 10px 15px rgba(black, 0.5);
+
+    position: relative;
+    z-index: 100;
+
+    $section-bg: lighten(abs.$vars-c-lprimary, 5%);
+    background: $section-bg;
   }
   &-imgbox {
     height: 16rem;
@@ -107,7 +113,7 @@ export default {
   }
 }
 
-.slide {
+.card {
   :deep(.case-content--block) {
     min-width: unset;
     padding: 0;

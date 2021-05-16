@@ -93,7 +93,9 @@ export default {
   height: 5rem;
   width: 5rem;
 
-  // background: abs.$vars-c-lprimary;
+  $section-bg: lighten(abs.$vars-c-lprimary, 5%);
+  background: $section-bg;
+
   border: 2px solid black;
   border-radius: 10rem;
   cursor: pointer;

@@ -20,6 +20,9 @@
           <card-country :data="obj" :ref="el=>{cardEls(el, obj)}">
           </card-country>
         </template>
+    
+        <div class="section-grid section-grid--1">&nbsp;</div>
+        <div class="section-grid section-grid--2">&nbsp;</div>
       </div>
     </div>
   </section>
@@ -104,6 +107,8 @@ export default {
   &-countries {
     $section-bg: lighten(abs.$vars-c-lprimary, 10%);
     background: $section-bg;
+
+    position: relative;
   }
   &-margin {
     &--titlegroup {
@@ -115,17 +120,7 @@ export default {
     }
   }
   &--titlegroup {
-    text-align: center;
     margin-bottom: 4rem;
-  }
-  &--title {
-    font-family: tbold;
-    line-height: 1;
-  }
-  &--subtitle {
-    font-family: tbold;
-    color: abs.$vars-c-dprimary;
-    text-transform: lowercase;
   }
 }
 
@@ -136,6 +131,12 @@ export default {
     margin-bottom: 12rem;
     
     position: relative;
+    @include abs.mxs-respond(lphone) {
+      width: 80%;
+    }
+    @include abs.mxs-respond(pphone) {
+      width: 100%;
+    }
   }
 }
 
@@ -147,6 +148,40 @@ export default {
     justify-content: center;
     flex-wrap: wrap;
     padding-left: 4rem;
+
+    position: relative;
+
+    @include abs.mxs-respond(pphone) {
+      padding: 0;
+    }
+  }
+}
+
+.section {
+  &-grid {
+    height: 15rem;
+    width: 15rem;
+    position: absolute;
+
+    @include abs.mxs-respond(pphone) {
+      // display: none;
+    }
+
+    &--1 {
+      background-image: url("~@/assets/bgs/circle-grid-10@2x.png");
+      top: -6rem;
+      left: -1rem;
+
+    }
+    &--2 {
+      background-image: url("~@/assets/bgs/circle-grid-10@2x.png");
+      bottom: -2rem;
+      right: -1rem;
+
+    }
+  }
+  &-grid {
+    @include abs.mxs-img-contain;
   }
 }
 </style>

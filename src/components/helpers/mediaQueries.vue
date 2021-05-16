@@ -17,7 +17,7 @@ export default {};
 </script>
 
 <style scoped lang="scss">
-@use "./../sass/abstracts/abstracts" as abs;
+@use "~@/sass/abstracts/abstracts" as abs;
 
 .container {
   background: abs.$vars-c-black;

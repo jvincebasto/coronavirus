@@ -105,7 +105,7 @@ export default {
   &-item {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid rgba(abs.$vars-c-black, 0.2);
+    border-bottom: 2px solid rgba(black, 0.1);
   }
   &-input {
     height: 2rem;

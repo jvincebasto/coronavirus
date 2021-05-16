@@ -123,23 +123,26 @@ export default {
   margin-right: 4rem;
   margin-bottom: 4rem;
 
-  box-shadow: 0px 0px 10px rgba(black, 0.8), 0px 10px 15px rgba(black, 0.5);
+  box-shadow: 0px 2px 10px rgba(black, 0.8), 0px 10px 15px rgba(black, 0.5);
 
-  @include abs.mxs-respond(ltablet) {
-    max-width: 38rem;
-  }
+  position: relative;
+  z-index: 100;
+
+  $section-bg: lighten(abs.$vars-c-lprimary, 10%);
+  background: $section-bg;
+
+
   @include abs.mxs-respond(ptablet) {
-    max-width: 29rem;
-  }
-  @include abs.mxs-respond(lphone) {
-    margin-right: 0;
-    max-width: 80%;
+    max-width: 27rem;
+    margin-right: 3rem;
+    margin-bottom: 3rem;
+    box-shadow: 0px 2px 5px rgba(black, 0.5), 0px 5px 8px rgba(black, 0.5);
   }
   @include abs.mxs-respond(pphone) {
-    max-width: 90%;
+    margin-right: 0;
+    max-width: 30rem;
+    width: 100%;
   }
-
-
 }
 
 
@@ -149,7 +152,7 @@ export default {
     height: 3rem;
     width: 3rem;
 
-    background: rgba(black,.2);
+    // background: rgba(black,.2);
     border-radius: inherit;
 
     position: absolute;
@@ -160,6 +163,7 @@ export default {
     justify-content: center;
     align-items: center;
 
+    cursor: pointer;
     overflow: hidden;
     // display: none;
 
@@ -172,20 +176,22 @@ export default {
     height: 100%;
     width: 100%;
 
-    // background-image: url("~@/assets/icons/cross.svg");
-    // mask: url("~@/assets/icons/cross.svg");
+    background: abs.$vars-c-dprimary;
 
-    background-size: contain;
-    background-repeat: no-repeat;
+    @supports(mask: url("~@/assets/icons/cross.svg")) {
+      mask: url("~@/assets/icons/cross.svg");
+      @include abs.mxs-svg-contain;
+    }
 
-    mask-size: contain;
-    mask-repeat: no-repeat;
+    background-image: url("~@/assets/icons/cross.svg");
+    @include abs.mxs-img-contain;
 
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.3s ease-in-out;
 
     &:hover {
-      background: rgba(white,.5);
+      background: abs.$vars-c-lprimary;
+      // background: rgba(white,.5);
     }
   }
 }
@@ -203,13 +209,7 @@ export default {
 
 
     @include abs.mxs-respond(ptablet) {
-      height: 22rem;
-    }
-    @include abs.mxs-respond(lphone) {
-      height: 28rem;
-    }
-    @include abs.mxs-respond(pphone) {
-      height: 22rem;
+      height: 18rem;
     }
   }
   &--country {
@@ -227,6 +227,10 @@ export default {
     border-radius: 0;
     background: transparent;
     box-shadow: none;
+
+    @include abs.mxs-respond(ptablet) {
+      min-width: unset;
+    }
   }
 }
 

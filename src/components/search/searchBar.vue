@@ -177,7 +177,7 @@ export default {
   },
   mounted() {
     this.searchEvents();
-    this.searchResults("af,ph,us,ad", false);
+    this.searchResults("bt,ph,us,ad,al,kr", false);
   }
 };
 </script>
@@ -191,16 +191,15 @@ export default {
     height: auto;
     width: 100%;
 
-    // $c-optContainer: darken(abs.$vars-c-lprimary, 10%);
-    // background: $c-optContainer;
-    background: abs.$vars-c-lprimary;
-    margin-top: 1.5rem;
+    $section-bg: lighten(abs.$vars-c-lprimary, 10%);
+    background: $section-bg;
+
+    margin-top: 3rem;
     border-radius: 1rem;
-    box-shadow: 0px 5px 10px abs.$vars-c-dprimary,
-      0px 15px 30px rgba(abs.$vars-c-dprimary, 0.5);
+    box-shadow: 0px 0px 5px rgba(black, 0.8), 0px 5px 8px rgba(black, 0.5);
 
     position: absolute;
-    z-index: 100;
+    z-index: 200;
     overflow-y: scroll;
 
     transition: all 0.2s ease-in-out;
@@ -210,12 +209,10 @@ export default {
 .search {
   height: 4rem;
   width: 100%;
-  // min-width: 35rem;
 
-  // $c-searchbg: darken(abs.$vars-c-lprimary, 10%);
-  // background: $c-searchbg;
+
+  background: rgba(white,.8);
   border-radius: 1rem;
-  // padding: 0.5rem;
 
   display: flex;
   align-items: center;
@@ -223,8 +220,7 @@ export default {
 
   overflow: hidden;
 
-  box-shadow: 0px 5px 10px abs.$vars-c-dprimary,
-    0px 15px 30px rgba(abs.$vars-c-dprimary, 0.5);
+  box-shadow: 0px 0px 5px rgba(black, 0.8), 0px 5px 8px rgba(black, 0.5);
 
   &-field {
     height: 90%;
@@ -233,7 +229,6 @@ export default {
 
     background: transparent;
     border: 0;
-    // border-bottom: 1px solid abs.$vars-c-black;
 
     margin-left: 3rem;
     margin-right: 1rem;
@@ -247,19 +242,21 @@ export default {
     }
 
     &::placeholder {
-      color: rgba(black,.9);
+      color: abs.$vars-c-dprimary;
+      font-size: 1.4rem;
+
+      transition: all .3s ease-in-out;
     }
     &:focus::placeholder {
-
+      color: black;
+      font-size: 1.6rem;
     }
   }
   &-btn {
     height: 100%;
 
-    // $c-btnbg: darken(abs.$vars-c-lprimary, 20%);
-    // background: $c-btnbg;
-    background: abs.$vars-c-dprimary;
-    // border-radius: inherit;
+    $section-bg: lighten(abs.$vars-c-lprimary, 10%);
+    background: $section-bg;
 
     display: flex;
     justify-content: center;
@@ -268,8 +265,10 @@ export default {
 
     padding: 0rem 2rem;
 
+    border-left: 2px solid rgba(black,.6);
+
     &--title {
-      color: abs.$vars-c-lprimary;
+      color: abs.$vars-c-dprimary;
       font-family: tbold;
     }
   }

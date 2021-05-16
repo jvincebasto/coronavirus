@@ -96,7 +96,7 @@ export default {
     z-index: 50;
   }
   &--title {
-    font-family: tbold;
+    font-family: tlight;
     margin-bottom: 2rem;
   }
 }

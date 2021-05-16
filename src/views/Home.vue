@@ -14,15 +14,15 @@ import Continent from "./homepage/Continent.vue";
 import Countries from "./homepage/Countries.vue";
 
 // import styles from "@/sass/abstracts/_variables.scss";
-// import MediaQueries from "@/components/MediaQueries.vue";
+// import mediaQueries from "@/components/helpers/mediaQueries.vue";
 
 export default {
   components: {
     Hero,
     Global,
     Continent,
-    Countries
-    // MediaQueries
+    Countries,
+    // mediaQueries
   }
 };
 </script>
@@ -52,15 +52,25 @@ export default {
     max-width: 85%;
     margin: auto;
 
-    @include abs.mxs-respond(ptablet) {
-      max-width: 70%;
-    }
+    // @include abs.mxs-respond(pphone) {
+    //   max-width: 90%;
+    // }
+  }
+
+  &--titlegroup {
+    text-align: center;
+    margin-bottom: 10rem;
+  }
+  &--title {
+    font-family: tbold;
+    line-height: 1;
     @include abs.mxs-respond(pphone) {
-      max-width: 75%;
+      font-size: 3.2rem;
     }
-    @include abs.mxs-respond(pphone) {
-      max-width: 85%;
-    }
+  }
+  &--subtitle {
+    color: abs.$vars-c-dprimary;
+    text-transform: lowercase;
   }
 }
 </style>
