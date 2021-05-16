@@ -1,74 +1,46 @@
 <template>
   <div class="card">
-    <div class="card-btnbox" ref="exit">
-      <div class="card-btn--exit">&nbsp;</div>
+    <div class="cardbtn--box" ref="exit">
+      <div class="cardbtn--icon">&nbsp;</div>
     </div>
 
-    <div class="card-imgbox">
-      <!-- <div class="card-img-country" :style="`${cardImage(cardList.countryInfo.iso2)}`" ref="icon">&nbsp;</div> -->
-
-      <img
-        class="card-img-country"
+    <div class="cardimg--box">
+      <img class="cardimg--country"
         :src="`${cardImage(data.value.countryInfo.iso2)}`"
         ref="icon"
       />
     </div>
 
-    <div class="card-casebox">
-      <h6 class="card-title" ref="countryName">
+    <card-case>
+      <template #title>
         {{ `${data.value.country} ${attribute(data.value.countryInfo.iso2)}` }}
-      </h6>
+      </template>
+      <template #deathsValue>
+        {{ numberFormat(`${data.value.deaths}`) }}
+      </template>
+      <template #activeValue>
+        {{ numberFormat(`${data.value.active}`) }}
+      </template>
+      <template #recoveredValue>
+        {{ numberFormat(`${data.value.recovered}`) }}
+      </template>
+      <template #totalValue>
+        {{ numberFormat(`${data.value.cases}`) }}
+      </template>
+    </card-case>
 
-      <ul class="card-caseblock">
-        <li class="card-casegroup">
-          <span class="card-caseicon card-caseicon--deaths">&nbsp;</span>
-
-          <div class="card-caseinfo">
-            <p class="card-caseinfo-title">Deaths</p>
-            <h6 class="card-caseinfo-value" ref="deaths">
-              {{ numberFormat(`${data.value.deaths}`) }}
-            </h6>
-          </div>
-        </li>
-        <li class="card-casegroup">
-          <span class="card-caseicon card-caseicon--active">&nbsp;</span>
-
-          <div class="card-caseinfo">
-            <p class="card-caseinfo-title">Active</p>
-            <h6 class="card-caseinfo-value" ref="active">
-              {{ numberFormat(`${data.value.active}`) }}
-            </h6>
-          </div>
-        </li>
-        <li class="card-casegroup">
-          <span class="card-caseicon card-caseicon--recovered">&nbsp;</span>
-
-          <div class="card-caseinfo">
-            <p class="card-caseinfo-title">Recovered</p>
-            <h6 class="card-caseinfo-value" ref="recovered">
-              {{ numberFormat(`${data.value.recovered}`) }}
-            </h6>
-          </div>
-        </li>
-        <li class="card-casegroup">
-          <span class="card-caseicon card-caseicon--total">&nbsp;</span>
-          <div class="card-caseinfo">
-            <p class="card-caseinfo-title">Total Cases</p>
-            <h6 class="card-caseinfo-value" ref="cases">
-              {{ numberFormat(`${data.value.cases}`) }}
-            </h6>
-          </div>
-        </li>
-      </ul>
-    </div>
   </div>
 </template>
 
 <script>
+import cardCase from "@/components/cards/cardCase.vue";
 import { createNamespacedHelpers } from "vuex";
 const { mapGetters, mapMutations } = createNamespacedHelpers("cards");
 
 export default {
+  components: {
+    cardCase
+  },
   props: ["data"],
   setup() {
     return {};
@@ -137,26 +109,21 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @use "~@/sass/abstracts/abstracts" as abs;
 
 .card {
-  max-width: 33rem;
+  max-width: 30rem;
   height: auto;
   flex: 1 0 100%;
 
-  // $card-bg: darken(abs.$vars-c-lprimary, 10%);
-  // background: $card-bg;
-
-  border-radius: 2rem;
+  border-radius: 1rem;
   position: relative;
 
-  margin-right: 3rem;
-  margin-bottom: 3rem;
+  margin-right: 4rem;
+  margin-bottom: 4rem;
 
-  $card-items: darken(abs.$vars-c-lprimary, 20%);
-  box-shadow: 0px 5px 10px abs.$vars-c-dprimary,
-    0px 15px 30px rgba(abs.$vars-c-dprimary, 0.5);
+  box-shadow: 0px 0px 10px rgba(black, 0.8), 0px 10px 15px rgba(black, 0.5);
 
   @include abs.mxs-respond(ltablet) {
     max-width: 38rem;
@@ -172,193 +139,95 @@ export default {
     max-width: 90%;
   }
 
-  &-btn {
-    &box {
-      height: 3rem;
-      width: 3rem;
 
-      // $card-btn: darken(abs.$vars-c-lprimary,30%);
-      // background: $card-btn;
-      border-radius: 1rem;
+}
 
-      position: absolute;
-      top: 3rem;
-      right: 3rem;
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
+// cardBtn
+.cardbtn {
+  &--box {
+    height: 3rem;
+    width: 3rem;
 
-      overflow: hidden;
-      // display: none;
+    background: rgba(black,.2);
+    border-radius: inherit;
 
-      @include abs.mxs-respond(pphone) {
-        height: 3rem;
-        width: 3rem;
-      }
-    }
-    &--exit {
-      height: 100%;
-      width: 100%;
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
 
-      background-image: url(./../assets/ccross.svg);
-      mask: url(./../assets/ccross.svg);
-
-      background-size: contain;
-      background-repeat: no-repeat;
-
-      mask-size: contain;
-      mask-repeat: no-repeat;
-
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
-
-      &:hover {
-        background: abs.$vars-c-lprimary;
-      }
-    }
-  }
-
-  &-img {
-    &box {
-      height: 24rem;
-      width: inherit;
-      border-radius: 2rem 2rem 0 0;
-      overflow: hidden;
-
-      // $imgbox: darken(abs.$vars-c-lprimary, 10%);
-      // background: $imgbox;
-
-      @include abs.mxs-respond(ptablet) {
-        height: 22rem;
-      }
-      @include abs.mxs-respond(lphone) {
-        height: 28rem;
-      }
-      @include abs.mxs-respond(pphone) {
-        height: 22rem;
-      }
-    }
-    &-country {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-      object-position: left top;
-    }
-  }
-
-  &-casebox {
-    padding: 3rem;
-    @include abs.mxs-respond(lphone) {
-      // padding: 3rem 1.5rem;
-    }
-  }
-  &-title {
-    line-height: 145%;
-    max-height: 7.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     overflow: hidden;
-    margin-bottom: 3rem;
-    @include abs.mxs-respond(lphone) {
-      margin-left: 1.5rem;
-    }
+    // display: none;
+
     @include abs.mxs-respond(pphone) {
-      margin-left: 0;
+      height: 3rem;
+      width: 3rem;
     }
   }
+  &--icon {
+    height: 100%;
+    width: 100%;
 
-  &-case {
-    &block {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+    // background-image: url("~@/assets/icons/cross.svg");
+    // mask: url("~@/assets/icons/cross.svg");
 
-      @include abs.mxs-respond(lphone) {
-        padding-left: 1.5rem;
-      }
-      @include abs.mxs-respond(pphone) {
-        padding-left: 0;
-      }
-    }
-    &group {
-      min-width: 100%;
-      flex: 1 0 auto;
+    background-size: contain;
+    background-repeat: no-repeat;
 
-      display: flex;
-      align-items: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
 
-      margin-bottom: 1.5rem;
-      @include abs.mxs-respond(lphone) {
-        min-width: 20rem;
-        margin-right: 1.5rem;
-      }
-      @include abs.mxs-respond(pphone) {
-        min-width: 100%;
-        margin-right: 0;
-      }
-    }
-    &group:last-child {
-      // margin-bottom: 0;
-    }
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 
-    &icon {
-      min-height: 5rem;
-      min-width: 5rem;
-
-      // background: $card-items;
-
-      border-radius: 1rem;
-      margin-right: 1.5rem;
-
-      @include abs.mxs-respond(pphone) {
-        min-height: 4rem;
-        min-width: 4rem;
-      }
-
-      &--total {
-        background-image: url(./../assets/ctotal.svg);
-        mask: url(./../assets/ctotal.svg);
-      }
-      &--deaths {
-        background-image: url(./../assets/cdeaths.svg);
-        mask: url(./../assets/cdeaths.svg);
-      }
-      &--recovered {
-        background-image: url(./../assets/crecovered.svg);
-        mask: url(./../assets/crecovered.svg);
-      }
-      &--active {
-        background-image: url(./../assets/cactive.svg);
-        mask: url(./../assets/cactive.svg);
-      }
-    }
-    &icon {
-      background-size: contain;
-      background-repeat: no-repeat;
-
-      mask-size: contain;
-      mask-repeat: no-repeat;
-    }
-
-    &info {
-      &-title {
-        $case-title: lighten(abs.$vars-c-dprimary, 20%);
-        color: $case-title;
-        font-family: tbold;
-        text-transform: capitalize;
-
-        @include abs.mxs-respond(pphone) {
-          font-size: 1.3rem;
-        }
-      }
-      &-value {
-        font-family: tlight;
-
-        @include abs.mxs-respond(pphone) {
-          font-size: 1.6rem;
-        }
-      }
+    &:hover {
+      background: rgba(white,.5);
     }
   }
 }
+
+
+// cardImg
+.cardimg {
+  &--box {
+    height: 20rem;
+    width: inherit;
+    border-radius: inherit;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    overflow: hidden;
+
+
+    @include abs.mxs-respond(ptablet) {
+      height: 22rem;
+    }
+    @include abs.mxs-respond(lphone) {
+      height: 28rem;
+    }
+    @include abs.mxs-respond(pphone) {
+      height: 22rem;
+    }
+  }
+  &--country {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+
+// cardCase
+.card {
+  :deep(.case-content--block) {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
 </style>

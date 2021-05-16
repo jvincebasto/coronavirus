@@ -58,7 +58,7 @@ export default {
     box-shadow: 0px 0px 10px rgba(black, 0.8), 0px 10px 15px rgba(black, 0.5);
   }
   &-imgbox {
-    height: 20rem;
+    height: 16rem;
     width: 100%;
 
     display: flex;

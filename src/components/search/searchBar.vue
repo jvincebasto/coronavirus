@@ -12,7 +12,7 @@
   </div>
 
   <div class="option option-container" ref="optionContainer">
-    <option-list
+    <search-list
       v-for="(obj, index) in countryNames"
       :key="index"
       :ref="
@@ -21,12 +21,12 @@
         }
       "
       :data="obj"
-    ></option-list>
+    ></search-list>
   </div>
 </template>
 
 <script>
-import OptionList from "@/components/OptionList.vue";
+import searchList from "@/components/search/searchList.vue";
 import stringUtilities from "@/mixins/stringUtilities.vue";
 
 import { ref, reactive, onBeforeUpdate } from "vue";
@@ -40,7 +40,7 @@ const {
 export default {
   mixins: [stringUtilities],
   components: {
-    OptionList
+    searchList
   },
   setup() {
     let optionRefs = reactive({});
@@ -183,7 +183,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "./../sass/abstracts/abstracts" as abs;
+@use "~@/sass/abstracts/abstracts" as abs;
 
 .option {
   &-container {

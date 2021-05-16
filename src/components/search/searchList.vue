@@ -99,7 +99,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "./../sass/abstracts/abstracts" as abs;
+@use "~@/sass/abstracts/abstracts" as abs;
 
 .option {
   &-item {

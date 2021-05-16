@@ -4,14 +4,14 @@
   <hero />
   <global />
   <continent />
-  <!-- <countries /> -->
+  <countries />
 </template>
 
 <script>
 import Hero from "./homepage/Hero.vue";
 import Global from "./homepage/Global.vue";
 import Continent from "./homepage/Continent.vue";
-// import Countries from "./homepage/Countries.vue";
+import Countries from "./homepage/Countries.vue";
 
 // import styles from "@/sass/abstracts/_variables.scss";
 // import MediaQueries from "@/components/MediaQueries.vue";
@@ -20,8 +20,8 @@ export default {
   components: {
     Hero,
     Global,
-    Continent
-    // Countries
+    Continent,
+    Countries
     // MediaQueries
   }
 };
