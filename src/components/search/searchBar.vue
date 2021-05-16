@@ -208,7 +208,7 @@ export default {
 }
 
 .search {
-  height: 4.5rem;
+  height: 4rem;
   width: 100%;
   // min-width: 35rem;
 
@@ -247,21 +247,10 @@ export default {
     }
 
     &::placeholder {
-      color: abs.$vars-c-dprimary;
-      font-size: 1.4rem;
-      letter-spacing: 2px;
-
-      transition: all 0.2s ease-in-out;
-      @include abs.mxs-respond(pphone) {
-        font-size: 1.2rem;
-        letter-spacing: 1px;
-      }
+      color: rgba(black,.9);
     }
     &:focus::placeholder {
-      font-size: 1.6rem;
-      @include abs.mxs-respond(pphone) {
-        font-size: 1.4rem;
-      }
+
     }
   }
   &-btn {
@@ -277,25 +266,11 @@ export default {
     align-items: center;
     cursor: pointer;
 
-    padding: 0rem 2.7rem;
-
-    @include abs.mxs-respond(lphone) {
-      padding: 0rem 2.4rem;
-    }
-    @include abs.mxs-respond(pphone) {
-      padding: 0rem 2.1rem;
-    }
+    padding: 0rem 2rem;
 
     &--title {
       color: abs.$vars-c-lprimary;
       font-family: tbold;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-
-      @include abs.mxs-respond(lphone) {
-        text-transform: unset;
-        letter-spacing: 0;
-      }
     }
   }
 }

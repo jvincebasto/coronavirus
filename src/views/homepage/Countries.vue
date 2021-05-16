@@ -134,6 +134,8 @@ export default {
     width: 50rem;
     margin: auto;
     margin-bottom: 12rem;
+    
+    position: relative;
   }
 }
 

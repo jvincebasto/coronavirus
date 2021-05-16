@@ -90,8 +90,8 @@ export default {
 @use "~@/sass/abstracts/abstracts" as abs;
 
 .btn {
-  height: 6rem;
-  width: 6rem;
+  height: 5rem;
+  width: 5rem;
 
   // background: abs.$vars-c-lprimary;
   border: 2px solid black;
@@ -115,7 +115,7 @@ export default {
   }
 
   &--left {
-    right: 10rem;
+    right: 6rem;
     transform: rotateY(180deg);
     @include abs.mxs-respond(ptablet) {
       right: 5rem;
