@@ -10,14 +10,22 @@
       </div>
 
 
-      <div class="search-container">
+<!--       <div class="search-container">
         <search-bar ref="search"></search-bar>
+      </div> -->
+
+      <div class="search-container">
+        <search-bar ref="search">
+          <template #component>
+            <search-list></search-list>
+          </template>
+        </search-bar>
       </div>
 
 
       <div class="country-block" ref="cardContainer" id="cardContainer">
-        <template v-for="(obj, index) in stateCards" :key="index">
-          <card-country :data="obj" :ref="el=>{cardEls(el, obj)}">
+        <template v-for="(obj, index) in countries" :key="index">
+          <card-country :data="obj" :ref="el=>countryCardEl(el)">
           </card-country>
         </template>
     
@@ -29,66 +37,50 @@
 </template>
 
 <script>
-import searchBar from "@/components/search/searchBar.vue";
+import searchBar from "@/components/searchs/searchBar.vue";
+import searchList from "@/components/searchs/searchList.vue";
 import cardCountry from "@/components/cards/cardCountry.vue";
-import { ref, onBeforeUpdate } from "vue";
-import { useStore, createNamespacedHelpers } from "vuex";
-
-const { mapState, mapMutations } = createNamespacedHelpers("cards");
-const { mapState: covidState } = createNamespacedHelpers("covid");
+import { ref } from "vue";
+import { /*useStore,*/ createNamespacedHelpers } from "vuex";
+const { mapState: countryState, mapGetters: countryGetters, mapMutations: countryMutations } = createNamespacedHelpers("countrySearch");
 
 export default {
   components: {
+    searchBar,
+    searchList,
     cardCountry,
-    searchBar
   },
   setup() {
-    const store = useStore();
+    let countryCards = ref([]);
+    // const store = useStore();
 
-    onBeforeUpdate(() => {
-      store.state.cards.cardRefs.splice(0);
-    });
-
-    return {};
-  },
-  methods: {
-    cardEls(el, obj) {
-      if (el) {
-        this.addCardEl(
-          ref({
-            country: obj.value.country,
-            el
-          })
-        );
-      }
-    },
-    stateLogs() {
-      console.log("cards", this.states);
-      console.log("covid", this.covid);
-    },
-    ...mapMutations(["addCardEl"])
+    return {
+      countryCards
+    };
   },
   computed: {
-    ...covidState({
-      covid: state => state
-    }),
-    ...mapState({
-      cards: state => state
-    }),
-    states() {
-      const stateVars = {
-        cardRefs: this.cards.cardRefs,
-        cardList: this.cards.cardList,
-        cards: this.cards
-      };
-      return stateVars;
+    ...countryState(["countries"]),
+    ...countryGetters(["searchStates"]),
+  },
+  methods: {
+    ...countryMutations(["pushState","spliceState"]),
+    countryCardEl(el) {
+      if (el) { 
+        this.countryCards.push(ref(el));
+        this.pushState({ prop: "countryCards", data: ref(el) });
+      }
     },
-    stateCards() {
-      return this.cards.cardList;
-    }
+  },
+  beforeUpdate() {
+    this.countryCards.splice(0);
+    this.spliceState({ prop: "countryCards", data: 0 });
+  },
+  beforeMount() {
+    this.spliceState({ prop: "countryCards", data: 0 });
   },
   mounted() {
-    // this.$refs.block.onclick = this.stateLogs;
+    // const state = this.searchStates(["countries","countryCards"]);
+    // console.log(state.countries,state.countryCards);
   }
 };
 </script>
@@ -105,6 +97,7 @@ export default {
 
 .section {
   &-countries {
+    min-height: 150vh;
     $section-bg: lighten(abs.$vars-c-lprimary, 10%);
     background: $section-bg;
 
@@ -121,6 +114,8 @@ export default {
   }
   &--titlegroup {
     margin-bottom: 4rem;
+    position: relative;
+    z-index: 200;
   }
 }
 
@@ -131,6 +126,9 @@ export default {
     margin-bottom: 12rem;
     
     position: relative;
+    z-index: 200;
+
+
     @include abs.mxs-respond(lphone) {
       width: 80%;
     }

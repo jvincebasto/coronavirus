@@ -11,17 +11,10 @@
     </div>
   </div>
 
-  <div class="option option-container" ref="optionContainer">
-    <search-list
-      v-for="(obj, index) in countryNames"
-      :key="index"
-      :ref="
-        el => {
-          optionEls(el, obj);
-        }
-      "
-      :data="obj"
-    ></search-list>
+  <div class="searchlist searchlist-container" ref="listContainer">
+    <search-list v-for="(obj, index) in countryNames" :key="index"
+      :ref="el=>{optionEls(el, obj)}" :data="obj">
+    </search-list>
   </div>
 </template>
 
@@ -114,7 +107,7 @@ export default {
       for (const cur in container) container[cur].$refs.input.checked = false;
     },
     searchSubmit() {
-      this.$refs.optionContainer.style.maxHeight = 0;
+      this.$refs.listContainer.style.maxHeight = 0;
       const field = this.$refs.field;
       const input = field.value;
       this.searchResults(input, true);
@@ -141,7 +134,7 @@ export default {
     searchEvents() {
       const searchBtn = this.$refs.btn;
       const searchField = this.$refs.field;
-      const options = this.$refs.optionContainer;
+      const options = this.$refs.listContainer;
 
       const searchSubmit = this.searchSubmit;
       const searchFilter = this.searchFilter;
@@ -185,7 +178,7 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/abstracts/abstracts" as abs;
 
-.option {
+.searchlist {
   &-container {
     max-height: 0rem;
     height: auto;
@@ -223,14 +216,14 @@ export default {
   box-shadow: 0px 0px 5px rgba(black, 0.8), 0px 5px 8px rgba(black, 0.5);
 
   &-field {
-    height: 90%;
+    height: 100%;
     width: 100%;
     flex-grow: 1;
 
     background: transparent;
     border: 0;
 
-    margin-left: 3rem;
+    text-indent: 2rem;
     margin-right: 1rem;
     font-size: 1.6rem;
 

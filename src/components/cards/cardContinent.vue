@@ -28,6 +28,7 @@ export default {
       const lvalue = value.toLowerCase();
       if (lvalue === "North America".toLowerCase()) return "north-america";
       else if (lvalue === "South America".toLowerCase()) return "south-america";
+      else if (lvalue === "Australia-Oceania".toLowerCase()) return "australia";
       else if (lvalue === "Australia/Oceania".toLowerCase()) return "australia";
       else return lvalue;
     },

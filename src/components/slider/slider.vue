@@ -4,7 +4,7 @@
 
     <div class="carousel-slider" ref="slider">
       <template v-for="(value, index) in continents" :key="index">
-        <slider-card :index="`${(index += 1)}`" :ref="el=>{componentList(el)}">
+        <slider-card :index="`${(index += 1)}`" :ref="el=>componentList(el)">
           <slot name="component" :prop="value">
             {{ `item-${index}` }}
           </slot>

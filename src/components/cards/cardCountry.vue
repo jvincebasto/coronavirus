@@ -1,31 +1,30 @@
 <template>
   <div class="card">
     <div class="cardbtn--box" ref="exit">
-      <div class="cardbtn--icon">&nbsp;</div>
+      <div @click="removeCard($event)" class="cardbtn--icon">&nbsp;</div>
     </div>
 
     <div class="cardimg--box">
-      <img class="cardimg--country"
-        :src="`${cardImage(data.value.countryInfo.iso2)}`"
-        ref="icon"
-      />
+      <div class="cardimg--country" ref="icon"
+        :style="cardImage(data.countryInfo.iso2)">
+      </div>
     </div>
 
     <card-case>
       <template #title>
-        {{ `${data.value.country} ${attribute(data.value.countryInfo.iso2)}` }}
+        {{ `${data.country} ${nullCheck(data.countryInfo.iso2)}` }}
       </template>
       <template #deathsValue>
-        {{ numberFormat(`${data.value.deaths}`) }}
+        {{ numberFormat(`${data.deaths}`) }}
       </template>
       <template #activeValue>
-        {{ numberFormat(`${data.value.active}`) }}
+        {{ numberFormat(`${data.active}`) }}
       </template>
       <template #recoveredValue>
-        {{ numberFormat(`${data.value.recovered}`) }}
+        {{ numberFormat(`${data.recovered}`) }}
       </template>
       <template #totalValue>
-        {{ numberFormat(`${data.value.cases}`) }}
+        {{ numberFormat(`${data.cases}`) }}
       </template>
     </card-case>
 
@@ -33,78 +32,61 @@
 </template>
 
 <script>
+import stringUtilities from "@/mixins/stringUtilities.vue";
 import cardCase from "@/components/cards/cardCase.vue";
 import { createNamespacedHelpers } from "vuex";
-const { mapGetters, mapMutations } = createNamespacedHelpers("cards");
+const { mapGetters: countryGetters, mapMutations: countryMutations } = createNamespacedHelpers("countrySearch");
 
 export default {
   components: {
     cardCase
   },
+  mixins: [stringUtilities],
   props: ["data"],
   setup() {
     return {};
   },
+  computed: {
+    ...countryGetters(["searchStates","validateCountryName"]),
+  },
   methods: {
-    numberFormat(number) {
-      const strNumber = `${number}`;
-      const [int, dec] = strNumber.split(".");
-      let counter = 1;
-      let reset = false;
-      let num = ``;
+    ...countryMutations(["spliceStateItem"]),
+    
 
-      for (const value of [...int].reverse()) {
-        if (reset) counter = 2;
-        if (counter === 4) {
-          num += `,${value}`;
-          reset = true;
-        } else {
-          num += `${value}`;
-          reset = false;
-          counter++;
-        }
-      }
-
-      num =
-        dec !== undefined
-          ? `${[...num].reverse().join("")}.${dec}`
-          : `${[...num].reverse().join("")}`;
-
-      return num;
+    // Props
+    nullCheck(value,nullValue = "") {
+      if(value !== "null") return value;
+      else return nullValue
     },
-    attribute(value) {
-      let newValue = "";
-      if (value !== null) newValue = `(${value})`;
-      else newValue = "";
-
-      return newValue;
+    propName(prefix,value,nullValue = ""){
+      return `${prefix}${this.nullCheck(value,nullValue)}`
     },
     cardImage(image) {
+      const img = image.toLowerCase();
       let path = "";
-      if (image !== "null") {
-        const img = image.toLowerCase();
-        // const path = `background-image: url(${require(`@/assets/flags/original/${img}.png`)})`;
-        path = `${require(`@/assets/flags/original/${img}.png`)}`;
-      } else {
-        if (this.data.value.countryInfo.iso2 !== "null") {
-          path = `background-image: url(${this.data.value.countryInfo.flag})`;
-        } else path = "";
-      }
-      return path;
+      if (image !== "null") path = `${require(`@/assets/flags/original/${img}.png`)}`;
+      else if (this.data.countryInfo.iso2 !== "null") path = this.data.countryInfo.flag;
+      else path = "";
+      return `background-image: url(${path})`;
     },
 
-    ...mapMutations(["removeCardData"]),
-    removeCard() {
-      const countryName = this.data.value.country;
-      const dataIndex = this.dataCardIndex(countryName);
-      if (dataIndex > -1) this.removeCardData(dataIndex);
+
+
+    // Remove Card Event
+    removeCard(event) {
+      const state = this.searchStates(["countries"])
+      event.cancelBubble = true;
+
+      const country = this.data.country.toLowerCase();
+      const first = state.countries[0].country.toLowerCase();
+      if(country === first) this.spliceStateItem({ prop: "countries", data: 0 });
+      else {
+        const index = state.countries.findIndex((obj,index) => this.validateCountryName(obj,country,index));
+        if(index > -1) this.spliceStateItem({ prop: "countries", data: index });        
+      }
     }
   },
-  computed: {
-    ...mapGetters(["dataCardIndex"])
-  },
   mounted() {
-    this.$refs.exit.onclick = this.removeCard;
   }
 };
 </script>
@@ -215,8 +197,7 @@ export default {
   &--country {
     height: 100%;
     width: 100%;
-    object-fit: cover;
-    object-position: center;
+    @include abs.mxs-img-cover;
   }
 }
 

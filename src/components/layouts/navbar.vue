@@ -214,8 +214,8 @@ export default {
     display: flex;
   }
   &--link {
-    // margin-right: 1.5rem;
-    // border-radius: 5px;
+    margin-right: 1rem;
+    border-radius: 5px;
 
     // background: rgba(white, 0.1);
     position: relative;
@@ -227,7 +227,7 @@ export default {
       height: 100%;
       width: 0;
       border-radius: inherit;
-      background: rgba(white, 0.1);
+      background: rgba(white, .1);
 
       position: absolute;
       right: 0;
@@ -248,15 +248,17 @@ export default {
     display: block;
     text-align: center;
     white-space: pre;
-    color: abs.$vars-c-white;
+    color: rgba(white,.6);
 
-    padding: 1rem 2rem;
+    padding: .6rem .8rem;
     position: relative;
   }
-  // &--link:last-child {
-  //   margin-right: 0;
-  // }
+  &--link:last-child {
+    margin-right: 0;
+  }
 }
+
+
 
 // Hamberg Links
 .hamberg {
@@ -313,6 +315,8 @@ export default {
       background: transparent;
       // box-shadow: 0px 2px 5px rgba(black, 0.8), 0px 5px 10px rgba(black, 0.5);
 
+      margin-right: 0;
+      border-radius: 0;
       // border-radius: 5px;
       // margin-bottom: 1rem;
     }
@@ -341,6 +345,8 @@ export default {
     }
   }
   &--link a {
+    transition: all .3s ease-in-out;
+
     @include abs.mxs-respond(ptablet) {
       color: black;
       padding: 2rem;
@@ -352,7 +358,11 @@ export default {
     }
   }
   &--link:hover a {
-    color: abs.$vars-c-lprimary;
+    color: white;
+
+    @include abs.mxs-respond(ptablet) {
+      color: abs.$vars-c-lprimary;
+    }
   }
 }
 

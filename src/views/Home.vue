@@ -1,28 +1,28 @@
 <template>
-  <!-- <media-queries /> -->
+  <media-queries />
 
   <hero />
-  <global />
-  <continent />
+  <!-- <global /> -->
+  <!-- <continent /> -->
   <countries />
 </template>
 
 <script>
 import Hero from "./homepage/Hero.vue";
-import Global from "./homepage/Global.vue";
-import Continent from "./homepage/Continent.vue";
+// import Global from "./homepage/Global.vue";
+// import Continent from "./homepage/Continent.vue";
 import Countries from "./homepage/Countries.vue";
 
 // import styles from "@/sass/abstracts/_variables.scss";
-// import mediaQueries from "@/components/helpers/mediaQueries.vue";
+import mediaQueries from "@/components/helpers/mediaQueries.vue";
 
 export default {
   components: {
     Hero,
-    Global,
-    Continent,
+    // Global,
+    // Continent,
     Countries,
-    // mediaQueries
+    mediaQueries
   }
 };
 </script>

@@ -1,13 +1,12 @@
 <template>
-  <div class="option-item">
-    <input
-      type="checkbox"
-      class="option-input"
+  <div class="searchlist-item">
+    <input type="checkbox"
+      class="searchlist-input"
       :id="`${attribute(data.iso2)}`"
       :value="data.country"
       ref="input"
     />
-    <label class="option-label" :for="`${attribute(data.iso2)}`" ref="label">{{
+    <label class="searchlist-label" :for="`${attribute(data.iso2)}`" ref="label">{{
       `${data.country} ${string(data.iso2)}`
     }}</label>
   </div>
@@ -74,9 +73,7 @@ export default {
         filtered = this.stringFormatArray(filtered);
         field.value = this.toggleChecked(filtered, value);
       } else {
-        filtered = filtered.filter(
-          newValue => newValue !== value.toLowerCase()
-        );
+        filtered = filtered.filter(newValue => newValue !== value.toLowerCase());
         filtered = this.stringValid(filtered, true, true);
         filtered = this.stringFormatArray(filtered);
         field.value = this.toggleUnchecked(filtered);
@@ -101,7 +98,7 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/abstracts/abstracts" as abs;
 
-.option {
+.searchlist {
   &-item {
     display: flex;
     align-items: center;

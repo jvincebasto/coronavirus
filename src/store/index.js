@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import covidApi from "./modules/covidApi.js";
-import cards from "./modules/cards.js";
 import slider from "./modules/slider.js";
+import countrySearch from "./modules/countrySearch.js";
 
 export default createStore({
   state() {
@@ -11,10 +11,6 @@ export default createStore({
   mutations: {},
   actions: {},
   modules: {
-    cards: {
-      namespaced: true,
-      ...cards
-    },
     covid: {
       namespaced: true,
       ...covidApi
@@ -22,6 +18,10 @@ export default createStore({
     slider: {
       namespaced: true,
       ...slider
+    },
+    countrySearch: {
+      namespaced: true,
+      ...countrySearch
     }
   }
 });

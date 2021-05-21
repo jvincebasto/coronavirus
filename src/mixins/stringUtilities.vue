@@ -28,21 +28,20 @@ export default {
       return num;
     },
 
-    //
-
-    stringFilter(input) {
+    // String Split
+    stringFilter(input,delimeter = ",") {
       const string = input.toLowerCase();
-      const strings = string.split(",");
+      const strings = string.split(delimeter);
       const filtered = [];
 
       for (const cur of strings) {
-        let filter = cur;
-        filter = cur.trim();
-        if (typeof filter === "string" && filter !== "") filtered.push(filter);
+        let filter = cur.trim();
+        if (filter !== "") filtered.push(filter);
       }
 
       return filtered;
     },
+    // String Duplicates
     stringDuplicates(inputs) {
       let distincts = [];
 
@@ -57,8 +56,34 @@ export default {
       return distincts;
     },
 
-    //
 
+
+    // String Capitalize
+    stringCapitalize(input) {
+      const words = input.split(" ");
+      let filtered = [];
+
+      for (const word of words) {
+        let letters = ``;
+        let bool = true;
+
+        for (const letter of word) {
+          letters += bool ? letter.toUpperCase() : letter.toLowerCase();
+          bool = false;
+        }
+        if (letters !== "") filtered.push(letters);
+      }
+      return filtered.join(" ");
+    },
+    stringCapitalizeLoop(inputs) {
+      const format = [];
+      for (const input of inputs) format.push(this.stringCapitalize(input));
+      return format;
+    },
+
+
+
+    // 
     letterCheck(inputs, value) {
       const letters = [...value.toLowerCase()];
       const wordLength = letters.length - 1;
@@ -91,74 +116,6 @@ export default {
 
       return newInputs;
     },
-    stringValid(inputs, removeMatch = false, includeMatch = false) {
-      let newInputs = [];
-      let indices = [];
-      let matches = [];
-
-      for (const [index, input] of inputs.entries()) {
-        let bool = this.$store.state.covid.countryNames.some(obj => {
-          let bool = false;
-
-          for (const prop in obj) {
-            bool =
-              obj[prop].toLowerCase() === input.toLowerCase() ? true : false;
-            if (bool) {
-              if (removeMatch) indices.push(index);
-              if (includeMatch) matches.push(obj);
-              break;
-            }
-          }
-
-          return bool;
-        });
-        if (!bool) indices.push(index);
-      }
-
-      newInputs = inputs.filter((value, index) => {
-        return indices.indexOf(index) === -1;
-      });
-
-      if (includeMatch) {
-        for (const match of matches) {
-          newInputs.push(match.country);
-        }
-      }
-
-      return newInputs;
-    },
-
-    //
-
-    stringFormat(input) {
-      const words = input.split(" ");
-      let filtered = [];
-
-      for (const word of words) {
-        let letters = ``;
-        let bool = true;
-
-        for (const letter in word) {
-          if (word[letter] !== ",") {
-            letters += bool
-              ? `${word[letter].toUpperCase()}`
-              : `${word[letter].toLowerCase()}`;
-            bool = false;
-          }
-        }
-        if (letters !== "") filtered.push(letters);
-      }
-      return filtered.join(" ");
-    },
-    stringFormatArray(inputs) {
-      const format = [];
-      for (const input of inputs) {
-        format.push(this.stringFormat(input));
-      }
-      return format;
-    }
-
-    //
   }
 };
 </script>

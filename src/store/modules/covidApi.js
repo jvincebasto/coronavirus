@@ -244,10 +244,10 @@ export default {
       redirect: "follow"
     };
 
-    let originalGlobalData = [];
+    let globalData = [];
     let continents = [];
     let countries = [];
-    let overall = [countries, continents];
+    let overall = [globalData,countries, continents];
 
     return {
       countryTest,
@@ -256,7 +256,7 @@ export default {
       api,
       options,
 
-      originalGlobalData,
+      globalData,
       continents,
       countries,
       overall
@@ -271,9 +271,10 @@ export default {
     },
     dataStats(state) {
       return {
-        overall: state.overall,
+        globalData: state.globalData,
         continents: state.continents,
-        countries: state.countries
+        countries: state.countries,
+        overall: state.overall,
       };
     },
 
@@ -318,7 +319,7 @@ export default {
   },
   mutations: {
     globalData(state, res) {
-      state.originalGlobalData = res;
+      state.globalData = res;
     },
     allContinents(state, res) {
       state.continents = res;
