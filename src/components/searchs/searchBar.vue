@@ -24,12 +24,22 @@
       </slot>
     </div>
   </div>
+
+  <div class="search-errors">
+    <template v-for="(obj, index) in errors" :key="index">
+      <div class="search--errorgroup" :ref="`error--${obj.title}`">      
+        <p class="search--error-title">{{ obj.title }}</p>
+        <p class="search--error-content">{{ obj.content }}</p>
+      </div>
+    </template>
+  </div>
+
 </template>
 
 <script>
 import stringUtilities from "@/mixins/stringUtilities.vue";
 import { createNamespacedHelpers } from "vuex";
-const { mapGetters: countryGetters, mapMutations: countryMutations, mapActions: countryActions } = createNamespacedHelpers("countrySearch");
+const { mapState: countryState, mapGetters: countryGetters, mapMutations: countryMutations, mapActions: countryActions } = createNamespacedHelpers("countrySearch");
 const { mapState: covidState, mapMutations: covidMutations, mapActions: covidActions } = createNamespacedHelpers("covid");
 
 
@@ -40,12 +50,15 @@ export default {
       countryNames: state => state.countryNames,
       countries: state => state.countries,
     }),
+    ...countryState({
+      errors: state => state.errors,
+    }),
     ...countryGetters(["searchStates","validateCountryName"]),
   },
   methods: {
     ...covidActions(["fetchCountry"]),
     ...covidMutations(["storeCountry"]),
-    ...countryMutations(["stateObjs","stateItems","pushStateObjs","pushState","unshiftState"]),
+    ...countryMutations(["stateObjs","stateItems","pushStateObjs","pushState","unshiftState","spliceState"]),
     ...countryActions(["searchInputValidation","searchRequestDuplicates","searchDataLimit","resetSearchStates"]),
 
 
@@ -108,6 +121,7 @@ export default {
     },
     async searchSubmit(input) {
       const state = this.searchStates(["inputs","countries"]);
+      this.spliceState({ prop: "errors", data: 0 });
       this.stateObjs({ inputs: { input } });
 
 
@@ -119,15 +133,43 @@ export default {
 
 
       if(await data) {
-        console.log(state.inputs.invalid,state.inputs.duplicates,state.inputs.excess)
-        // state.inputs.invalid
-        // state.inputs.duplicates
-        // state.inputs.excess
-
+        this.searchErrorList();
         this.resetSearchStates();
       }
 
-      return data;
+      return await data;
+    },
+
+
+
+    // Search ErrorList
+    searchErrorList() {
+      const state = this.searchStates(["inputs"]);
+      const erorFormat = function(list) {
+        const last = list.length - 1;
+        const inputs = list.filter((val,index) => index !== last);
+
+        let string = inputs.join(", ");
+        string += list.length === 1 ? list[last] : ` and ${list[last]}`;
+
+        return string;
+      }
+
+      if(state.inputs.invalid.length > 0) {
+        let error = erorFormat(state.inputs.invalid);
+        error = `request for ${error} were not found, please try again`;
+        this.pushState({ prop: "errors", data: { title: "Not Found:", content: error } });
+      }
+      if(state.inputs.duplicates.length > 0) {
+        let error = erorFormat(state.inputs.duplicates);
+        error = ` ${error} already exists`;
+        this.pushState({ prop: "errors", data: { title: "Duplicates:", content: error } });
+      }
+      if(state.inputs.excess.length > 0) {
+        let error = erorFormat(state.inputs.excess);
+        error = `Limit of 10 exceeded, request for ${error} has been cancelled`;
+        this.pushState({ prop: "errors", data: { title: "Excess:", content: error } });
+      }
     },
 
 
@@ -160,17 +202,12 @@ export default {
 
 
     // List Filter
-    // resetList(exceptionList) {
-    //   const state = this.searchStates(["listItems"]);
-    //   const list = state.listItems;
-
-    //   // for (const exceptionItem of exceptionList) {
-    //   //   for(const item of list) {
-    //   //     const checkbox = item.el.[checkbox].checked;
-    //   //     checkbox = exceptionItem.country === item.data.country ? true : false;
-    //   //   }
-    //   // }
-    // },
+    resetFilter() {
+      const state = this.searchStates(["listItems"])
+      for(const item of state.listItems) {
+        if(item.refs.input.checked) item.refs.input.checked = false;
+      }
+    },
     listFilter(input) {
       const state = this.searchStates(["listItems"])
 
@@ -178,7 +215,6 @@ export default {
       const list = state.listItems;
 
       for (const item of list) {
-        // const data: item.data;
         const el = item.el;
         const elContent = el.textContent.toLowerCase();
 
@@ -193,35 +229,47 @@ export default {
 
     // Search Events
     submitEvent() {
-      // const searchState = searchStates([""])
-      // const countryState = searchStates([""])
-      // if(countryState.country.length >= searchState.limit) {}
-      // else errorFunction()
+      const state = this.searchStates(["countries","inputs"]);
+      this.spliceState({ prop: "errors", data: 0 });
 
-      const input = this.$refs.searchField.value;
-      this.searchSubmit(input);
+      if(state.countries.length <= state.inputs.limit) {
+        const input = this.$refs.searchField.value;
+        this.searchSubmit(input);
+      }
+      else {
+        const error = "total of 10 request only, remove cards in order to add again";
+        this.pushState({ prop: "errors", data: { title: "Limit Exceeded:", content: error } });
+      }
+      this.resetFilter();
       this.$refs.searchListBtn.checked = false;
       this.$refs.searchField.value = "";
       this.$refs.searchField.autofocus = true;
     },
     searchEvents() {
+      // Refs
+      const searchBtn = this.$refs.searchBtn;
+      const searchField = this.$refs.searchField;
+      const searchListBtn = this.$refs.searchListBtn;
+
+
       // Search Functions
-      const submitEvent = this.submitEvent;
       const listFilter = this.listFilter;
 
 
       // Search Filter
-      const searchListBtn = this.$refs.searchListBtn;
-      this.$refs.searchField.onfocus = () => searchListBtn.checked = true;
+      searchField.onfocus = () => searchListBtn.checked = true;
 
 
       // Search Submit 
-      this.$refs.searchBtn.onclick = this.submitEvent;
-      this.$refs.searchField.onkeyup = (event) => {
-        if (event.isComposing || event.keyCode === 229) return;
+      searchBtn.onclick = this.submitEvent;
+      searchField.onkeyup = (event) => {
+        if (event.isComposing) return;
         else listFilter(event.target.value.toLowerCase());
 
-        if (event.code === "Enter" || event.key === "Enter" || event.keyCode === 13 || event.which === 13) submitEvent()
+        if (event.code === "Enter" || event.key === "Enter" || event.keyCode === 13 || event.which === 13) {
+          searchField.blur();
+          searchBtn.onclick();
+        }
       };
     },
   },
@@ -252,12 +300,14 @@ export default {
     width: 100%;
 
     border-radius: 1rem;
+    margin-bottom: 3rem;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     position: relative;
+    z-index: 20;
   }
   &--field {
     height: 100%;
@@ -428,6 +478,39 @@ export default {
 }
 
 
+
+
+// Search Errors
+.search {
+  &-errors {
+    width: 100%;
+  }
+  &--errorgroup {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: .5rem;
+
+    // complementary
+    background: hsl(1, 85%, 50%);
+    padding: 1rem;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+
+    box-shadow: 0 0px 5px rgba(0,0,0,.2), 0 2px 5px rgba(0,0,0,.5);
+
+    color: white;
+    font-size: 1.3rem;
+  }
+  &--error {
+    &-title {
+      font-family: tbold;
+      margin-right: 1rem;
+    }
+    &-content {
+    }
+  }
+}
 
 
 

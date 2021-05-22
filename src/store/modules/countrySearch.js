@@ -31,6 +31,9 @@ export default {
       limit: 10
     }
 
+    // Search Errors
+    let errors = [];
+
 
     return {
       els,
@@ -38,7 +41,8 @@ export default {
       countryCards,
 
       countries,
-      inputs
+      inputs,
+      errors
     };
   },
   getters: {
@@ -207,13 +211,20 @@ export default {
     // Search Request Limit
     searchDataLimit({ getters, commit }, inputs) {
       const state = getters.searchStates(["inputs","countries"]);
-      const length = state.countries.length;
+      let length = state.countries.length;
+
 
       for (const input of inputs) {
         const value = input.toLowerCase();
 
-        if (length === 0) commit("pushStateObjs",({ inputs: { final: value } }));
-        else if (length < state.inputs.limit) commit("pushStateObjs",({ inputs: { final: value } }));
+        if (length === 0) { 
+          commit("pushStateObjs",({ inputs: { final: value } }));
+          length++;
+        }
+        else if (length < state.inputs.limit) {
+          commit("pushStateObjs",({ inputs: { final: value } }));
+          length++;
+        }
         else {
           if(state.inputs.excess.length === 0) commit("pushStateObjs",({ inputs: { excess: value } }));
           else { 
