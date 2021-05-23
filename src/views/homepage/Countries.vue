@@ -16,8 +16,11 @@
 
       <div class="search-container">
         <search-bar ref="search">
-          <template #component>
-            <search-list></search-list>
+          <template #optionlist="slot">
+            <search-list :input="slot.input"></search-list>
+          </template>
+          <template #errorlist>
+            <search-list-error></search-list-error>
           </template>
         </search-bar>
       </div>
@@ -39,6 +42,7 @@
 <script>
 import searchBar from "@/components/searchs/searchBar.vue";
 import searchList from "@/components/searchs/searchList.vue";
+import searchListError from "@/components/searchs/searchListError.vue";
 import cardCountry from "@/components/cards/cardCountry.vue";
 import { ref } from "vue";
 import { /*useStore,*/ createNamespacedHelpers } from "vuex";
@@ -48,6 +52,7 @@ export default {
   components: {
     searchBar,
     searchList,
+    searchListError,
     cardCountry,
   },
   setup() {

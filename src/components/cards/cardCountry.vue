@@ -47,7 +47,7 @@ export default {
     return {};
   },
   computed: {
-    ...countryGetters(["searchStates","validateCountryName"]),
+    ...countryGetters(["searchStates","validateCountryName","validateCountryNameList"]),
   },
   methods: {
     ...countryMutations(["spliceStateItem"]),
@@ -72,6 +72,17 @@ export default {
 
 
 
+    // Enable List Item
+    enableListItem(input) {
+      const state = this.searchStates(["listItems"]);
+      const value = input.toLowerCase();
+      const match = state.listItems.find((obj) => this.validateCountryNameList(obj.data,value,obj));
+      if(match) { 
+        match.refs.input.checked = false;
+        match.refs.input.disabled = false;
+      }
+    },
+
     // Remove Card Event
     removeCard(event) {
       const state = this.searchStates(["countries"])
@@ -79,11 +90,18 @@ export default {
 
       const country = this.data.country.toLowerCase();
       const first = state.countries[0].country.toLowerCase();
-      if(country === first) this.spliceStateItem({ prop: "countries", data: 0 });
+      if(country === first) { 
+        this.spliceStateItem({ prop: "countries", data: 0 });
+        this.enableListItem(country);
+      }
       else {
         const index = state.countries.findIndex((obj,index) => this.validateCountryName(obj,country,index));
-        if(index > -1) this.spliceStateItem({ prop: "countries", data: index });        
+        if(index > -1) {
+          this.spliceStateItem({ prop: "countries", data: index });        
+          this.enableListItem(country);
+        }
       }
+
     }
   },
   mounted() {

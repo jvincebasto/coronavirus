@@ -13,7 +13,6 @@
 
 <script>
 import stringUtilities from "@/mixins/stringUtilities.vue";
-import { reactive, onBeforeUpdate } from "vue";
 import { createNamespacedHelpers } from "vuex";
 const { mapState: covidState } = createNamespacedHelpers("covid");
 const { mapGetters: countryGetters, mapMutations: countryMutations } = createNamespacedHelpers("countrySearch");
@@ -23,17 +22,6 @@ const { mapGetters: countryGetters, mapMutations: countryMutations } = createNam
 export default {
   props: ["data"],
   mixins: [stringUtilities],
-  setup() {
-    let listItems = reactive([]);
-
-    onBeforeUpdate(() => {
-      listItems = [];
-    });
-
-    return {
-      listItems
-    };
-  },
   computed: {
     ...covidState({
       countryNames: state => state.countryNames,
@@ -43,18 +31,6 @@ export default {
   },
   methods: {
     ...countryMutations(["pushState"]),
-
-
-
-    // List Items
-    listEl(el, obj) {
-      if (el) {
-        this.listItems.push({ data: obj, el });
-        this.pushState({ prop: "listItems", data: { data: obj, el } });
-      }
-    },
-
-
 
 
     // Props
@@ -105,7 +81,6 @@ export default {
       const field = state.els.searchField;
       const fieldValue = field.value.toLowerCase();
 
-
       let filtered = this.stringFilter(fieldValue);
       filtered = this.stringDuplicates(filtered);
       filtered = this.listInputValidation(filtered);
@@ -113,7 +88,7 @@ export default {
 
       if(toggleState) field.value = this.checkedInputItem(filtered,toggleValue)
       else field.value = this.uncheckedInputItem(filtered,toggleValue)
-    }
+    },
   },
 };
 </script>
