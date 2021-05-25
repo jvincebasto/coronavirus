@@ -1,7 +1,8 @@
 <template>
-  <section class="section section-countries" id="countries" ref="sectCountries">
+  <section class="section section-countries" id="countries" 
+    @click="searchListBlur($event)" ref="sectCountries">
 
-    <div class="section-margin section-margin--titlegroup">
+    <div class="section-margin section-margin--titlegroup" ref="titlegroup">
       <div class="section--titlegroup">
         <h1 class="section--title">Country Search</h1>
         <p class="section--subtitle">
@@ -10,11 +11,7 @@
       </div>
 
 
-<!--       <div class="search-container">
-        <search-bar ref="search"></search-bar>
-      </div> -->
-
-      <div class="search-container">
+      <div class="search-container" ref="searchContainer">
         <search-bar ref="search">
           <template #optionlist="slot">
             <search-list :input="slot.input"></search-list>
@@ -26,7 +23,7 @@
       </div>
 
 
-      <div class="country-block" ref="cardContainer" id="cardContainer">
+      <div class="country-block" id="cardContainer" ref="cardContainer">
         <template v-for="(obj, index) in countries" :key="index">
           <card-country :data="obj" :ref="el=>countryCardEl(el)">
           </card-country>
@@ -40,10 +37,11 @@
 </template>
 
 <script>
-import searchBar from "@/components/searchs/searchBar.vue";
-import searchList from "@/components/searchs/searchList.vue";
-import searchListError from "@/components/searchs/searchListError.vue";
+import searchBar from "@/components/search/searchBar.vue";
+import searchList from "@/components/search/searchList.vue";
+import searchListError from "@/components/search/searchListError.vue";
 import cardCountry from "@/components/cards/cardCountry.vue";
+import { gsap } from "gsap";
 import { ref } from "vue";
 import { /*useStore,*/ createNamespacedHelpers } from "vuex";
 const { mapState: countryState, mapGetters: countryGetters, mapMutations: countryMutations } = createNamespacedHelpers("countrySearch");
@@ -75,6 +73,23 @@ export default {
         this.pushState({ prop: "countryCards", data: ref(el) });
       }
     },
+
+
+    // search Field Events
+    searchListBlur(event) {
+      const state = this.searchStates(["els"]);
+      const target = event.target;
+
+      if(target === this.$refs.sectCountries || target === this.$refs.titlegroup || target === this.$refs.cardContainer && target !== this.$refs.searchContainer) {
+  
+        state.els.searchListBtn.checked = false;
+        const animate = gsap.timeline();
+        const duration = .2;
+        animate.to(state.els.searchList, { y: 20, duration });
+        animate.to(state.els.searchList, { opacity: 0, duration: .4 },"<");
+        animate.to(state.els.searchList, { display: "none", duration: 0 },">");
+      }
+    },
   },
   beforeUpdate() {
     this.countryCards.splice(0);
@@ -84,8 +99,6 @@ export default {
     this.spliceState({ prop: "countryCards", data: 0 });
   },
   mounted() {
-    // const state = this.searchStates(["countries","countryCards"]);
-    // console.log(state.countries,state.countryCards);
   }
 };
 </script>

@@ -1,17 +1,17 @@
 <template>
   <navbar />
   <router-view />
-  <!-- <my-footer /> -->
+  <my-footer />
 </template>
 
 <script>
 import navbar from "@/components/layouts/navbar.vue";
-// import myFooter from "@/components/layouts/footer.vue";
+import myFooter from "@/components/layouts/footer.vue";
 
 export default {
   components: {
-    navbar
-    // myFooter
+    navbar,
+    myFooter
   },
 };
 </script>

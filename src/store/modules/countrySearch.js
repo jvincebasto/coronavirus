@@ -28,7 +28,7 @@ export default {
       passed: [], // String
       excess: [], // String
       final: [], // String
-      limit: 10
+      limit: 18
     }
 
     // Search Errors
@@ -234,6 +234,56 @@ export default {
         }
       }
     },
+
+
+
+    // Search ErrorList
+    searchErrorList({ commit }, data) {
+      const { title, list, prepend, append } = data;
+      const bool = list.length > 0 ? true : false;
+      let error = "";
+
+      if(bool) {
+        // Ommit Last Element
+        const last = list.length - 1;
+        const inputs = list.filter((val,index) => index !== last);
+
+
+        // Join Elements
+        error = inputs.join(", ");
+        error += list.length === 1 ? list[last] : ` and ${list[last]}`;
+        error = `${prepend} "${error}" ${append}`;
+
+
+        // Commit
+        commit("pushState",({ prop: "errors", data: { title, content: error } }));  
+      }
+      else error = "";
+
+      return error;
+    },
+    searchErrors({ state, dispatch },format) {
+      const { inputs } = state;
+
+      dispatch("searchErrorList",{ 
+        title: "Not Found:",
+        list: format ? format(inputs.invalid) : inputs.invalid,
+        prepend: "Request for", 
+        append: "were not found, please check your spelling and try again",
+      });
+      dispatch("searchErrorList",{ 
+        title: "Duplicates:",
+        list: format ? format(inputs.duplicates) : inputs.duplicates,
+        prepend: " ", 
+        append: "already exists",
+      });
+      dispatch("searchErrorList",{ 
+        title: "Excess:",
+        list: format ? format(inputs.excess) : inputs.excess,
+        prepend: `Limit of ${inputs.limit} request exceeded, request for`, 
+        append: "are cancelled",
+      });
+    },    
 
 
 

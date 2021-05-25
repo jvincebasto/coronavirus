@@ -5,6 +5,7 @@
   <global />
   <continent />
   <countries />
+
 </template>
 
 <script>
@@ -22,7 +23,9 @@ export default {
     Global,
     Continent,
     Countries,
-    // mediaQueries
+    // mediaQueries,
+  },
+  mounted() {
   }
 };
 </script>

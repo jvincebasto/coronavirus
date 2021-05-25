@@ -120,7 +120,7 @@ export default {
 
         return init;
       }
-    }
+    },
   },
   beforeUpdate() {
     this.slides.splice(0);
@@ -152,6 +152,7 @@ export default {
 
 <style scoped lang="scss">
 @use "~@/sass/abstracts/abstracts" as abs;
+
 
 .block {
   height: 10rem;
@@ -247,7 +248,6 @@ export default {
     align-items: center;
     // flex: 1 0 100%;
 
-    cursor: grab;
     transition: all 0.3s;
   }
 }

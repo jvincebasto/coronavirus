@@ -1,96 +1,111 @@
 <template>
-  <div class="searchlist-item">
-    <input type="checkbox"
-      class="searchlist-input"
-      :id="`${attribute(data.iso2)}`"
-      :value="data.country"
-      ref="input"
-    />
-    <label class="searchlist-label" :for="`${attribute(data.iso2)}`" ref="label">{{
-      `${data.country} ${string(data.iso2)}`
-    }}</label>
+
+  <input type="checkbox" :id="input.id" class="countrylist--checkbox" 
+    @click="searchListToggle($event)" ref="btn"/>
+
+
+  <div class="countrylist--container" ref="container">
+    <div class="countrylist countrylist--overflow-scroll" ref="overflowScroll">
+      <template v-for="(obj, index) in countryNames" :key="index">
+        <search-list-item :data="obj" :ref="el=>listEl(el,obj)">
+        </search-list-item>
+      </template>    
+    </div>
   </div>
+
 </template>
 
 <script>
 import stringUtilities from "@/mixins/stringUtilities.vue";
+import searchListItem from "@/components/search/searchListItem.vue";
+import { gsap } from "gsap";
+import { reactive, onBeforeUpdate } from "vue";
+import { createNamespacedHelpers } from "vuex";
+const { mapState: covidState } = createNamespacedHelpers("covid");
+const { mapGetters: countryGetters, mapMutations: countryMutations } = createNamespacedHelpers("countrySearch");
+
+
 
 export default {
-  props: ["data"],
+  props: ["input"],
   mixins: [stringUtilities],
+  components: {
+    searchListItem
+  },
+  setup() {
+    let listItems = reactive([]);
+
+    onBeforeUpdate(() => {
+      listItems.splice(0);
+    });
+
+    return {
+      listItems
+    };
+  },
+  computed: {
+    ...covidState({
+      countryNames: state => state.countryNames,
+    }),
+    ...countryGetters(["searchStates"]),
+  },
   methods: {
-    attribute(value) {
-      let newValue = "";
-      if (value !== "null") newValue = `opt-${value}`;
-      else newValue = `opt-${this.data.country}`;
-      return newValue;
-    },
-    string(value) {
-      let newValue = "";
-      if (value !== "null") newValue = `(${value})`;
-      else newValue = "";
+    ...countryMutations(["pushState","spliceState","stateObjs"]),
 
-      return newValue;
-    },
-    toggleChecked(input, value) {
-      if (input.length === 0) input += `${value}`;
-      else if (input.length > 0) {
-        let bool = false;
 
-        for (const cur of input) {
-          if (cur.toLowerCase() === value.toLowerCase()) {
-            bool = true;
-            break;
-          }
+
+    // List Items
+    listEl(el, obj) {
+      if (el) {
+        this.listItems.push({ data: obj, el: el.$el, refs: el.$refs });
+        this.pushState({ prop: "listItems", data: { data: obj, el: el.$el, refs: el.$refs } });
+      }
+    },
+
+
+    // List Init
+    setSearchEls() {
+      this.stateObjs({ els: {
+        searchList: this.$refs.container,
+        searchListBtn: this.$refs.btn,
         }
-        input += bool ? `` : `, ${value}`;
-      }
-
-      return input;
+      });
     },
-    toggleUnchecked(filtered) {
-      let join = ``;
-      for (const [index, input] of filtered.entries()) {
-        join += parseInt(index) === 0 ? `${input}` : `, ${input}`;
+
+
+    // SearchList Event
+    searchListToggle(event) {
+      const toggleState = event.target.checked;
+
+      const duration = 0.2;
+      const container = this.$refs.container;
+      const animate = gsap.timeline();
+      if(toggleState) {
+        animate.to(container, { display: "block", duration: 0 });
+        animate.to(container, { opacity: 1, duration: .3 },">");
+        animate.to(container, { y: 80, duration },"<");
       }
-      return join;
-    },
-    optionToggle(event) {
-      const optContainer = this.$parent.$refs.optionContainer;
-      optContainer.style.maxHeight = "30rem";
-
-      const value = event.target.value;
-      const bool = event.target.checked;
-
-      const field = this.$parent.$refs.field;
-      const input = field.value;
-
-      let filtered = this.stringFilter(input);
-      filtered = this.stringDuplicates(filtered);
-
-      if (bool) {
-        filtered = this.stringValid(filtered, true, true);
-        filtered = this.stringFormatArray(filtered);
-        field.value = this.toggleChecked(filtered, value);
-      } else {
-        filtered = filtered.filter(newValue => newValue !== value.toLowerCase());
-        filtered = this.stringValid(filtered, true, true);
-        filtered = this.stringFormatArray(filtered);
-        field.value = this.toggleUnchecked(filtered);
+      else {
+        animate.to(container, { y: 20, duration });
+        animate.to(container, { opacity: 0, duration: .4 },"<");
+        animate.to(container, { display: "none", duration: 0 },">");
       }
     }
 
-    // optionEvent(event) {
-    //   let field = this.$refs.search.$refs.field;
-    //   let input = this.inputFilter(field.value);
-    //   let limit = 10;
-
-    //   if(input.length < limit || this.domCards.length < limit) this.optionFunction(event);
-    //   else console.log(`maximum of ${limit} options`);
-    // },
+  },
+  beforeUpdate() {
+    this.spliceState({ prop: "listItems", data: 0 });
+  },
+  beforeMount() {
+    this.spliceState({ prop: "listItems", data: 0 });
+    this.stateObjs({ els: {
+      searchList: null,
+      searchListBtn: null,
+      }
+    });
   },
   mounted() {
-    this.$refs.input.onclick = this.optionToggle;
+    this.setSearchEls();
   }
 };
 </script>
@@ -98,30 +113,46 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/abstracts/abstracts" as abs;
 
-.searchlist {
-  &-item {
-    display: flex;
-    align-items: center;
-    border-bottom: 2px solid rgba(black, 0.1);
-  }
-  &-input {
-    height: 2rem;
-    width: 2rem;
+.countrylist {
+  &--container {
+    max-height: 30rem;
+    width: 100%;
+
+    $section-bg: lighten(abs.$vars-c-lprimary, 10%);
+    background: $section-bg;
+
+    border-radius: 1rem;
+    box-shadow: 0px 0px 5px rgba(black, 0.8), 0px 5px 8px rgba(black, 0.5);
 
     position: absolute;
-    right: 5%;
-  }
-  &-label {
-    display: block;
-    width: 100%;
-    height: 100%;
+    z-index: 10;
+    top: 0;
+    opacity: 0;
+    display: none;
 
-    font-size: 1.6rem;
-    font-family: tbody;
+    overflow: hidden;
 
-    padding: 1.5rem;
-    padding-left: 3rem;
-    cursor: pointer;
+    transition: all 0.3s ease-in-out;
   }
+  &--overflow {
+    &-scroll {
+      height: 100%;
+      max-height: 30rem;
+      width: 100%;
+      overflow-y: scroll;
+    }
+  }
+  &--checkbox {
+    display: none;
+  }
+}
+
+
+// Searchlist Functions
+.countrylist {
+  // &--checkbox:checked ~ &--container {
+  //   opacity: 1;
+  //   top: 8rem;
+  // }
 }
 </style>

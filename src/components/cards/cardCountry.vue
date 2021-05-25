@@ -12,7 +12,7 @@
 
     <card-case>
       <template #title>
-        {{ `${data.country} ${nullCheck(data.countryInfo.iso2)}` }}
+        {{ `${data.country} | ${nullCheck(data.countryInfo.iso2)}` }}
       </template>
       <template #deathsValue>
         {{ numberFormat(`${data.deaths}`) }}

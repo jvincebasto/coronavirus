@@ -29,6 +29,7 @@ export default {
 
 
 
+
     // Drag Positions
     dragPositionX(event) {
       return event.type.includes("mouse")
@@ -108,7 +109,7 @@ export default {
       this.animateSlider(state.positions.curPos);
     },
     touchStart(event) {
-      const state = this.sliderStates(["drag","btns","positions","dragPositions","els","animations"]);
+      const state = this.sliderStates(["drag","btns","positions","dragPositions","els","animations","slides","indices"]);
       this.sliderEndPos(state.els.container);
       this.sliderCenterPos(state.els);
 
@@ -135,7 +136,6 @@ export default {
           }
         });
 
-
         // const duration = 0.3;
         // const curObj = { scale: 1.05, duration };
         // const prevObj = { scale: 1, duration };
@@ -143,13 +143,16 @@ export default {
 
 
         const animate = gsap.timeline();
-        animate.add(this.moveSlider(state.dragPositions.curPos));
+        // animate.add(this.moveSlider(state.dragPositions.curPos));
         // animate.add(this.animateDragSlide(curObj,prevObj,nextObj));
-        // state.slides[state.indices.curIndex].classList.add('drag-grabbing');
+        const curSlide = state.slides[state.indices.curIndex].value;
+        animate.to(curSlide,{ scale: .98, ease: "ease", duration: .2 });
+        // animate.to(curSlide,{ cursor: "grab", ease: "ease", duration: .2 },"<");
       }
     },
     touchMove(event) {
       const state = this.sliderStates(["drag","dragPositions","positions"]);
+
 
       if (state.drag.dragging) {
         const curDragPos = this.dragPositionX(event);
@@ -164,6 +167,7 @@ export default {
         const animate = gsap.timeline();
         animate.add(this.moveSlider(state.dragPositions.curPos));
 
+
         // This is the glitch while dragging
         // animate.add(this.animateDragDirection(),"<");
       }
@@ -177,6 +181,13 @@ export default {
         },
         btns: { start: true },
       });
+
+
+      const animate = gsap.timeline();
+      const curSlide = state.slides[state.indices.curIndex].value;
+      animate.to(curSlide,{ scale: 1.05, ease: "ease", duration: .2 });
+      // animate.to(curSlide,{ cursor: "-webkit-grabbing", ease: "ease", duration: .2 },"<");
+
 
       if (state.drag.dragged && !state.drag.animating) {
         const limit = 150;
@@ -194,8 +205,6 @@ export default {
           // animate.add(this.animateSlides(),"<");
         }
       }
-
-      // state.slides[state.indices.curIndex].classList.remove('drag-grabbing');
     },
 
 
@@ -229,6 +238,7 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/abstracts/abstracts" as abs;
 
+
 .carousel {
   &-items {
     height: 100%;
@@ -241,8 +251,12 @@ export default {
     align-items: center;
     // flex: 1 0 100%;
 
-    cursor: grab;
+    cursor: pointer;
     transition: all 0.3s;
   }
 }
+
+// .drag-grabbing {
+//   cursor: webkit-grabbing;
+// }
 </style>

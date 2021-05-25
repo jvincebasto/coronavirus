@@ -1,176 +1,283 @@
 <template>
-  <div class="search">
-    <input
-      class="search-field"
-      type="text"
-      placeholder="Search your country"
-      ref="field"
-    />
-    <div class="search-btn" ref="btn">
-      <p class="search-btn--title">Search</p>
+  <div class="search search--group">
+
+    <!-- Searchbar Group -->
+    <div class="search-field--group">
+      <input type="text" placeholder="Search your country" class="search--field" 
+        @focus="searchFieldFocus()" @keyup.enter="searchFieldSubmit($event), searchListBlur()" @keyup="searchFieldKeyup($event)" ref="searchField"/>
+      <label :for="input.id" class="search-list--btn">
+        <span class="search-list--icon">&nbsp;</span>
+      </label>
+    </div>
+
+
+    <!-- Search Btn -->
+    <div class="searchbtn" @click="submitEvent(), searchListBlur()" ref="searchBtn">
+      <p class="searchbtn--title">Search</p>
     </div>
   </div>
 
-  <div class="searchlist searchlist-container" ref="listContainer">
-    <search-list v-for="(obj, index) in countryNames" :key="index"
-      :ref="el=>{optionEls(el, obj)}" :data="obj">
-    </search-list>
-  </div>
+
+  <!-- Search List -->
+  <slot name="optionlist" :input="input">
+    List Component Here
+  </slot>
+
+
+  <!-- Error List -->
+  <slot name="errorlist">
+    Error List Component Here
+  </slot>
+
+
 </template>
 
 <script>
-import searchList from "@/components/search/searchList.vue";
 import stringUtilities from "@/mixins/stringUtilities.vue";
-
-import { ref, reactive, onBeforeUpdate } from "vue";
+import { gsap } from "gsap";
 import { createNamespacedHelpers } from "vuex";
-const { mapState, mapGetters, mapActions } = createNamespacedHelpers("cards");
-const {
-  mapState: covidState,
-  mapActions: covidActions
-} = createNamespacedHelpers("covid");
+const { mapGetters: countryGetters, mapMutations: countryMutations, mapActions: countryActions } = createNamespacedHelpers("countrySearch");
+const { mapState: covidState, mapMutations: covidMutations, mapActions: covidActions } = createNamespacedHelpers("covid");
+
 
 export default {
   mixins: [stringUtilities],
-  components: {
-    searchList
-  },
   setup() {
-    let optionRefs = reactive({});
-    onBeforeUpdate(() => {
-      optionRefs = {};
-    });
+    let input = {
+      id: "list-toggle"
+    }
 
     return {
-      optionRefs
-    };
-  },
-  methods: {
-    optionEls(el, obj) {
-      if (el) {
-        if (obj.iso2 !== "null") this.optionRefs[obj.iso2] = el;
-        else this.optionRefs[obj.country] = el;
-      }
-    },
-    ...mapActions(["cardData"]),
-    ...covidActions(["fetchCountry", "getCountryData"]),
-
-    async inputResponse(input) {
-      try {
-        let data;
-        const match = await this.getCountryData(input);
-        if (!match.result) {
-          data = { ...match };
-          data.countryInfo = { ...data.countryInfo };
-          this.cardData(await ref(data));
-        } else {
-          data = await this.fetchCountry(input);
-          if (!data.error) this.cardData(await ref(data));
-          else throw new Error(data.error);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    async inputRequest(input, limit) {
-      for (const cur in input) {
-        const cardLength = this.cards.cardList.length;
-        const value = input[cur].toLowerCase();
-
-        if (cardLength === 0) this.inputResponse(value);
-        else if (cardLength < limit) {
-          const bool = this.nameCheck({ stateProp: "cardList", value });
-          if (!bool) this.inputResponse(value);
-        }
-      }
-    },
-    async inputRequestLimit(input, limit = 10) {
-      if (this.cards.cardList.length < limit) this.inputRequest(input, limit);
-      else console.log(`maximum of ${limit}`);
-    },
-    async inputResults(input) {
-      let filtered = this.stringFilter(input);
-      filtered = this.stringDuplicates(filtered);
-      this.inputRequestLimit(filtered);
-    },
-
-    //
-
-    async searchResults(input = "us,ph,af", focus = false) {
-      const field = this.$refs.field;
-      this.inputResults(input);
-      field.value = "";
-      field.autofocus = focus;
-    },
-    optionReset() {
-      const container = this.optionRefs;
-      for (const cur in container) container[cur].$refs.input.checked = false;
-    },
-    searchSubmit() {
-      this.$refs.listContainer.style.maxHeight = 0;
-      const field = this.$refs.field;
-      const input = field.value;
-      this.searchResults(input, true);
-      this.optionReset();
-    },
-
-    //
-
-    searchFilter(input) {
-      const values = this.stringFilter(input);
-      const container = this.optionRefs;
-
-      for (const cur in container) {
-        const option = container[cur].$el;
-        const label = container[cur].$refs.label;
-        const text = label.textContent || label.innerText;
-
-        for (const value of values) {
-          option.style.display =
-            text.toLowerCase().indexOf(value) > -1 ? "" : "none";
-        }
-      }
-    },
-    searchEvents() {
-      const searchBtn = this.$refs.btn;
-      const searchField = this.$refs.field;
-      const options = this.$refs.listContainer;
-
-      const searchSubmit = this.searchSubmit;
-      const searchFilter = this.searchFilter;
-
-      searchBtn.onclick = this.searchSubmit;
-      searchField.onkeyup = function(event) {
-        if (event.isComposing) return;
-        else searchFilter(event.target.value.toLowerCase());
-
-        if (event.code === "Enter" || event.keycode === "Enter") {
-          searchSubmit();
-          searchField.value = "";
-          searchField.autofocus = true;
-        }
-      };
-
-      searchField.onblur = function() {
-        options.style.maxHeight = 0;
-      };
-      searchField.onfocus = function() {
-        options.style.maxHeight = "30rem";
-      };
+      input
     }
   },
   computed: {
-    ...mapState({
-      cards: state => state
-    }),
-    ...mapGetters(["nameCheck"]),
     ...covidState({
-      countryNames: state => state.countryNames
-    })
+      countryNames: state => state.countryNames,
+      countries: state => state.countries,
+    }),
+    ...countryGetters(["searchStates","validateCountryName","validateCountryNameList"]),
+  },
+  methods: {
+    ...covidActions(["fetchCountry"]),
+    ...covidMutations(["storeCountry"]),
+    ...countryMutations(["stateObjs","stateItems","pushStateObjs","pushState","unshiftState","spliceState"]),
+    ...countryActions(["searchInputValidation","searchRequestDuplicates","searchDataLimit","resetSearchStates","searchErrors"]),
+
+
+
+    // Search Filter
+    searchFilter(input) {
+      let filtered = this.stringFilter(input);
+      filtered = this.stringDuplicates(filtered);
+      this.stateObjs({ inputs: { filtered } });
+
+      return filtered
+    },
+    // Search Functions 
+    async searchRequest(inputs) {
+      try {
+        const state = this.searchStates(["inputs","countries"]);
+        let datalist = [];
+
+
+        const commitData = function(input,data) {
+          if(state.countries.length === 0) this.unshiftState({ prop: "countries", data });
+          else {
+            const match = state.countries.some((obj) => this.validateCountryName(obj,input,true));
+            if(!match) this.unshiftState({ prop: "countries", data });
+          }
+        }.bind(this);
+
+
+        for(const input of inputs) {
+          let data;
+
+          // Search if Request Already Exist
+          const match = this.countries.find((obj) => this.validateCountryName(obj,input,obj));
+          if(match) { 
+            data = match;
+            commitData(input,data);
+          }
+          else {
+            // Send New Request
+            data = await this.fetchCountry(input);
+            if (!data.error) commitData(input,data);
+            else {
+              // this.pushState({ prop: "errors", data: { title: "Request Error:", content: await this.fetchCountry(input) } });
+              throw new Error(data.error);
+            }
+          }
+
+          // Push data to datalist
+          datalist.push(await data);
+        }
+
+        return await datalist;
+      } 
+      catch (err) { 
+        console.log("Request Error",err);
+      }
+    },
+    async searchSubmit(input) {
+      const state = this.searchStates(["inputs","countries"]);
+      this.spliceState({ prop: "errors", data: 0 });
+      this.stateObjs({ inputs: { input } });
+
+
+      const filtered = this.searchFilter(input);
+      this.searchInputValidation({ inputs: filtered, list: this.countryNames });
+      this.searchRequestDuplicates(state.inputs.valid);
+      this.searchDataLimit(state.inputs.passed);
+      const data = await this.searchRequest(state.inputs.final);
+
+
+      if(await data) {
+        this.searchErrors(this.stringCapitalizeLoop);
+        this.resetSearchStates();
+        for(const input of state.countries) this.disableListItem(input.country)
+      }
+
+      return await data;
+    },
+
+
+
+    // Search Init
+    setSearchEls() {
+      this.stateObjs({ els: {
+        searchBtn: this.$refs.searchBtn,
+        searchField: this.$refs.searchField,
+        }
+      });
+    },
+    async searchInit() {
+      const data = await this.searchSubmit("bt,ph,us,ad,al,kr");
+
+      if(await data) {
+        for(const cur of await data) {
+          const value = cur.country.toLowerCase(); 
+          if(this.countries.length === 0) this.storeCountry(await cur);
+          else { 
+            const match = this.countries.some((obj) => this.validateCountryName(obj,value,true));
+            if(!match) this.storeCountry(await cur);
+          }
+        }
+      }
+    },
+
+
+
+    // Enable List Item
+    disableListItem(input) {
+      const state = this.searchStates(["listItems"]);
+      const value = input.toLowerCase();
+      const match = state.listItems.find((obj) => this.validateCountryNameList(obj.data,value,obj));
+      if(match) {
+        match.refs.input.checked = true;
+        match.refs.input.disabled = true;
+      }
+    },
+    // List Filter
+    resetFilter() {
+      const state = this.searchStates(["listItems"])
+      for(const item of state.listItems) {
+        if(item.refs.input.checked) item.refs.input.checked = false;
+      }
+    },
+    listFilter(input) {
+      const state = this.searchStates(["listItems"])
+
+      const word = this.stringFilter(input);
+      const list = state.listItems;
+
+      for (const item of list) {
+        const el = item.el;
+        const elContent = el.textContent.toLowerCase();
+
+        for (const letter of word) {
+          if(word === "") el.style.display = "";
+          else el.style.display = elContent.indexOf(letter) > -1 ? "" : "none";
+        }
+      }
+    },
+
+
+
+    // Search Events
+    submitEvent() {
+      const state = this.searchStates(["countries","inputs","els"]);
+      this.spliceState({ prop: "errors", data: 0 });
+      const input = this.$refs.searchField.value;
+
+
+      if(input === "" || input === " ") {
+        const error = "Search input must not be empty";
+        this.pushState({ prop: "errors", data: { title: "Empty Field:", content: error } });
+      }
+      else if(state.countries.length <= state.inputs.limit && input !== "" || input !== " ") {
+        this.searchSubmit(input);
+      }
+      else {
+        const error = `Total of ${state.inputs.limit} request only, remove cards and try again`;
+        this.pushState({ prop: "errors", data: { title: "Limit Exceeded:", content: error } });
+      }
+      this.resetFilter();
+      state.els.searchListBtn.checked = false;
+      this.$refs.searchField.value = "";
+      this.$refs.searchField.autofocus = true;
+    },
+
+
+
+    // Search List Events
+    searchListBlur() {
+      const state = this.searchStates(["els"]);
+      state.els.searchListBtn.checked = false;
+
+      const animate = gsap.timeline();
+      const duration = .2;
+      animate.to(state.els.searchList, { y: 20, duration },"<");
+      animate.to(state.els.searchList, { opacity: 0, duration: .4 },"<");
+      animate.to(state.els.searchList, { display: "none", duration: 0 },">");
+    },
+
+
+
+    // Search Field Events
+    searchFieldFocus() {
+      const state = this.searchStates(["els"]);
+      state.els.searchListBtn.checked = true;
+
+      const animate = gsap.timeline();
+      const duration = .2;      
+      animate.to(state.els.searchList, { display: "block", duration: 0 });
+      animate.to(state.els.searchList, { opacity: 1, duration: .3 },">");
+      animate.to(state.els.searchList, { y: 80, duration },"<");
+    },
+    searchFieldKeyup(event) {
+      // if (event.isComposing || event.keyCode === 229) return;
+      // else this.listFilter(event.target.value.toLowerCase());
+      this.listFilter(event.target.value.toLowerCase());
+    },
+    searchFieldSubmit(event) {
+      // if (event.code === "Enter" || event.key === "Enter" || event.keyCode === 13 || event.which === 13) {
+        event.target.blur();
+        this.submitEvent();
+      // }
+    },
+
+  },
+  beforeMount() {
+    this.stateObjs({ els: {
+      searchBtn: null,
+      searchField: null,
+      } 
+    });
   },
   mounted() {
-    this.searchEvents();
-    this.searchResults("bt,ph,us,ad,al,kr", false);
+    this.setSearchEls();
+    this.searchInit();
   }
 };
 </script>
@@ -178,57 +285,30 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/abstracts/abstracts" as abs;
 
-.searchlist {
-  &-container {
-    max-height: 0rem;
-    height: auto;
+// Search Group and Field
+.search {
+  &--group {
+    height: 4rem;
     width: 100%;
 
-    $section-bg: lighten(abs.$vars-c-lprimary, 10%);
-    background: $section-bg;
-
-    margin-top: 3rem;
     border-radius: 1rem;
-    box-shadow: 0px 0px 5px rgba(black, 0.8), 0px 5px 8px rgba(black, 0.5);
+    margin-bottom: 3rem;
 
-    position: absolute;
-    z-index: 200;
-    overflow-y: scroll;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    transition: all 0.2s ease-in-out;
+    position: relative;
+    z-index: 20;
   }
-}
-
-.search {
-  height: 4rem;
-  width: 100%;
-
-
-  background: rgba(white,.8);
-  border-radius: 1rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  overflow: hidden;
-
-  box-shadow: 0px 0px 5px rgba(black, 0.8), 0px 5px 8px rgba(black, 0.5);
-
-  &-field {
+  &--field {
     height: 100%;
     width: 100%;
     flex-grow: 1;
 
-    background: transparent;
-    border: 0;
-
     text-indent: 2rem;
-    margin-right: 1rem;
     font-size: 1.6rem;
-
-    position: relative;
-    z-index: 10;
+    border: 0;
 
     @include abs.mxs-respond(pphone) {
       flex-shrink: 1;
@@ -245,25 +325,113 @@ export default {
       font-size: 1.6rem;
     }
   }
-  &-btn {
-    height: 100%;
+}
 
-    $section-bg: lighten(abs.$vars-c-lprimary, 10%);
-    background: $section-bg;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
 
-    padding: 0rem 2rem;
+// Search Field Group
+.search {
+  &-field {
+    &--group {
+      height: 100%;
+      width: 100%;
 
-    border-left: 2px solid rgba(black,.6);
+      display: flex;
 
-    &--title {
-      color: abs.$vars-c-dprimary;
-      font-family: tbold;
+      background: rgba(255, 255, 255, 0.8);
+      border-top-left-radius: inherit;
+      border-bottom-left-radius: inherit;
+
+      overflow: hidden;
+
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.8), 0px 5px 8px rgba(0, 0, 0, 0.5);
     }
   }
 }
+
+
+// Search Btn
+.searchbtn {
+  height: 100%;
+  padding: 0rem 2rem;
+  margin-left: 1rem;
+
+  $section-bg: lighten(abs.$vars-c-lprimary, 10%);
+  background: $section-bg;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: inherit;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.8), 0px 5px 8px rgba(0, 0, 0, 0.5);
+
+  transition: all .3s ease-in-out;
+
+  &--title {
+    color: abs.$vars-c-dprimary;
+    font-family: tbold;
+
+    transition: all .3s ease-in-out;
+  }
+
+  &:hover {
+    background: abs.$vars-c-dprimary;
+  }
+  &:hover &--title {
+    color: abs.$vars-c-lprimary;
+  }
+}
+
+
+
+// Searchlist Btn
+.search {
+  &-list {
+    &--btn {
+      width: 6rem;
+      height: 100%;
+
+      cursor: pointer;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      transition: all .3s ease-in-out;
+
+      &:hover {
+        background: abs.$vars-c-dprimary;
+      }
+    }
+    &--icon {
+      width: 15px;
+      height: 15px;
+
+      transition: all .3s ease-in-out;
+
+      @supports(mask-image: url("~@/assets/icons/arrow-2.svg")) {
+        mask-image: url("~@/assets/icons/arrow-2.svg");
+        @include abs.mxs-svg-contain;
+        mask-position: center;   
+      }
+
+      background-image: url("~@/assets/icons/arrow-2@2x.png");
+      @include abs.mxs-img-contain;
+      background-position: center;
+
+      transform: rotateZ(90deg);
+    }
+
+    &--btn:hover &--icon {
+      background: abs.$vars-c-lprimary;
+    }
+  }
+
+}
+
 </style>

@@ -10,6 +10,7 @@
         <span class="nav-hamberg--icon nav-hamberg--icon--3">&nbsp;</span>
       </label>
       <div class="nav-hamberg--bg">&nbsp;</div>
+      <div class="nav--bg">&nbsp;</div>
 
       <div class="nav--logo">
         <ul class="nav--links">
@@ -99,6 +100,27 @@ export default {
   background: abs.$vars-c-dprimary;
 }
 
+
+
+// Nav Bg
+.nav {
+  &--bg {
+    height: 7rem;
+    width: 100%;
+    display: none;
+    background: abs.$vars-c-dprimary;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    @include abs.mxs-respond(ptablet) {
+      display: block;
+    }
+  }
+}
+
 // Nav Hamberg
 .nav-hamberg {
   &--checkbox,
@@ -120,7 +142,7 @@ export default {
     width: 3rem;
 
     cursor: pointer;
-    z-index: 150;
+    z-index: 100;
 
     display: none;
 
@@ -149,7 +171,7 @@ export default {
 
     background: abs.$vars-c-lprimary;
 
-    transition: all 0.3s ease-in-out;
+    transition: all .3s ease-in-out;
 
     &:last-child {
       margin-bottom: 0;
@@ -166,6 +188,8 @@ export default {
     }
   }
 }
+
+
 
 // Nav Hamberg Functions
 .nav {
@@ -184,19 +208,23 @@ export default {
   }
   &-hamberg--checkbox:checked ~ &--block {
     opacity: 1;
-    right: 0;
+    top: 0;
   }
 }
 
 // Nav Logo
 .nav {
+
+  &--logo {
+    position: relative;
+    z-index: 100;
+  }
   &--logo &--link::before {
     height: 10%;
     border-radius: 2px;
     background: abs.$vars-c-lprimary;
   }
   &--logo &--link a {
-    font-size: 2rem;
     // text-transform: uppercase;
     font-family: tbold;
     color: abs.$vars-c-lprimary;
@@ -208,7 +236,7 @@ export default {
 // Nav Links
 .nav {
   &--block {
-    transition: all 0.3s ease-in-out;
+    transition: all 0.8s ease-in-out;
   }
   &--links {
     display: flex;
@@ -267,16 +295,19 @@ export default {
 
     @include abs.mxs-respond(ptablet) {
       height: 100%;
-      width: 40%;
-      min-width: 30rem;
+      width: 100%;
+      // min-width: 30rem;
+      background: transparent;
+      margin-top: 7rem;
 
       display: flex;
       justify-content: center;
 
       position: fixed;
-      top: 0;
-      right: -50%;
-      z-index: 100;
+      top: -100%;
+      right: 0;
+      // right: -50%;
+      z-index: -1;
 
       opacity: 0;
     }
@@ -289,36 +320,31 @@ export default {
   }
   &--links {
     @include abs.mxs-respond(ptablet) {
+      height: 30rem;
       width: 100%;
-      height: 100%;
 
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: center;
 
-      padding: 2rem;
-      // padding: 15rem;
 
-      margin-top: 7.05rem;
-      // border-left: 2px solid abs.$vars-c-dprimary;
+      $links-bg: lighten(abs.$vars-c-dprimary, 2%);
+      background: $links-bg;
 
-      // $links-bg: lighten(abs.$vars-c-lprimary, 10%);
-      background: abs.$vars-c-lprimary;
-
-      overflow: scroll;
+      overflow-y: scroll;
     }
   }
   &--link {
     @include abs.mxs-respond(ptablet) {
+      height: 100%;
       width: 100%;
       background: transparent;
-      // box-shadow: 0px 2px 5px rgba(black, 0.8), 0px 5px 10px rgba(black, 0.5);
 
       margin-right: 0;
       border-radius: 0;
-      // border-radius: 5px;
-      // margin-bottom: 1rem;
+
+      display: flex;
     }
   }
   &--link {
@@ -348,13 +374,16 @@ export default {
     transition: all .3s ease-in-out;
 
     @include abs.mxs-respond(ptablet) {
-      color: black;
-      padding: 2rem;
-      // font-size: 2rem;
+      height: 100%;
+      width: 100%;
+
+      padding: 0;
       font-family: tbold;
-    }
-    @include abs.mxs-respond(lphone) {
-      padding: 1.5rem 1rem;
+
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
   &--link:hover a {
@@ -366,25 +395,4 @@ export default {
   }
 }
 
-.btn {
-  &-up {
-    height: 4rem;
-    width: 4rem;
-
-    border-radius: 10rem;
-
-    position: fixed;
-    bottom: 8vh;
-    right: 5vh;
-    z-index: 5000;
-
-    display: none;
-  }
-
-  &-up--icon {
-    height: inherit;
-    width: inherit;
-    fill: abs.$vars-c-dprimary;
-  }
-}
 </style>

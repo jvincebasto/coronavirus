@@ -1,5 +1,8 @@
 <template>
-  <section class="section section-continents" id="continents" ref="sectContinents">
+  <section class="section section-continents" id="continents"
+    ref="sectContinents">
+    
+    
     <div class="section-margin section-margin--titlegroup">
       <div class="section--titlegroup">
         <h1 class="section--title">Continental Cases</h1>
@@ -35,6 +38,7 @@ import { ref, reactive, defineAsyncComponent } from "vue";
 import { /*useStore,*/ createNamespacedHelpers } from "vuex";
 const { mapActions: covidActions } = createNamespacedHelpers("covid");
 
+
 export default {
   components: {
     slider: defineAsyncComponent({
@@ -69,7 +73,7 @@ export default {
         bool: this.bool
       };
       console.log("data", data);
-    }
+    },
   },
   computed: {
     continentBool() {
@@ -91,6 +95,28 @@ export default {
 @use "~@/sass/abstracts/abstracts" as abs;
 
 $case-bg: darken(abs.$vars-c-lprimary, 10%);
+
+#cursor {
+  height: 4rem;
+  width: 4rem;
+
+  border-radius: 50%;
+  border: 2px solid black;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 200;
+
+  transform: translate(-50%,-50%);
+  transform-origin: 100% 100%;
+  cursor: none;
+  // backdrop-filter: grayscale();
+
+  pointer-events: none;
+  transition: all .3s ease;
+  transition-property: background, transform;
+}
 
 .block {
   height: 10rem;
