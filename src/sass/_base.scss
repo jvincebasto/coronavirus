@@ -248,6 +248,28 @@ body {
 	box-sizing: border-box;
 }
 
+// scrollbar
+$scrollbar-track: lighten(abs.$vars-c-lprimary, 20%);
+body {
+	scrollbar-width: 15px;
+	scrollbar-color: $scrollbar-track;
+}
+// scrollbar | webkit
+body::-webkit-scrollbar {
+	width: 15px;
+}
+body::-webkit-scrollbar-track {
+	background: $scrollbar-track;
+}
+body::-webkit-scrollbar-thumb {
+	background: abs.$vars-c-dprimary;
+}
+body::-webkit-scrollbar-thumb:hover {
+	background: abs.$vars-c-black;
+}
+
+
+
 li { list-style: none; }
 a { text-decoration: none; }
 a,input[type=text] { outline: none; }

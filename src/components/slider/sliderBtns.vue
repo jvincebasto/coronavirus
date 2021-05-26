@@ -110,6 +110,8 @@ export default {
 
   box-shadow: 0px 2px 5px rgba(black, 0.8), 0px 5px 10px rgba(black, 0.5);
 
+  transition: all .3s ease-in-out;
+
   @include abs.mxs-respond(ptablet) {
     height: 4rem;
     width: 4rem;
@@ -129,7 +131,15 @@ export default {
   &--img {
     height: 2rem;
     width: 2rem;
+    background: abs.$vars-c-dprimary;
 
+    transition: all .3s ease-in-out;
+
+    @supports(mask: url("~@/assets/icons/arrow-2.svg")) {
+      mask: url("~@/assets/icons/arrow-2.svg");
+      @include abs.mxs-svg-contain;
+      mask-position: center;
+    }
     background-image: url("~@/assets/icons/arrow-2@2x.png");
     @include abs.mxs-img-contain;
     background-position: center;
@@ -138,6 +148,13 @@ export default {
       height: 1rem;
       width: 1rem;
     }
+  }
+
+  &:hover {
+    background: abs.$vars-c-dprimary;
+  }
+  &:hover &--img {
+    background: abs.$vars-c-lprimary;
   }
 }
 </style>

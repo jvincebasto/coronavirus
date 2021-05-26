@@ -3,7 +3,7 @@
 
   <nav class="nav section">
     <div class="section-margin section-margin--nav">
-      <input class="nav-hamberg--checkbox" id="nav-toggle" type="checkbox" />
+      <input class="nav-hamberg--checkbox" id="nav-toggle" type="checkbox" ref="hamberg"/>
       <label class="nav-hamberg--btn" for="nav-toggle">
         <span class="nav-hamberg--icon nav-hamberg--icon--1">&nbsp;</span>
         <span class="nav-hamberg--icon nav-hamberg--icon--2">&nbsp;</span>
@@ -11,6 +11,7 @@
       </label>
       <div class="nav-hamberg--bg">&nbsp;</div>
       <div class="nav--bg">&nbsp;</div>
+
 
       <div class="nav--logo">
         <ul class="nav--links">
@@ -20,7 +21,7 @@
         </ul>
       </div>
 
-      <div class="nav--block hamberg--block">
+      <div class="nav--block hamberg--block" @click="closeNav($event)">
         <ul class="nav--links hamberg--links">
           <!-- <li ref="bubbleSlider" class="bubble"></li> -->
           <!-- <li><router-link to="/">list</router-link></li> -->
@@ -51,7 +52,10 @@
 
 export default {
   methods: {
-  }
+    closeNav() {
+      this.$refs.hamberg.checked = false;
+    }
+  },
 };
 </script>
 
@@ -332,6 +336,24 @@ export default {
       $links-bg: lighten(abs.$vars-c-dprimary, 2%);
       background: $links-bg;
 
+      // Scroll Bar 
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+      }
+      // Works on Divs | Track & Thumb 
+      &::-webkit-scrollbar-track {
+        background: abs.$vars-c-dprimary;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: abs.$vars-c-black;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background: abs.$vars-c-lprimary;
+      }
+
       overflow-y: scroll;
     }
   }
@@ -390,7 +412,7 @@ export default {
     color: white;
 
     @include abs.mxs-respond(ptablet) {
-      color: abs.$vars-c-lprimary;
+      // color: abs.$vars-c-lprimary;
     }
   }
 }
