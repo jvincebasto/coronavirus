@@ -2,16 +2,16 @@
   <section class="section section-hero" id="hero" ref="sectHero">
     <div class="section--blob">&nbsp;</div>
 
-    <div class="section-covidCluster section-covidCluster--1">&nbsp;</div>
+    <div class="section-covidCluster section-covidCluster--1" ref="covid1">&nbsp;</div>
 
     <div class="section-margin section-margin--headline">
       <div class="headline headline-block">
-        <h3 class="headline-title headline-title--1">Be aware of</h3>
-        <h1 class="headline-title headline-title--2">Corona Virus</h1>
+        <h3 class="headline-title headline-title--1" ref="title1">Be aware of</h3>
+        <h1 class="headline-title headline-title--2" ref="title2">Corona Virus</h1>
 
         <div class="headline-subgroup">
-          <p class="headline-subtitle">Stay safe at all times</p>
-          <p class="headline-text">
+          <p class="headline-subtitle" ref="subtitle">Stay safe at all times</p>
+          <p class="headline-text" ref="text">
             Welcome! This is a simple covid 19 statistics site, where you can
             view the total infected cases, deaths, recovered and remaining
             infected persons in a country. Learn about your Country's Status
@@ -19,7 +19,7 @@
           </p>
         </div>
 
-        <div class="headline-btn headline-btnblock">
+        <div class="headline-btn headline-btnblock" ref="btn">
           <div class="headline-btn headline-btngroup">
             <a class="headline-btn--text" href="#countries">Go Search!</a>
             <span class="headline-btn--icon">&nbsp;</span>
@@ -31,17 +31,63 @@
 
     <div class="section-margin section-margin--bg">
       <div class="section-bggroup">
-        <div class="section-covidCluster section-covidCluster--2">&nbsp;</div>
-        <div class="section-covidCluster section-covidCluster--3">&nbsp;</div>
+        <div class="section-covidCluster section-covidCluster--2" ref="covid2">&nbsp;</div>
+        <div class="section-covidCluster section-covidCluster--3" ref="covid3">&nbsp;</div>
         <div class="section-circlegrids--1">&nbsp;</div>
-        <div class="section--person">&nbsp;</div>
+        <div class="section--person" ref="person">&nbsp;</div>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-export default {};
+import { gsap } from "gsap";
+// import { ScrollTrigger } from "gsap/ScrollTrigger";
+// gsap.registerPlugin(ScrollTrigger);
+
+export default {
+  methods: {
+    // animations
+    hero() {
+      const ease = "ease";
+      const timelineObj = { repeat: -1, yoyo: true };
+
+      const person = gsap.timeline(timelineObj);
+      person.to(this.$refs.person,{ y: -20, ease, duration: 5 });
+      person.to(this.$refs.person,{ filter: "drop-shadow(0 15px 20px rgba(0,0,0, 0.8))", duration: 5 },"<");
+
+
+      const covid1 = gsap.timeline(timelineObj);
+      covid1.to(this.$refs.covid1,{ y: 10, ease, duration: 3 });
+      covid1.to(this.$refs.covid1,{ filter: "drop-shadow(0 2px 4px rgba(0,0,0, 0.5))", duration: 3 },"<");
+
+      const covid2 = gsap.timeline(timelineObj);
+      covid2.to(this.$refs.covid2,{ y: 10, ease, duration: 2 });
+      covid2.to(this.$refs.covid2,{ filter: "drop-shadow(0 2px 4px rgba(0,0,0, 0.5))", duration: 2 },"<");
+
+      const covid3 = gsap.timeline(timelineObj);
+      covid3.to(this.$refs.covid3,{ y: 5, ease, duration: 1 });
+      covid3.to(this.$refs.covid3,{ filter: "drop-shadow(0 2px 2px rgba(0,0,0, 0.5))", duration: 1 },"<");
+    },
+    content() {
+      const ease = "ease";
+      const timelineObj = {  };
+
+      const headline = gsap.timeline(timelineObj);
+      headline.from(this.$refs.title1,{ x: -50, opacity: 0, ease, duration: .5 });
+      headline.from(this.$refs.title2,{ x: -50, opacity: 0, ease, duration: .5 },"<+.3");
+      headline.from(this.$refs.subtitle,{ y: -10, opacity: 0, ease, duration: .5 },"<+.3");
+
+
+      headline.from(this.$refs.text,{ y: -30, opacity: 0, ease, duration: 1 },"<+.3");
+      headline.from(this.$refs.btn,{ x: -20, opacity: 0, ease, duration: .8 },"<+.5");
+    }
+  },
+  mounted() {
+    this.hero();
+    this.content();
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -160,6 +206,8 @@ export default {};
     background: url("~@/assets/bgs/facemaskBlob@2x.png");
     @include abs.mxs-img-contain;
 
+    filter: drop-shadow(0 0 0 rgba(black, 0));
+
     position: relative;
     z-index: 50;
   }
@@ -189,6 +237,8 @@ export default {};
   &-covidCluster {
     position: absolute;
     @include abs.mxs-img-contain;
+
+    filter: drop-shadow(0 0 0 rgba(black,0));
 
     &--1 {
       height: 18rem;

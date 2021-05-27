@@ -10,9 +10,9 @@
           <span class="case-icon case-icon--deaths">&nbsp;</span>
           <div class="case--infogroup">
             <p class="case--title">Deaths</p>
-            <p class="case--value">
+            <p class="case--value" ref="deathValue">
               <slot name="deathsValue">
-                {{ setDomValue(numberFormat(data.deaths), 56, 789) }}
+                {{ setDomValue(numberFormat(data.deaths), "56, 789") }}
               </slot>
             </p>
           </div>
@@ -23,9 +23,9 @@
           <span class="case-icon case-icon--active">&nbsp;</span>
           <div class="case--infogroup">
             <p class="case--title">Active</p>
-            <p class="case--value">
+            <p class="case--value" ref="activeValue">
               <slot name="activeValue">
-                {{ setDomValue(numberFormat(data.active), 6, 789) }}
+                {{ setDomValue(numberFormat(data.active), "6,789") }}
               </slot>
             </p>
           </div>
@@ -36,9 +36,9 @@
           <span class="case-icon case-icon--recovered">&nbsp;</span>
           <div class="case--infogroup">
             <p class="case--title">Recovered</p>
-            <p class="case--value">
+            <p class="case--value" ref="recoveredValue">
               <slot name="recoveredValue">
-                {{ setDomValue(numberFormat(data.recovered), 56, 789) }}
+                {{ setDomValue(numberFormat(data.recovered), "56,789") }}
               </slot>
             </p>
           </div>
@@ -49,9 +49,9 @@
           <span class="case-icon case-icon--total">&nbsp;</span>
           <div class="case--infogroup">
             <p class="case--title">Total Cases</p>
-            <p class="case--value">
+            <p class="case--value" ref="totalValue">
               <slot name="totalValue">
-                {{ setDomValue(numberFormat(data.cases), 123, 456, 789) }}
+                {{ setDomValue(numberFormat(data.cases), "123,456,789") }}
               </slot>
             </p>
           </div>
@@ -65,11 +65,11 @@
 import stringUtilities from "@/mixins/stringUtilities.vue";
 
 export default {
-  props: ["data"],
+  props: ["data","options"],
   mixins: [stringUtilities],
   methods: {
     setDomValue(val, defval) {
-      if (!val) return defval;
+      if (!val && this.options.numberFormat) return defval;
       else return val;
     }
   }

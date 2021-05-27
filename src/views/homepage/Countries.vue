@@ -115,7 +115,6 @@ export default {
 
 .section {
   &-countries {
-    min-height: 150vh;
     $section-bg: lighten(abs.$vars-c-lprimary, 10%);
     background: $section-bg;
 
