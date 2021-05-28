@@ -11,6 +11,12 @@
       <div class="row">
         <div class="col col--1">
           <div class="map map--group">
+            <!-- covid clusters -->
+            <div class="section-covidCluster section-covidCluster--1" ref="covid1">&nbsp;</div>
+            <div class="section-covidCluster section-covidCluster--2" ref="covid2">&nbsp;</div>
+            <div class="section-covidCluster section-covidCluster--3" ref="covid3">&nbsp;</div>
+
+            <!-- map group -->
             <div class="map-bg map-bg--blob" ref="blob">&nbsp;</div>
             <div class="map-bg map-bg--globalmap" ref="map">&nbsp;</div>
           </div>
@@ -23,6 +29,13 @@
       </div>
     </div>
 
+
+    <!-- covid scroll -->
+    <div class="section-covidCluster section-covidCluster--4" ref="covid4">&nbsp;</div>
+    <div class="section-covidCluster section-covidCluster--5" ref="covid5">&nbsp;</div>
+
+
+    <!-- grids -->
     <div class="section-grid section-grid--1">&nbsp;</div>
     <div class="section-grid section-grid--2">&nbsp;</div>
   </section>
@@ -32,8 +45,8 @@
 import stringUtilities from "@/mixins/stringUtilities.vue";
 import { ref, reactive, defineAsyncComponent } from "vue";
 import { gsap } from "gsap";
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
-// gsap.registerPlugin(ScrollTrigger);
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 import { createNamespacedHelpers } from "vuex";
 const { mapActions: covidActions } = createNamespacedHelpers("covid");
 
@@ -60,6 +73,11 @@ export default {
       bool,
     };
   },
+  computed: {
+    globalBool() {
+      return this.bool;
+    },
+  },
   methods: {
     ...covidActions(["fetchAll"]),
     async getGlobalRes() {
@@ -84,20 +102,55 @@ export default {
       map.from(this.$refs.map,{ y: -10, ease, duration: 5 });
       map.to(this.$refs.map,{ filter: "drop-shadow(0 2px 5px rgba(220, 20, 60, 0.8)) drop-shadow(0px 8px 15px rgba(0,0,0, 0.5))", duration: 5 },"<");
 
+    },
+    covidGroup() {
+      const ease = "ease";
+      const timelineObj = { repeat: -1, yoyo: true };
 
-      // const num = gsap.timeline();
-      // num.from(this.$refs.num,{ opacity: 0, ease });
-      // num.counter(this.$refs.num,{ end: 123456, ease: "linear", increment: 10, duration: 2 })
+      const covid1 = gsap.timeline(timelineObj);
+      covid1.to(this.$refs.covid1,{ y: 10, ease, duration: 3 });
+      covid1.to(this.$refs.covid1,{ filter: "drop-shadow(0 2px 4px rgba(0,0,0, 0.5))", duration: 3 },"<");
+
+      const covid2 = gsap.timeline(timelineObj);
+      covid2.to(this.$refs.covid2,{ y: 10, ease, duration: 2 });
+      covid2.to(this.$refs.covid2,{ filter: "drop-shadow(0 2px 4px rgba(0,0,0, 0.5))", duration: 2 },"<");
+
+      const covid3 = gsap.timeline(timelineObj);
+      covid3.to(this.$refs.covid3,{ y: 5, ease, duration: 1 });
+      covid3.to(this.$refs.covid3,{ filter: "drop-shadow(0 2px 2px rgba(0,0,0, 0.5))", duration: 1 },"<");
     },
-  },
-  computed: {
-    globalBool() {
-      return this.bool;
-    },
+    covidScroll() {
+      const scroll = (el) => gsap.timeline({
+        scrollTrigger: {
+          // markers: {
+          //   startColor: "green",
+          //   endColor: "red",
+          //   fontSize: "16px"
+          // },
+
+          // trigger | (trigger, viewport)
+          trigger: el,
+          start: "top 75%",
+          end: "bottom bottom",
+          scrub: 1,
+        }
+      });
+
+      const opacity = 0;
+      const duration = 2;
+
+      const covid4 = scroll(this.$refs.covid4);
+      covid4.from(this.$refs.covid4,{ y: -25, opacity, duration });
+
+      const covid5 = scroll(this.$refs.covid5);
+      covid5.from(this.$refs.covid5,{ y: -25, opacity, duration });
+    }
   },
   mounted() {
     this.getGlobalRes();
     this.mapGroup();
+    this.covidGroup();
+    this.covidScroll();
   }
 };
 </script>
@@ -158,6 +211,128 @@ export default {
     }
   }
   &-grid {
+    @include abs.mxs-img-contain;
+  }
+}
+
+
+.section {
+    &-covidCluster {
+    position: absolute;
+    @include abs.mxs-img-contain;
+
+    filter: drop-shadow(0 0 0 rgba(black,0));
+
+    &--1 {
+      height: 18rem;
+      width: 18rem;
+
+      background: url("~@/assets/covidicons/covidCluster1@2x.png");
+      top: -15rem;
+      left: 2rem;
+
+      @include abs.mxs-respond(ltablet) {
+        height: 15rem;
+        width: 15rem;
+        left: 0rem;
+      }
+      @include abs.mxs-respond(ptablet) {
+        height: 12rem;
+        width: 12rem;
+        top: -6rem;
+        left: -8rem;
+      }
+      @include abs.mxs-respond(pphone) {
+        height: 10rem;
+        width: 10rem;
+      }
+    }
+    &--2 {
+      height: 15rem;
+      width: 15rem;
+
+      background: url("~@/assets/covidicons/covidCluster1@2x.png");
+      bottom: -10rem;
+      left: -8rem;
+      transform: rotateY(180deg);
+
+      @include abs.mxs-respond(ltablet) {
+        height: 12rem;
+        width: 12rem;
+      }
+      @include abs.mxs-respond(ptablet) {
+        height: 10rem;
+        width: 10rem;
+        bottom: -6rem;
+        left: -4rem;
+      }
+      @include abs.mxs-respond(pphone) {
+        height: 8rem;
+        width: 8rem;
+      }
+    }
+    &--3 {
+      height: 10rem;
+      width: 10rem;
+
+      background: url("~@/assets/covidicons/covidCluster2@2x.png");
+      bottom: 0rem;
+      right: -10rem;
+
+      @include abs.mxs-respond(ptablet) {
+        height: 8rem;
+        width: 8rem;
+        bottom: 2rem;
+      }
+      @include abs.mxs-respond(pphone) {
+        height: 6rem;
+        width: 6rem;
+        bottom: 0rem;
+        right: -8rem;
+      }
+    }
+    &--4 {
+      height: 15rem;
+      width: 15rem;
+
+      background: url("~@/assets/covidicons/covidCluster1@2x.png");
+      top: 10rem;
+      right: 18%;
+      transform: rotateY(180deg);
+
+      @include abs.mxs-respond(ltablet) {
+        top: 4rem;
+        right: 13%;
+      }
+      @include abs.mxs-respond(ptablet) {
+        top: unset;
+        right: unset;
+
+        bottom: 34rem;
+        left: 7%;
+        transform: unset;
+      }
+    }
+    &--5 {
+      height: 15rem;
+      width: 15rem;
+
+      background: url("~@/assets/covidicons/covidCluster1@2x.png");
+      bottom: 20rem;
+      right: -2rem;
+      transform: rotateY(180deg);
+
+      @include abs.mxs-respond(ptablet) {
+        height: 20rem;
+        width: 20rem;
+
+        bottom: 17rem;
+        right: 5%;
+        transform: unset;
+      }
+    }
+  }
+  &-covidCluster {
     @include abs.mxs-img-contain;
   }
 }

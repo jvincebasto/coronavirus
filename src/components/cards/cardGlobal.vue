@@ -38,16 +38,16 @@ export default {
   props: ["data","els"],
   mixins: [stringUtilities,counter],
   setup() {
-    const newCasesEl = reactive({});
-    const totalCasesEl = reactive({});
+    const newcasesEl = reactive([]);
+    const totalcasesEl = reactive([]);
     const caseEls = reactive({
-      newCasesEl,
-      totalCasesEl,
+      newcasesEl,
+      totalcasesEl,
     });
 
     return {
-      newCasesEl,
-      totalCasesEl,
+      newcasesEl,
+      totalcasesEl,
       caseEls
     }
   },
@@ -55,85 +55,89 @@ export default {
     cardCase,
   },
   methods: {
-    elCaseValues(list,value,prop) {
-      this[prop].values = [];
-      this[prop].items = [];
+    caseRefs(list,value,propName) {
+      const order = ["deaths","active","recovered","total"];
 
-      for(const cur in list) {
-        const el = list[cur];
-        const refName = cur.substr(-value.length).toLowerCase();
+      for(const curOrder of order) {
+        const spanValue = `${curOrder + value}`.toLowerCase();
+        const obj = { name: curOrder };
 
-        if(refName === value.toLowerCase()) 
-          this[prop].values.push(el);
-        else this[prop].items.push(el);
+        for(const item in list) {
+          const itemValue = item.toLowerCase();
+          const el = list[item];
+
+          if(curOrder === itemValue) obj["li"] = el;
+          else if(spanValue === itemValue) obj["span"] = el;
+        }
+
+        if(obj.li || obj.span) this[propName].push(obj);
       }
     },
 
+
     // animations
     listValues() {
-      const listValues = gsap.timeline({
-        scrollTrigger: {
-          // markers
-          // markers: true,
-          // markers: {
-          //   startColor: "blue",
-          //   endColor: "yellow",
-          //   fontSize: "12px"
-          // },
+      const newcasesValues = this.newcasesEl.values;
+      const totalcasesValues = this.totalcasesEl.values;
 
-          // trigger | (trigger, viewport)
-          trigger: this.els.container,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1,
-        }
-      });
 
       const unformatNumber = (value) => {
         const filtered = value.split(",").join("");
         return eval(filtered);
       }
-      const newcasesValues = this.newCasesEl.values;
-      const totalcasesValues = this.totalCasesEl.values;
 
 
-      for(const cur of newcasesValues)
+      const listValues = gsap.timeline();
+      for(const cur of newcasesValues) 
         listValues.counter(cur,{ end: unformatNumber(cur.innerText)});
       for(const cur of totalcasesValues)
         listValues.counter(cur,{ end: unformatNumber(cur.innerText)});
+
+      return listValues;
     },
-    listItems() {
-      const listItems = gsap.timeline({
-        scrollTrigger: {
-          // markers
-          // markers: true,
-          // markers: {
-          //   startColor: "blue",
-          //   endColor: "yellow",
-          //   fontSize: "12px"
-          // },
-
-          // trigger | (trigger, viewport)
-          trigger: this.els.container,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1,
-        }
-      });
+    listItems(list) {
+      const unformatNumber = (value) => {
+        const filtered = value.split(",").join("");
+        return eval(filtered);
+      }
 
 
-      const newcasesItems = this.newCasesEl.items;
-      const totalcasesItems = this.totalCasesEl.items;
+      const opacity = 0;
+      const duration = .5;
 
 
-      listItems.from(newcasesItems,{ x: -100, opacity: 0, duration: .5, stagger: .2 });
-      listItems.from(totalcasesItems,{ x: -100, opacity: 0, duration: .5, stagger: .2 });
+      const items = gsap.timeline();
+      for(const cur of list) {
+        const num = unformatNumber(cur.span.innerText);
+        cur.span.innerText = 0;
+
+        items.from(cur.li,{ x: -25, opacity, duration });
+        items.counter(cur.span,{ end: num, duration: .2 },"<+.1");
+      }
+      
+
+      return items;
     },
     cards() {
-      const cards = gsap.timeline({
+      const newcases = this.$refs.newcases;
+      const totalcases = this.$refs.totalcases;
+
+
+      const opacity = 0;
+      const duration = .5;
+
+
+      const cards = gsap.timeline();
+      cards.from(newcases.$el,{ x: 25, opacity, duration });
+      cards.add(this.listItems(this.newcasesEl),"<");
+      cards.from(totalcases.$el,{ x: 25, opacity, duration },">")
+      cards.add(this.listItems(this.totalcasesEl),"<");
+
+      return cards;
+    },
+    scroll() {
+      const scroll = gsap.timeline({
         scrollTrigger: {
-          // markers
-          // markers: true,
           // markers: {
           //   startColor: "green",
           //   endColor: "red",
@@ -142,28 +146,21 @@ export default {
 
           // trigger | (trigger, viewport)
           trigger: this.els.container,
-          start: "top center",
+          start: "25% center",
           end: "bottom bottom",
           scrub: 1,
         }
       });
 
-      const newcases = this.$refs.newcases;
-      const totalcases = this.$refs.totalcases;
-
-
-      cards.from(newcases.$el,{ x: 100, opacity: 0, duration: 1 })
-      cards.from(totalcases.$el,{ x: 100, opacity: 0, duration: 1 })
+      scroll.add(this.cards());
     }
   },
   mounted() {
-    // this.counter();
-    this.elCaseValues(this.$refs.newcases.$refs,"value","newCasesEl");
-    this.elCaseValues(this.$refs.totalcases.$refs,"value","totalCasesEl");
+    this.caseRefs(this.$refs.newcases.$refs,"value","newcasesEl");
+    this.caseRefs(this.$refs.totalcases.$refs,"value","totalcasesEl");
     this.counter();
-    this.cards();
-    this.listItems();
-    this.listValues();
+    this.scroll();
+    // this.cards();
   }
 };
 </script>

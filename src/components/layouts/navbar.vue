@@ -3,7 +3,7 @@
 
   <nav class="nav section">
     <div class="section-margin section-margin--nav">
-      <input class="nav-hamberg--checkbox" id="nav-toggle" type="checkbox" ref="hamberg"/>
+      <input class="nav-hamberg--checkbox" id="nav-toggle" type="checkbox" ref="hamberg" @click="toggle($event)"/>
       <label class="nav-hamberg--btn" for="nav-toggle">
         <span class="nav-hamberg--icon nav-hamberg--icon--1">&nbsp;</span>
         <span class="nav-hamberg--icon nav-hamberg--icon--2">&nbsp;</span>
@@ -49,11 +49,24 @@
 
 <script>
 // import styles from "@/sass/abstracts/_variables.scss";
+import { gsap } from "gsap";
+
 
 export default {
   methods: {
     closeNav() {
       this.$refs.hamberg.checked = false;
+    },
+
+    // 
+    toggle(event) {
+      const state = event.target.checked;
+
+      const nav = gsap.timeline();
+      if(state) {
+        nav.from(".hamberg--link",{ y: -40, opacity: 0, duration: .3, stagger: .2 });
+      }
+
     }
   },
 };
@@ -112,7 +125,7 @@ export default {
     height: 7rem;
     width: 100%;
     display: none;
-    background: abs.$vars-c-dprimary;
+    background: abs.$vars-c-black;
 
     position: fixed;
     top: 0;
@@ -333,7 +346,7 @@ export default {
       align-items: center;
 
 
-      $links-bg: lighten(abs.$vars-c-dprimary, 2%);
+      $links-bg: lighten(abs.$vars-c-dprimary,0%);
       background: $links-bg;
 
       // Scroll Bar 
@@ -372,7 +385,7 @@ export default {
   &--link {
     &::before {
       @include abs.mxs-respond(ptablet) {
-        background: abs.$vars-c-dprimary;
+        background: abs.$vars-c-lprimary;
 
         width: 100%;
         height: 0;
@@ -412,7 +425,7 @@ export default {
     color: white;
 
     @include abs.mxs-respond(ptablet) {
-      // color: abs.$vars-c-lprimary;
+      color: abs.$vars-c-dprimary;
     }
   }
 }

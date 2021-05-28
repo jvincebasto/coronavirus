@@ -214,6 +214,7 @@ export default {
       if(input === "" || input === " ") {
         const error = "Search input must not be empty";
         this.pushState({ prop: "errors", data: { title: "Empty Field:", content: error } });
+        for(const input of state.countries) this.disableListItem(input.country)
       }
       else if(state.countries.length <= state.inputs.limit && input !== "" || input !== " ") {
         this.searchSubmit(input);

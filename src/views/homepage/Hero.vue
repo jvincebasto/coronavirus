@@ -70,17 +70,18 @@ export default {
       covid3.to(this.$refs.covid3,{ filter: "drop-shadow(0 2px 2px rgba(0,0,0, 0.5))", duration: 1 },"<");
     },
     content() {
+      const opacity = 0;
       const ease = "ease";
-      const timelineObj = {  };
+      const duration = .5;
 
-      const headline = gsap.timeline(timelineObj);
-      headline.from(this.$refs.title1,{ x: -50, opacity: 0, ease, duration: .5 });
-      headline.from(this.$refs.title2,{ x: -50, opacity: 0, ease, duration: .5 },"<+.3");
-      headline.from(this.$refs.subtitle,{ y: -10, opacity: 0, ease, duration: .5 },"<+.3");
+      const headline = gsap.timeline();
+      headline.from(this.$refs.title1,{ x: -50, opacity, ease, duration },"+2");
+      headline.from(this.$refs.title2,{ x: -50, opacity, ease, duration },"<+.2");
+      headline.from(this.$refs.subtitle,{ y: -10, opacity, ease, duration },"<+.2");
 
 
-      headline.from(this.$refs.text,{ y: -30, opacity: 0, ease, duration: 1 },"<+.3");
-      headline.from(this.$refs.btn,{ x: -20, opacity: 0, ease, duration: .8 },"<+.5");
+      headline.from(this.$refs.text,{ y: -30, opacity, ease, duration },"<+.2");
+      headline.from(this.$refs.btn,{ x: -50, opacity, ease, duration },"<+.2");
     }
   },
   mounted() {

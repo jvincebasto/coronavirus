@@ -21,7 +21,6 @@ export default {
             ease: config.ease,
             duration: config.duration,
             innerText: config.end,
-            stagger: config.stagger,
             // snap is the increment
             // snap: { innerText: config.increment },
             

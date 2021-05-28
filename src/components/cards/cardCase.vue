@@ -10,7 +10,7 @@
           <span class="case-icon case-icon--deaths">&nbsp;</span>
           <div class="case--infogroup">
             <p class="case--title">Deaths</p>
-            <p class="case--value" ref="deathValue">
+            <p class="case--value" ref="deathsValue">
               <slot name="deathsValue">
                 {{ setDomValue(numberFormat(data.deaths), "56, 789") }}
               </slot>
