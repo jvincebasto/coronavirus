@@ -101,7 +101,6 @@ export default {
       const map = gsap.timeline(timelineObj);
       map.from(this.$refs.map,{ y: -10, ease, duration: 5 });
       map.to(this.$refs.map,{ filter: "drop-shadow(0 2px 5px rgba(220, 20, 60, 0.8)) drop-shadow(0px 8px 15px rgba(0,0,0, 0.5))", duration: 5 },"<");
-
     },
     covidGroup() {
       const ease = "ease";
@@ -118,6 +117,41 @@ export default {
       const covid3 = gsap.timeline(timelineObj);
       covid3.to(this.$refs.covid3,{ y: 5, ease, duration: 1 });
       covid3.to(this.$refs.covid3,{ filter: "drop-shadow(0 2px 2px rgba(0,0,0, 0.5))", duration: 1 },"<");
+
+      const covid4 = gsap.timeline(timelineObj);
+      covid4.to(this.$refs.covid4,{ y: 10, ease, duration: 3 });
+      covid4.to(this.$refs.covid4,{ filter: "drop-shadow(0 2px 4px rgba(0,0,0, 0.5))", duration: 3 },"<");
+
+      const covid5 = gsap.timeline(timelineObj);
+      covid5.to(this.$refs.covid5,{ y: 10, ease, duration: 2 });
+      covid5.to(this.$refs.covid5,{ filter: "drop-shadow(0 2px 4px rgba(0,0,0, 0.5))", duration: 2 },"<");
+    },
+    fadeIns() {
+      const ease = "ease";
+      const duration = 1;
+
+      const fades = gsap.timeline({
+        scrollTrigger: {
+          // markers: {
+          //   startColor: "green",
+          //   endColor: "red",
+          //   fontSize: "16px"
+          // },
+
+          // trigger | (trigger, viewport)
+          trigger: this.$refs.sectGlobal,
+          start: "top center",
+          end: "80% bottom",
+          // scrub: 1,
+        }
+      });
+
+      const covids = [this.$refs.covid3,this.$refs.covid2];
+      fades.from(this.$refs.covid1,{ opacity: 0, ease, duration })
+      fades.from(this.$refs.blob,{ opacity: 0, ease, duration },"<+.3")
+      fades.from(this.$refs.map,{ opacity: 0, ease, duration },"<+.3")
+      fades.from(covids,{ opacity: 0, ease, duration, stagger: .3 })
+
     },
     covidScroll() {
       const scroll = (el) => gsap.timeline({
@@ -140,17 +174,18 @@ export default {
       const duration = 2;
 
       const covid4 = scroll(this.$refs.covid4);
-      covid4.from(this.$refs.covid4,{ y: -25, opacity, duration });
+      covid4.from(this.$refs.covid4,{ opacity, duration });
 
       const covid5 = scroll(this.$refs.covid5);
-      covid5.from(this.$refs.covid5,{ y: -25, opacity, duration });
+      covid5.from(this.$refs.covid5,{ opacity, duration });
     }
   },
   mounted() {
     this.getGlobalRes();
+    this.fadeIns();
+    this.covidScroll();
     this.mapGroup();
     this.covidGroup();
-    this.covidScroll();
   }
 };
 </script>

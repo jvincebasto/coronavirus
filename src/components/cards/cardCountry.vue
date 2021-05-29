@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" ref="card">
     <div class="cardbtn--box" ref="exit">
       <div @click="removeCard($event)" class="cardbtn--icon">&nbsp;</div>
     </div>
@@ -34,6 +34,9 @@
 <script>
 import stringUtilities from "@/mixins/stringUtilities.vue";
 import cardCase from "@/components/cards/cardCase.vue";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 import { createNamespacedHelpers } from "vuex";
 const { mapGetters: countryGetters, mapMutations: countryMutations } = createNamespacedHelpers("countrySearch");
 
@@ -102,9 +105,37 @@ export default {
         }
       }
 
+    },
+
+
+
+    // animations
+    cardFadeIn() {
+      const scroll = (el) => gsap.timeline({
+        scrollTrigger: {
+          // markers: {
+          //   startColor: "green",
+          //   endColor: "red",
+          //   fontSize: "16px"
+          // },
+
+          // trigger | (trigger, viewport)
+          trigger: el,
+          start: "top 95%",
+          end: "bottom bottom",
+          // scrub: 1,
+        }
+      });
+
+      const opacity = 0;
+      const duration = 2;
+
+      const card = scroll(this.$refs.card);
+      card.from(this.$refs.card,{ y: -25, opacity, duration });
     }
   },
   mounted() {
+    this.cardFadeIn();
   }
 };
 </script>

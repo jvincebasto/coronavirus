@@ -19,6 +19,10 @@
 
     <div class="section-margin slider-container">
       <div class="section-grid section-grid--1">&nbsp;</div>
+      <div class="section-covidCluster section-covidCluster--1" ref="covid1">&nbsp;</div>
+      <div class="section-covidCluster section-covidCluster--2" ref="covid2">&nbsp;</div>
+
+
       <template v-if="continentBool">
         <slider :data="continents">
           <template #component="slot">
@@ -35,6 +39,9 @@
 <script>
 import cardContinent from "@/components/cards/cardContinent.vue";
 import { ref, reactive, defineAsyncComponent } from "vue";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 import { /*useStore,*/ createNamespacedHelpers } from "vuex";
 const { mapActions: covidActions } = createNamespacedHelpers("covid");
 
@@ -60,6 +67,11 @@ export default {
       bool
     };
   },
+  computed: {
+    continentBool() {
+      return this.bool;
+    }
+  },
   methods: {
     ...covidActions(["fetchAllContinents"]),
     async getContinents() {
@@ -74,14 +86,52 @@ export default {
       };
       console.log("data", data);
     },
-  },
-  computed: {
-    continentBool() {
-      return this.bool;
+
+
+    // animations
+    covidGroup() {
+      const ease = "ease";
+      const timelineObj = { repeat: -1, yoyo: true };
+
+      const covid1 = gsap.timeline(timelineObj);
+      covid1.to(this.$refs.covid1,{ y: 10, ease, duration: 3 });
+      covid1.to(this.$refs.covid1,{ filter: "drop-shadow(0 2px 4px rgba(0,0,0, 0.5))", duration: 3 },"<");
+
+      const covid2 = gsap.timeline(timelineObj);
+      covid2.to(this.$refs.covid2,{ y: 10, ease, duration: 2 });
+      covid2.to(this.$refs.covid2,{ filter: "drop-shadow(0 2px 4px rgba(0,0,0, 0.5))", duration: 2 },"<");
+    },
+    covidScroll() {
+      const scroll = (el) => gsap.timeline({
+        scrollTrigger: {
+          // markers: {
+          //   startColor: "green",
+          //   endColor: "red",
+          //   fontSize: "16px"
+          // },
+
+          // trigger | (trigger, viewport)
+          trigger: el,
+          start: "top 75%",
+          end: "bottom bottom",
+          scrub: 1,
+        }
+      });
+
+      const opacity = 0;
+      const duration = 2;
+
+      const covid1 = scroll(this.$refs.covid1);
+      covid1.from(this.$refs.covid1,{ opacity, duration });
+
+      const covid2 = scroll(this.$refs.covid2);
+      covid2.from(this.$refs.covid2,{ opacity, duration });
     }
   },
-  async mounted() {
-    await this.getContinents();
+  mounted() {
+    this.getContinents();
+    this.covidGroup();
+    this.covidScroll();
     // this.$refs.block.onclick = this.block;
 
     // const date = this.$refs.date;
@@ -150,6 +200,70 @@ $case-bg: darken(abs.$vars-c-lprimary, 10%);
         margin-top: 6rem;
       }
     }
+  }
+}
+
+
+// covid
+.section {
+  &-covidCluster {
+    position: absolute;
+    @include abs.mxs-img-contain;
+
+    filter: drop-shadow(0 0 0 rgba(black,0));
+
+    &--1 {
+      height: 18rem;
+      width: 18rem;
+
+      background: url("~@/assets/covidicons/covid@2x.png");
+      top: -8rem;
+      right: 6%;
+
+      @include abs.mxs-respond(ltablet) {
+        height: 15rem;
+        width: 15rem;
+        top: -6rem;
+        right: 0rem;
+      }
+      @include abs.mxs-respond(ptablet) {
+        height: 12rem;
+        width: 12rem;
+        top: -5rem;
+      }
+      @include abs.mxs-respond(lphone) {
+        top: -7rem;
+        right: -9rem;
+      }
+    }
+    &--2 {
+      height: 15rem;
+      width: 15rem;
+
+      background: url("~@/assets/covidicons/covid@2x.png");
+      bottom: -6rem;
+      left: 10%;
+      transform: rotateY(180deg);
+
+      @include abs.mxs-respond(ltablet) {
+        height: 12rem;
+        width: 12rem;
+        bottom: -5rem;
+      }
+      @include abs.mxs-respond(ptablet) {
+        height: 10rem;
+        width: 10rem;
+        bottom: -4rem;
+        left: -5%;
+      }
+      @include abs.mxs-respond(lphone) {
+        bottom: -5rem;
+        left: -8rem;
+      }
+    }
+  }
+  &-covidCluster {
+    @include abs.mxs-img-contain;
   }
 }
 

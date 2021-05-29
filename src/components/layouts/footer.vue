@@ -24,8 +24,42 @@
 </template>
 
 <script>
-export default {
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 
+
+export default {
+  methods: {
+
+    // animations
+    iconScroll() {
+      const scroll = (el) => gsap.timeline({
+        scrollTrigger: {
+          // markers: {
+          //   startColor: "green",
+          //   endColor: "red",
+          //   fontSize: "16px"
+          // },
+
+          // trigger | (trigger, viewport)
+          trigger: el,
+          start: "top bottom",
+          end: "bottom bottom",
+          // scrub: 1,
+        }
+      });
+
+      const opacity = 0;
+      const duration = .5;
+
+      const icons = scroll(".section-footer .section-icongroup");
+      icons.from(".section-footer .icon",{ opacity, duration, stagger: .3 });
+    }
+  },
+  mounted() {
+    this.iconScroll();
+  }
 };
 </script>
 

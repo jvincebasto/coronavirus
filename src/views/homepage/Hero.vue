@@ -33,7 +33,7 @@
       <div class="section-bggroup">
         <div class="section-covidCluster section-covidCluster--2" ref="covid2">&nbsp;</div>
         <div class="section-covidCluster section-covidCluster--3" ref="covid3">&nbsp;</div>
-        <div class="section-circlegrids--1">&nbsp;</div>
+        <div class="section-circlegrids section-circlegrids--1">&nbsp;</div>
         <div class="section--person" ref="person">&nbsp;</div>
       </div>
     </div>
@@ -75,13 +75,17 @@ export default {
       const duration = .5;
 
       const headline = gsap.timeline();
-      headline.from(this.$refs.title1,{ x: -50, opacity, ease, duration },"+2");
+      headline.from(this.$refs.title1,{ x: -50, opacity, ease, duration },"+1");
       headline.from(this.$refs.title2,{ x: -50, opacity, ease, duration },"<+.2");
       headline.from(this.$refs.subtitle,{ y: -10, opacity, ease, duration },"<+.2");
 
 
       headline.from(this.$refs.text,{ y: -30, opacity, ease, duration },"<+.2");
       headline.from(this.$refs.btn,{ x: -50, opacity, ease, duration },"<+.2");
+
+      headline.from(this.$refs.person,{ opacity, ease, duration });
+      headline.from(".section-hero .section-circlegrids",{ opacity, ease, duration });
+      headline.from(".section-hero .section-covidCluster",{ opacity, ease, duration, stagger: .3 });
     }
   },
   mounted() {

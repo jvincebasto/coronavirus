@@ -64,7 +64,7 @@ export default {
 
       const nav = gsap.timeline();
       if(state) {
-        nav.from(".hamberg--link",{ y: -40, opacity: 0, duration: .3, stagger: .2 });
+        nav.from(".hamberg--link",{ y: -50, opacity: 0, duration: .5, stagger: .2 });
       }
 
     }
