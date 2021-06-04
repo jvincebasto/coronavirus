@@ -4,7 +4,7 @@
       id="contacts" ref="sectFooter">
 
     <div class="section-margin section-margin--footer">
-      <label class="section-copyright">Coronavirus | Copyright 2021</label>
+      <label class="section-copyright">&#169; 2021 CORONASTATS | All Rights Reserved</label>
       <ul class="section-icongroup">
         <li class="icon">
           <span class="icon-facebook">&nbsp;</span>
@@ -31,34 +31,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default {
   methods: {
-
-    // animations
-    iconScroll() {
-      const scroll = (el) => gsap.timeline({
-        scrollTrigger: {
-          // markers: {
-          //   startColor: "green",
-          //   endColor: "red",
-          //   fontSize: "16px"
-          // },
-
-          // trigger | (trigger, viewport)
-          trigger: el,
-          start: "top bottom",
-          end: "bottom bottom",
-          // scrub: 1,
-        }
-      });
-
-      const opacity = 0;
-      const duration = .5;
-
-      const icons = scroll(".section-footer .section-icongroup");
-      icons.from(".section-footer .icon",{ opacity, duration, stagger: .3 });
-    }
   },
   mounted() {
-    this.iconScroll();
   }
 };
 </script>
@@ -66,7 +40,6 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/abstracts/abstracts" as abs;
 
-$link-text: lighten(abs.$vars-c-black, 20%);
 
 .section {
   &-footer {
@@ -88,7 +61,7 @@ $link-text: lighten(abs.$vars-c-black, 20%);
     &--footer {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-end;
 
       @include abs.mxs-respond(lphone) {
         flex-direction: column;
@@ -119,32 +92,30 @@ $link-text: lighten(abs.$vars-c-black, 20%);
     }
   }
 
-  &-email,
   &-copyright {
-    color: $link-text;
-    font-family: tbold;
-  }
-  &-copyright {
-    font-size: 1.6rem;
+    @include abs.mxs-font-type(captions);
+    color: lighten(abs.$vars-c-black, 60%);
+
     cursor: pointer;
     transition: all .3s ease-in-out;
-  }
-  &-copyright:hover {    
-    color: abs.$vars-c-lprimary;
   }
 }
 
 
+// social media icons
 .icon {
   height: 4rem;
   width: 4rem;
 
   background: abs.$vars-c-lprimary;
-  border-radius: 1rem;
-  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 
   margin-right: 1.5rem;
-  transition: all .3s ease-in-out;
+  border-radius: 1rem;
+
+  cursor: pointer;
+  transition: all .4s ease-in-out;
+
 
   @include abs.mxs-respond(lphone) {
     height: 3rem;
@@ -156,7 +127,8 @@ $link-text: lighten(abs.$vars-c-black, 20%);
     height: 100%;
     width: 100%;
 
-    transition: all .3s ease-in-out;
+    @include abs.mxs-img-contain;
+    transition: all .4s ease-in-out;
   }
 
   &-facebook {
@@ -165,7 +137,6 @@ $link-text: lighten(abs.$vars-c-black, 20%);
       @include abs.mxs-svg-contain;
     }
     background-image: url("~@/assets/socialmedia/facebook@2x.png");
-    @include abs.mxs-img-contain;
   }
   &-instagram {
     @supports (mask: url("~@/assets/socialmedia/instagram.svg")) {
@@ -173,7 +144,6 @@ $link-text: lighten(abs.$vars-c-black, 20%);
       @include abs.mxs-svg-contain;
     }
     background-image: url("~@/assets/socialmedia/instagram@2x.png");
-    @include abs.mxs-img-contain;
   }
   &-twitter {
     @supports (mask: url("~@/assets/socialmedia/twitter.svg")) {
@@ -181,7 +151,6 @@ $link-text: lighten(abs.$vars-c-black, 20%);
       @include abs.mxs-svg-contain;
     }
     background-image: url("~@/assets/socialmedia/twitter@2x.png");
-    @include abs.mxs-img-contain;
   }
   &-youtube {
     @supports (mask: url("~@/assets/socialmedia/youtube.svg")) {
@@ -189,8 +158,8 @@ $link-text: lighten(abs.$vars-c-black, 20%);
       @include abs.mxs-svg-contain;
     }
     background-image: url("~@/assets/socialmedia/youtube@2x.png");
-    @include abs.mxs-img-contain;
   }
+
 
   &:hover {
     background: abs.$vars-c-black;

@@ -93,23 +93,26 @@ export default {
   height: 5rem;
   width: 5rem;
 
-  $section-bg: lighten(abs.$vars-c-lprimary, 5%);
-  background: $section-bg;
-
-  border: 2px solid black;
-  border-radius: 10rem;
-  cursor: pointer;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
+
+  border: 2px solid abs.$vars-c-dprimary;
+  border-radius: 10rem;
+
+  background: lighten(abs.$vars-c-lprimary, 6%);
+  box-shadow: abs.$vars-box-shadow;
+  -webkit-tap-highlight-color: transparent;
+
+
   position: absolute;
   bottom: -10rem;
   z-index: 100;
 
-  box-shadow: 0px 2px 5px rgba(black, 0.8), 0px 5px 10px rgba(black, 0.5);
 
+  cursor: pointer;
   transition: all .3s ease-in-out;
 
   @include abs.mxs-respond(ptablet) {
@@ -131,9 +134,13 @@ export default {
   &--img {
     height: 2rem;
     width: 2rem;
-    background: abs.$vars-c-dprimary;
+
+    background: abs.$vars-c-dprimary;    
+    @include abs.mxs-img-contain;
+    background-position: center;
 
     transition: all .3s ease-in-out;
+
 
     @supports(mask: url("~@/assets/icons/arrow-2.svg")) {
       mask: url("~@/assets/icons/arrow-2.svg");
@@ -141,8 +148,6 @@ export default {
       mask-position: center;
     }
     background-image: url("~@/assets/icons/arrow-2@2x.png");
-    @include abs.mxs-img-contain;
-    background-position: center;
 
     @include abs.mxs-respond(ptablet) {
       height: 1rem;

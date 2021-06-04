@@ -79,6 +79,7 @@ export default {
 
       const duration = 0.2;
       const container = this.$refs.container;
+
       const animate = gsap.timeline();
       if(toggleState) {
         animate.to(container, { display: "block", duration: 0 });
@@ -117,21 +118,21 @@ export default {
   &--container {
     max-height: 30rem;
     width: 100%;
+    display: none;
 
-    $section-bg: lighten(abs.$vars-c-lprimary, 10%);
-    background: $section-bg;
 
+    background: lighten(abs.$vars-c-lprimary, 9%);
+    box-shadow: abs.$vars-box-shadow;
     border-radius: 1rem;
-    box-shadow: 0px 0px 5px rgba(black, 0.8), 0px 5px 8px rgba(black, 0.5);
+
 
     position: absolute;
     z-index: 10;
     top: 0;
     opacity: 0;
-    display: none;
+
 
     overflow: hidden;
-
     transition: all 0.3s ease-in-out;
   }
   &--overflow {

@@ -1,13 +1,13 @@
 <template>
   <div class="case-content case-content--block">
-    <h4 class="case-content--title">
+    <h6 class="case-content--title">
       <slot name="title">Cases Title</slot>
-    </h4>
+    </h6>
 
     <ul class="case--group">
       <slot name="deathsRow">
         <li class="case--row" ref="deaths">
-          <span class="case-icon case-icon--deaths">&nbsp;</span>
+          <!-- <span class="caseicon caseicon--deaths">&nbsp;</span> -->
           <div class="case--infogroup">
             <p class="case--title">Deaths</p>
             <p class="case--value" ref="deathsValue">
@@ -20,7 +20,7 @@
       </slot>
       <slot name="activeRow">
         <li class="case--row" ref="active">
-          <span class="case-icon case-icon--active">&nbsp;</span>
+          <!-- <span class="caseicon caseicon--active">&nbsp;</span> -->
           <div class="case--infogroup">
             <p class="case--title">Active</p>
             <p class="case--value" ref="activeValue">
@@ -33,7 +33,7 @@
       </slot>
       <slot name="recoveredRow">
         <li class="case--row" ref="recovered">
-          <span class="case-icon case-icon--recovered">&nbsp;</span>
+          <!-- <span class="caseicon caseicon--recovered">&nbsp;</span> -->
           <div class="case--infogroup">
             <p class="case--title">Recovered</p>
             <p class="case--value" ref="recoveredValue">
@@ -46,7 +46,7 @@
       </slot>
       <slot name="totalRow">
         <li class="case--row" ref="total">
-          <span class="case-icon case-icon--total">&nbsp;</span>
+          <!-- <span class="caseicon caseicon--total">&nbsp;</span> -->
           <div class="case--infogroup">
             <p class="case--title">Total Cases</p>
             <p class="case--value" ref="totalValue">
@@ -82,60 +82,27 @@ export default {
 .case-content {
   &--block {
     height: auto;
+    height: 100%;
     width: 100%;
     min-width: 30rem;
 
     padding: 2rem;
     border-radius: 1rem;
 
-    box-shadow: 0 2px 10px rgba(black, 0.8), 0px 8px 20px rgba(black, 0.5);
-    $bg-block: lighten(abs.$vars-c-lprimary, 10%);
-    background: $bg-block;
-
-    position: relative;
-    z-index: 50;
+    box-shadow: abs.$vars-box-shadow;
+    background: inherit;
   }
   &--title {
-    font-family: tlight;
+    @include abs.mxs-font-type(subtitle1);
     margin-bottom: 2rem;
   }
 }
 
 .case {
-  &--group {
-  }
   &--row {
     display: flex;
     padding: 5px 0rem;
   }
-
-  &-icon {
-    min-height: 3rem;
-    min-width: 3rem;
-
-    margin-right: 1rem;
-    border-radius: 5px;
-
-    // $icon: darken(abs.$vars-c-lprimary,10%);
-    // background: $icon;
-
-    &--deaths {
-      background-image: url("~@/assets/covidicons/deaths@2x.png");
-    }
-    &--active {
-      background-image: url("~@/assets/covidicons/active@2x.png");
-    }
-    &--recovered {
-      background-image: url("~@/assets/covidicons/recovered@2x.png");
-    }
-    &--total {
-      background-image: url("~@/assets/covidicons/total@2x.png");
-    }
-  }
-  &-icon {
-    @include abs.mxs-img-contain;
-  }
-
   &--infogroup {
     width: 100%;
 
@@ -145,14 +112,37 @@ export default {
 
     & > * {
       flex: 1 0 50%;
+      @include abs.mxs-font-type(body1);
     }
-  }
-  &--title {
-    font-family: tbold;
-    color: abs.$vars-c-dprimary;
   }
   &--value {
     text-align: end;
+  }
+}
+
+
+
+// case icon
+.caseicon {
+  min-height: 3rem;
+  min-width: 3rem;
+
+  margin-right: 1rem;
+  border-radius: 1rem;
+
+  @include abs.mxs-img-contain;
+
+  &--deaths {
+    background-image: url("~@/assets/covidicons/deaths@2x.png");
+  }
+  &--active {
+    background-image: url("~@/assets/covidicons/active@2x.png");
+  }
+  &--recovered {
+    background-image: url("~@/assets/covidicons/recovered@2x.png");
+  }
+  &--total {
+    background-image: url("~@/assets/covidicons/total@2x.png");
   }
 }
 </style>

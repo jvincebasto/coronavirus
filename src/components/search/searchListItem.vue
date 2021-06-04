@@ -116,11 +116,11 @@ export default {
     width: 100%;
     height: 100%;
 
-    font-size: 1.6rem;
-    font-family: tbody;
-
     padding: 1.5rem;
     padding-left: 2rem;
+
+
+    @include abs.mxs-font-type(body2);
     cursor: pointer;
   }
 }

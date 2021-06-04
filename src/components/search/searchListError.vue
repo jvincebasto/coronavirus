@@ -42,24 +42,31 @@ export default {
     flex-wrap: wrap;
     border-radius: .5rem;
 
-    // complementary
     background: abs.$vars-c-dprimary;
+    box-shadow: abs.$vars-box-shadow;
+
     padding: 1rem;
     padding-left: 2rem;
     margin-bottom: 1rem;
 
-    box-shadow: 0 0px 5px rgba(0,0,0,.2), 0 2px 5px rgba(0,0,0,.5); 
-
-    color: white;
-    font-size: 1.3rem;
   }
   &--error {
     &-title {
-      font-family: tbold;
       margin-right: 1rem;
   
+      font-family: tsemibold;
+      @include abs.mxs-font-type(body2);
+
       // complementary
       color: hsl(1, 80%, 55%);
+    }
+    &-content {
+      color: white;
+      @include abs.mxs-font-type(captions);
+    }
+    &-title, &-content {
+      display: flex;
+      align-items: flex-end;
     }
   }
 }

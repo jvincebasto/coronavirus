@@ -85,7 +85,6 @@ export default {
         match.refs.input.disabled = false;
       }
     },
-
     // Remove Card Event
     removeCard(event) {
       const state = this.searchStates(["countries"])
@@ -110,7 +109,7 @@ export default {
 
 
     // animations
-    cardFadeIn() {
+    fadeIns() {
       const scroll = (el) => gsap.timeline({
         scrollTrigger: {
           // markers: {
@@ -126,16 +125,20 @@ export default {
           // scrub: 1,
         }
       });
-
-      const opacity = 0;
-      const duration = 2;
+      function animateObj() {
+        return {
+          ease: "ease",
+          opacity: 0,
+          duration: 2
+        }
+      }
 
       const card = scroll(this.$refs.card);
-      card.from(this.$refs.card,{ y: -25, opacity, duration });
+      card.from(this.$refs.card,{ y: -25, ...animateObj() });
     }
   },
   mounted() {
-    this.cardFadeIn();
+    this.fadeIns();
   }
 };
 </script>
@@ -143,31 +146,30 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/abstracts/abstracts" as abs;
 
+
 .card {
   max-width: 30rem;
   height: auto;
   flex: 1 0 100%;
 
+
   border-radius: 1rem;
-  position: relative;
+  background: lighten(abs.$vars-c-lprimary, 9%);
+  box-shadow: abs.$vars-box-shadow;
+
 
   margin-right: 4rem;
   margin-bottom: 4rem;
 
-  box-shadow: 0px 2px 10px rgba(black, 0.8), 0px 10px 15px rgba(black, 0.5);
 
   position: relative;
   z-index: 100;
-
-  $section-bg: lighten(abs.$vars-c-lprimary, 10%);
-  background: $section-bg;
 
 
   @include abs.mxs-respond(ptablet) {
     max-width: 27rem;
     margin-right: 3rem;
     margin-bottom: 3rem;
-    box-shadow: 0px 2px 5px rgba(black, 0.5), 0px 5px 8px rgba(black, 0.5);
   }
   @include abs.mxs-respond(pphone) {
     margin-right: 0;
@@ -177,13 +179,13 @@ export default {
 }
 
 
+
 // cardBtn
 .cardbtn {
   &--box {
     height: 3rem;
     width: 3rem;
 
-    // background: rgba(black,.2);
     border-radius: inherit;
 
     position: absolute;
@@ -196,7 +198,6 @@ export default {
 
     cursor: pointer;
     overflow: hidden;
-    // display: none;
 
     @include abs.mxs-respond(pphone) {
       height: 3rem;
@@ -208,21 +209,21 @@ export default {
     width: 100%;
 
     background: abs.$vars-c-dprimary;
+    @include abs.mxs-img-contain;
+
+
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
 
     @supports(mask: url("~@/assets/icons/cross.svg")) {
       mask: url("~@/assets/icons/cross.svg");
       @include abs.mxs-svg-contain;
     }
-
     background-image: url("~@/assets/icons/cross.svg");
-    @include abs.mxs-img-contain;
-
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
 
     &:hover {
       background: abs.$vars-c-lprimary;
-      // background: rgba(white,.5);
     }
   }
 }

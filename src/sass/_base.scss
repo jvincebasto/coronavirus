@@ -6,71 +6,23 @@
 
 /* ~~~~~ Typefaces ~~~~~ */
 
-/*
 
-2 typefaces
-Serif - Sans-serif
-Sans-serif - Sans-serif
-
-
-Font weight:
-1 Regular
-1 Bold
-1 Italic Bold
-1 (Thin or Light or Light)
-
-
-Font Family:
-Headline (Class Attribute)
-Heading
-Body
-(Thin or Light or Italic)
-
-*/
-
-/*
+// headings
 @font-face {
-	font-family: headline;
-	src: url(./../assets/fonts/Oswald/Oswald-VariableFont_wght.ttf) format('truetype');
-	font-weight: 600;
+	font-family: heading;
+	src: url("~@/assets/fonts/Raleway/Raleway-VariableFont_wght.ttf") format('truetype');
 }
-*/
-
-@font-face {
-	font-family: hblack;
-	src: url(./../assets/fonts/RobotoSlab/RobotoSlab-VariableFont_wght.ttf) format('truetype');
-	font-weight: 900;
-}
-@font-face {
-	font-family: hbold;
-	src: url(./../assets/fonts/RobotoSlab/RobotoSlab-VariableFont_wght.ttf) format('truetype');
-	font-weight: 700;
-}
-@font-face {
-	font-family: hbody;
-	src: url(./../assets/fonts/RobotoSlab/RobotoSlab-VariableFont_wght.ttf) format('truetype');
-	font-weight: 400;
-}
-@font-face {
-	font-family: hlight;
-	src: url(./../assets/fonts/RobotoSlab/RobotoSlab-VariableFont_wght.ttf) format('truetype');
-	font-weight: 300;
-}
-
-
-
-@font-face {
-	font-family: tbold;
-	src: url(./../assets/fonts/Roboto/Roboto-Bold.ttf) format('truetype');
-}
+// body
 @font-face {
 	font-family: tbody;
-	src: url(./../assets/fonts/Roboto/Roboto-Regular.ttf) format('truetype');
+	src: url("~@/assets/fonts/OpenSans/OpenSans-Regular.ttf") format('truetype');
 }
+// compenents
 @font-face {
-	font-family: tlight;
-	src: url(./../assets/fonts/Roboto/Roboto-Light.ttf) format('truetype');
+	font-family: tsemibold;
+	src: url("~@/assets/fonts/OpenSans/OpenSans-SemiBold.ttf") format('truetype');
 }
+
 
 /*
 base font: 16px;
@@ -158,19 +110,25 @@ max-width: 75ch;
 */
 
 
-h1,h2,h3,h4 {
-	font-family: hbody, serif;
-}
 
-h1 { font-size: 4rem; }
-h2 { font-size: 3.2rem; }
-h3 { font-size: 2.5rem; }
-h4 { font-size: 2rem; }
 
-label { 
-	font-size: 1.3rem;
-}
 
+h1,h2,h3,h4,h5,h6 { font-family: heading, sans-serif; }
+p,span,a,label,li { font-family: tbody, sans-serif; }
+button { font-family: tsemibold, sans-serif; }
+
+h1 { @include abs.mxs-font-type(heading1); }
+h2 { @include abs.mxs-font-type(heading2); }
+h3 { @include abs.mxs-font-type(heading3); }
+h4 { @include abs.mxs-font-type(heading4); }
+h5 { @include abs.mxs-font-type(heading5); }
+h6 { @include abs.mxs-font-type(heading6); }
+
+body,input[type=text] { @include abs.mxs-font-type(body1); }
+input[type=text]::placeholder { @include abs.mxs-font-type(body2); color: rgba(black,.9); }
+
+span,a,label,li { @include abs.mxs-font-type(body2); }
+button { @include abs.mxs-font-type(btn); }
 
 
 
@@ -184,7 +142,7 @@ label {
 	margin: 0;
 	box-sizing: inherit;
 
-	line-height: 145%;
+	line-height: 150%;
 	font-family: tbody, sans-serif;
 
 
@@ -271,7 +229,7 @@ body::-webkit-scrollbar-thumb:hover {
 
 
 li { list-style: none; }
-a { text-decoration: none; }
+a { text-decoration: none; color: black; }
 a,input[type=text] { outline: none; }
 
  

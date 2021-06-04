@@ -135,7 +135,6 @@ export default {
       if(await data) {
         this.searchErrors(this.stringCapitalizeLoop);
         this.resetSearchStates();
-        for(const input of state.countries) this.disableListItem(input.country)
       }
 
       return await data;
@@ -163,6 +162,10 @@ export default {
             if(!match) this.storeCountry(await cur);
           }
         }
+
+        const state = this.searchStates(["countries","inputs","els"]);
+        this.resetFilter();
+        for(const input of state.countries) this.disableListItem(input.country)
       }
     },
 
@@ -211,10 +214,10 @@ export default {
       const input = this.$refs.searchField.value;
 
 
+
       if(input === "" || input === " ") {
         const error = "Search input must not be empty";
         this.pushState({ prop: "errors", data: { title: "Empty Field:", content: error } });
-        for(const input of state.countries) this.disableListItem(input.country)
       }
       else if(state.countries.length <= state.inputs.limit && input !== "" || input !== " ") {
         this.searchSubmit(input);
@@ -223,7 +226,13 @@ export default {
         const error = `Total of ${state.inputs.limit} request only, remove cards and try again`;
         this.pushState({ prop: "errors", data: { title: "Limit Exceeded:", content: error } });
       }
+
+
+
+      // resets component states
       this.resetFilter();
+      for(const input of state.countries) this.disableListItem(input.country)
+
       state.els.searchListBtn.checked = false;
       this.$refs.searchField.value = "";
       this.$refs.searchField.autofocus = true;
@@ -316,14 +325,12 @@ export default {
     }
 
     &::placeholder {
-      color: abs.$vars-c-dprimary;
-      font-size: 1.4rem;
-
+      @include abs.mxs-font-type(body2);
       transition: all .3s ease-in-out;
     }
     &:focus::placeholder {
       color: black;
-      font-size: 1.6rem;
+      @include abs.mxs-font-type(body1);
     }
   }
 }
@@ -340,12 +347,13 @@ export default {
       display: flex;
 
       background: rgba(255, 255, 255, 0.8);
+      box-shadow: abs.$vars-box-shadow;
+
+
       border-top-left-radius: inherit;
       border-bottom-left-radius: inherit;
 
       overflow: hidden;
-
-      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.8), 0px 5px 8px rgba(0, 0, 0, 0.5);
     }
   }
 }
@@ -357,8 +365,8 @@ export default {
   padding: 0rem 2rem;
   margin-left: 1rem;
 
-  $section-bg: lighten(abs.$vars-c-lprimary, 10%);
-  background: $section-bg;
+  background: lighten(abs.$vars-c-lprimary, 9%);
+  box-shadow: abs.$vars-box-shadow;
   cursor: pointer;
 
   display: flex;
@@ -369,13 +377,12 @@ export default {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.8), 0px 5px 8px rgba(0, 0, 0, 0.5);
-
   transition: all .3s ease-in-out;
 
   &--title {
     color: abs.$vars-c-dprimary;
-    font-family: tbold;
+    font-family: tsemibold;
+    @include abs.mxs-font-type(btn);
 
     transition: all .3s ease-in-out;
   }
@@ -397,6 +404,7 @@ export default {
       width: 6rem;
       height: 100%;
 
+      background: rgba(255, 255, 255, 0.8);
       cursor: pointer;
 
       display: flex;
@@ -413,18 +421,18 @@ export default {
       width: 15px;
       height: 15px;
 
+      @include abs.mxs-img-contain;
+      background-position: center;
+
       transition: all .3s ease-in-out;
+
 
       @supports(mask-image: url("~@/assets/icons/arrow-2.svg")) {
         mask-image: url("~@/assets/icons/arrow-2.svg");
         @include abs.mxs-svg-contain;
         mask-position: center;   
       }
-
       background-image: url("~@/assets/icons/arrow-2@2x.png");
-      @include abs.mxs-img-contain;
-      background-position: center;
-
       transform: rotateZ(90deg);
     }
 
@@ -432,7 +440,6 @@ export default {
       background: abs.$vars-c-lprimary;
     }
   }
-
 }
 
 </style>

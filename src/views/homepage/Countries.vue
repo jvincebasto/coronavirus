@@ -2,7 +2,7 @@
   <section class="section section-countries" id="countries" 
     @click="searchListBlur($event)" ref="sectCountries">
 
-    <div class="section-margin section-margin--titlegroup" ref="titlegroup">
+    <div class="section-margin row" ref="titlegroup">
       <div class="section--titlegroup">
         <h1 class="section--title">Country Search</h1>
         <p class="section--subtitle">
@@ -104,18 +104,26 @@ export default {
 
     // animations
     covidGroup() {
-      const ease = "ease";
       const timelineObj = { repeat: -1, yoyo: true };
+      const filter = "drop-shadow(0 2px 4px rgba(0,0,0, 0.5))";
+      function animateObj(duration = 3) {
+        return {
+          ease: "ease",
+          duration
+        }
+      }
+
 
       const covid1 = gsap.timeline(timelineObj);
-      covid1.to(this.$refs.covid1,{ y: 10, ease, duration: 3 });
-      covid1.to(this.$refs.covid1,{ filter: "drop-shadow(0 2px 4px rgba(0,0,0, 0.5))", duration: 3 },"<");
+      covid1.to(this.$refs.covid1,{ y: 10, ...animateObj(3) });
+      covid1.to(this.$refs.covid1,{ filter, ...animateObj(3) },"<");
 
       const covid2 = gsap.timeline(timelineObj);
-      covid2.to(this.$refs.covid2,{ y: 10, ease, duration: 2 });
-      covid2.to(this.$refs.covid2,{ filter: "drop-shadow(0 2px 4px rgba(0,0,0, 0.5))", duration: 2 },"<");
+      covid2.to(this.$refs.covid2,{ y: 10, ...animateObj(2) });
+      covid2.to(this.$refs.covid2,{ filter, ...animateObj(3)},"<");
+
     },
-    covidScroll() {
+    fadeIns() {
       const scroll = (el) => gsap.timeline({
         scrollTrigger: {
           // markers: {
@@ -128,18 +136,22 @@ export default {
           trigger: el,
           start: "top 75%",
           end: "bottom bottom",
-          scrub: 1,
         }
       });
 
-      const opacity = 0;
-      const duration = 2;
+      function animateObj() {
+        return {
+          ease: "ease",
+          opacity: 0,
+          duration: 2
+        }
+      }
 
       const covid1 = scroll(this.$refs.covid1);
-      covid1.from(this.$refs.covid1,{ opacity, duration });
+      covid1.from(this.$refs.covid1,{ ...animateObj() });
 
       const covid2 = scroll(this.$refs.covid2);
-      covid2.from(this.$refs.covid2,{ opacity, duration });
+      covid2.from(this.$refs.covid2,{ ...animateObj() });
     }
   },
   beforeUpdate() {
@@ -151,7 +163,7 @@ export default {
   },
   mounted() {
     this.covidGroup();
-    this.covidScroll();
+    this.fadeIns();
   }
 };
 </script>
@@ -159,12 +171,15 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/abstracts/abstracts" as abs;
 
-.block {
-  height: 10rem;
-  width: 10rem;
-  background: crimson;
-  // display: none;
+
+.row {
+  margin: 4rem auto 4rem;
+
+  @include abs.mxs-respond(lphone) {
+    margin-top: 6rem;
+  }
 }
+
 
 .section {
   &-countries {
@@ -172,15 +187,6 @@ export default {
     background: $section-bg;
 
     position: relative;
-  }
-  &-margin {
-    &--titlegroup {
-      margin: 8rem auto 3rem;
-
-      @include abs.mxs-respond(lphone) {
-        margin-top: 6rem;
-      }
-    }
   }
   &--titlegroup {
     margin-bottom: 4rem;

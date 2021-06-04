@@ -1,12 +1,9 @@
 <template>
   <div class="card card-container" ref="continentSlide">
     <div class="card-imgbox">
-      <div
-        class="card-img"
-        :style="`${cardImage(data.continent)}`"
-        ref="img"
-      ></div>
-      <!-- <div class="slide-img" ref="img">&nbsp;</div> -->
+      <div class="card-img" ref="img" 
+        :style="`${cardImage(data.continent)}`">
+      </div>
     </div>
 
     <card-case :data="data">
@@ -47,6 +44,7 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/abstracts/abstracts" as abs;
 
+
 .card {
   &-container {
     height: auto;
@@ -56,13 +54,13 @@ export default {
     border-radius: 1rem;
     padding: 2rem;
 
-    box-shadow: 0px 0px 10px rgba(black, 0.8), 0px 10px 15px rgba(black, 0.5);
+    background: lighten(abs.$vars-c-lprimary, 6%);
+    box-shadow: abs.$vars-box-shadow;
+    -webkit-tap-highlight-color: transparent;
+
 
     position: relative;
     z-index: 100;
-
-    $section-bg: lighten(abs.$vars-c-lprimary, 5%);
-    background: $section-bg;
   }
   &-imgbox {
     height: 16rem;
@@ -76,9 +74,19 @@ export default {
     margin-bottom: 2rem;
     overflow: hidden;
   }
+}
+
+
+// card image
+.card {
   &-img {
     height: 100%;
     width: 100%;
+
+    @include abs.mxs-img-contain;
+    background-position: center;
+    filter: drop-shadow(0 0 4px rgba(crimson, 0.8))
+      drop-shadow(0 4px 4px rgba(black, 0.5));
 
     // &--world {
     //   background-image: url("~@/assets/continents/worldmap@2x.png");
@@ -98,7 +106,9 @@ export default {
     // &--antartica {
     //   background-image: url("~@/assets/continents/antartica@2x.png");
     // }
-    //
+
+
+    // broken images: africa and asia
     // &--africa {
     //   background-image: url("~@/assets/continents/africa@2x.png");
     // }
@@ -106,13 +116,8 @@ export default {
     //   background-image: url("~@/assets/continents/asia@2x.png");
     // }
   }
-  &-img {
-    @include abs.mxs-img-contain;
-    background-position: center;
-    filter: drop-shadow(0 2px 5px rgba(crimson, 0.8))
-      drop-shadow(0 5px 10px rgba(black, 0.5));
-  }
 }
+
 
 .card {
   :deep(.case-content--block) {

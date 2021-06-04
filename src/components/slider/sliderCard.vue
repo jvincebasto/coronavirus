@@ -251,7 +251,11 @@ export default {
     align-items: center;
     // flex: 1 0 100%;
 
+
+    -webkit-tap-highlight-color: transparent;
     cursor: pointer;
+
+
     transition: all 0.3s;
   }
 }

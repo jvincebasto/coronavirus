@@ -1,26 +1,39 @@
 <template>
-  <!-- New Cases -->
-  <card-case class="card" id="new-cases" :data="data" ref="newcases">
-    <template #title>New Cases</template>
-    <template #deathsValue>
-      {{ numberFormat(data.todayDeaths) }}
-    </template>
-    <template #activeRow>
-      <template></template>
-    </template>
-    <template #recoveredValue>
-      {{ numberFormat(data.todayRecovered) }}
-    </template>
-    <template #totalValue>
-      {{ numberFormat(data.todayCases) }}
-    </template>
-  </card-case>
+  <div class="row">
+
+    <div class="col col--1">
+      <!-- New Cases -->
+      <card-case class="card" id="new-cases" :data="data" ref="newcases">
+        <template #title>New Cases</template>
+        <template #deathsValue>
+          {{ numberFormat(data.todayDeaths) }}
+        </template>
+        <template #activeRow>
+          <template></template>
+        </template>
+        <template #recoveredValue>
+          {{ numberFormat(data.todayRecovered) }}
+        </template>
+        <template #totalValue>
+          {{ numberFormat(data.todayCases) }}
+        </template>
+      </card-case>
+  
+      <!-- grids -->
+      <div class="grid grid--1">&nbsp;</div>
+    </div>
 
 
-  <!-- Total Cases -->
-  <card-case class="card" id="total-cases" :data="data" ref="totalcases">
-    <template #title>Total Cases</template>
-  </card-case>
+    <div class="col col--2">
+      <!-- Total Cases -->
+      <card-case class="card" id="total-cases" :data="data" ref="totalcases">
+        <template #title>Total Cases</template>
+      </card-case>  
+  
+      <!-- grids -->
+      <div class="grid grid--2">&nbsp;</div>
+    </div>
+  </div>
 </template>
 
 
@@ -73,6 +86,7 @@ export default {
         if(obj.li || obj.span) this[propName].push(obj);
       }
     },
+
 
 
     // animations
@@ -148,7 +162,7 @@ export default {
           trigger: this.els.container,
           start: "25% center",
           end: "bottom bottom",
-          scrub: 1,
+          // scrub: 1,
         }
       });
 
@@ -159,8 +173,9 @@ export default {
     this.caseRefs(this.$refs.newcases.$refs,"value","newcasesEl");
     this.caseRefs(this.$refs.totalcases.$refs,"value","totalcasesEl");
     this.counter();
+    
     this.scroll();
-    // this.cards();
+    this.cards();
   }
 };
 </script>
@@ -171,15 +186,75 @@ export default {
 
 
 #new-cases {
-  margin-bottom: 4rem;
 }
 #total-cases {
-  margin-left: -10rem;
+}
 
-  @include abs.mxs-respond(ptablet) {
-    margin: 0;
+
+// row 
+.row {
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  @include abs.mxs-respond(lphone) {
+    flex-wrap: wrap;
+  }
+}
+
+// col
+.col {
+  padding: 2rem 2rem;
+  position: relative;
+
+
+  :deep(.case-content--block) {
+    min-width: 40rem;
+    padding: 5rem;
+    background: lighten(abs.$vars-c-lprimary, 3%);
+
+    position: relative;
+    z-index: 10;
+
+    @include abs.mxs-respond(ptablet) {
+      min-width: 35rem;
+      padding: 3rem;
+    }
+    @include abs.mxs-respond(pphone) {
+      min-width: 30rem;
+    }
+  }
+  :deep(.case-content--title) {
+    @include abs.mxs-font-type(subtitle1);
+  }
+
+  &--1 {
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
   }
 }
 
 
+// grid
+.grid {
+  height: 16rem;
+  width: 16rem;
+  position: absolute;
+  @include abs.mxs-img-contain;
+
+
+  &--1 {
+    background-image: url("~@/assets/bgs/circle-grid-10@2x.png");
+    top: -5rem;
+    left: -3rem;
+  }
+  &--2 {
+    background-image: url("~@/assets/bgs/circle-grid-10@2x.png");
+    bottom: -5rem;
+    right: -3rem;
+  }
+}
 </style>

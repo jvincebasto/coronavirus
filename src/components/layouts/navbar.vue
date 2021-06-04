@@ -16,7 +16,7 @@
       <div class="nav--logo">
         <ul class="nav--links">
           <li class="nav--link">
-            <a id="logo--anchor" href="#">Corona Virus</a>
+            <a id="logo--anchor" href="#">corona.</a>
           </li>
         </ul>
       </div>
@@ -125,7 +125,7 @@ export default {
     height: 7rem;
     width: 100%;
     display: none;
-    background: abs.$vars-c-black;
+    background: abs.$vars-c-dprimary;
 
     position: fixed;
     top: 0;
@@ -172,11 +172,13 @@ export default {
     background: abs.$vars-c-lprimary;
     border-radius: 10rem;
 
+
     position: fixed;
     top: -2px;
     right: -2px;
     z-index: 50;
     opacity: 0;
+
 
     transition: all 0.3s ease-in-out;
   }
@@ -186,8 +188,8 @@ export default {
     width: 100%;
     margin-bottom: 4px;
 
-    background: abs.$vars-c-lprimary;
 
+    background: abs.$vars-c-lprimary;
     transition: all .3s ease-in-out;
 
     &:last-child {
@@ -242,28 +244,33 @@ export default {
     background: abs.$vars-c-lprimary;
   }
   &--logo &--link a {
-    // text-transform: uppercase;
-    font-family: tbold;
-    color: abs.$vars-c-lprimary;
+    @include abs.mxs-font-type(heading6);
+    font-size: 2.7rem;
+    font-weight: 600;
 
+    color: abs.$vars-c-lprimary;
     padding: 0;
+
+    @include abs.mxs-respond(ltablet) {
+      font-size: 2.4rem;
+    }
   }
 }
 
 // Nav Links
 .nav {
   &--block {
+    height: 100%;
     transition: all 0.3s ease-in-out;
   }
   &--links {
+    height: 100%;
     display: flex;
   }
   &--link {
     margin-right: 1rem;
-    border-radius: 5px;
-
-    // background: rgba(white, 0.1);
     position: relative;
+
 
     &::before {
       content: "";
@@ -290,13 +297,21 @@ export default {
     }
   }
   &--link a {
-    display: block;
+    height: 100%;
+    display: flex;
+    align-items: center;
     text-align: center;
-    white-space: pre;
-    color: rgba(white,.6);
 
-    padding: .6rem .8rem;
+    @include abs.mxs-font-type(body1);
+    white-space: pre;
+    color: rgba(white,.8);
+
+    padding: 0 2rem;
     position: relative;
+
+    @include abs.mxs-respond(ltablet) {
+      @include abs.mxs-font-type(body2);
+    }
   }
   &--link:last-child {
     margin-right: 0;
@@ -411,21 +426,21 @@ export default {
     @include abs.mxs-respond(ptablet) {
       height: 100%;
       width: 100%;
-
       padding: 0;
-      font-family: tbold;
-
 
       display: flex;
       justify-content: center;
       align-items: center;
+
+      transition: none;
     }
   }
   &--link:hover a {
     color: white;
 
     @include abs.mxs-respond(ptablet) {
-      color: abs.$vars-c-dprimary;
+      color: abs.$vars-c-black;
+      font-weight: 600;
     }
   }
 }

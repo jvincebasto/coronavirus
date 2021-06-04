@@ -54,26 +54,26 @@ export default {
     width: 100%;
     max-width: 85%;
     margin: auto;
-
-    // @include abs.mxs-respond(pphone) {
-    //   max-width: 90%;
-    // }
   }
+
 
   &--titlegroup {
     text-align: center;
-    margin-bottom: 10rem;
+    margin-top: 4rem;
   }
   &--title {
-    font-family: tbold;
-    line-height: 1;
+    @include abs.mxs-font-type(heading3);
+
     @include abs.mxs-respond(pphone) {
-      font-size: 3.2rem;
+      @include abs.mxs-font-type(heading4);
     }
   }
   &--subtitle {
-    color: abs.$vars-c-dprimary;
-    text-transform: lowercase;
+    @include abs.mxs-font-type(subtitle1);
+
+    @include abs.mxs-respond(pphone) {
+      @include abs.mxs-font-type(subtitle2);
+    }
   }
 }
 </style>
