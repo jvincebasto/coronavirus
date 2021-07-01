@@ -13,7 +13,9 @@
             <a class="headline-btn--text" href="#countries">Go Search</a>
           </div>
       
-          <div class="covidgroup covidgroup--1" ref="covid1">&nbsp;</div>
+          <div class="covidgroup covidgroup--1" ref="covid1">
+            <div class="covidgroup-img covidgroup-img--1">&nbsp;</div>
+          </div>
         </div>
       </div>
 
@@ -21,8 +23,12 @@
       <!-- bg block -->
       <div class="col col--2">
         <div class="model--bggroup">
-          <div class="covidgroup covidgroup--2" ref="covid2">&nbsp;</div>
-          <div class="model--person" ref="person">&nbsp;</div>
+          <div class="covidgroup covidgroup--2" ref="covid2">
+            <div class="covidgroup-img covidgroup-img--2">&nbsp;</div>
+          </div>
+          <div class="model--group" ref="person">
+            <div class="model--person">&nbsp;</div>
+          </div>
         </div>
       </div>
     </div>
@@ -58,7 +64,7 @@ export default {
     },
     covidIcon() {
       const timelineObj = { repeat: -1, yoyo: true };
-      const filter = "drop-shadow(0 2px 4px rgba(0,0,0, 0.5))";
+      const filter = "drop-shadow(0 2px 10px rgba(0,0,0, 0.5))";
       function animateObj(duration = 2) {
         return { 
           ease: "ease",
@@ -111,17 +117,99 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
+
+.section-hero {
+  background: var(--c-lprimary);
+}
+.model {
+  &--group {
+    filter: drop-shadow(0 0 0 rgba(black, 0));
+  }
+  &--person {
+    background-image: url("~@/assets/bgs/facemaskBlob@2x.png");
+  }
+}
+.headline {
+  &-title,
+  &-subtitle {
+    color: var(--c-dprimary);
+  }
+}
+.headline-btn {
+  &--text {
+    color: var(--c-dprimary);
+    border: 2px solid var(--c-dprimary);
+  }
+
+  &:hover &--text {
+    background: var(--c-dprimary);
+    color: var(--c-lprimary);
+  }
+}
+.covidgroup {
+  filter: drop-shadow(0 0 0 rgba(black,0));
+
+  &-img {
+    &--1 {
+      @supports(mask: url("~@/assets/covidicons/covidCluster1.svg")) {
+        mask: url("~@/assets/covidicons/covidCluster1.svg");
+        @include styles.mxs-svg-contain;
+      }
+      background: url("~@/assets/covidicons/covidCluster1@2x.png");
+    }
+    &--2 {
+      @supports(mask: url("~@/assets/covidicons/covidCluster2.svg")) {
+        mask: url("~@/assets/covidicons/covidCluster2.svg");
+        @include styles.mxs-svg-contain;
+      }
+      background: url("~@/assets/covidicons/covidCluster2@2x.png");
+    }
+  }
+}
+.covidgroup {
+  &-img {
+    background: var(--c-dprimary);
+  }
+}
+
+
+@include styles.mxs-colorThemes(green,light) {
+  .model--person {
+    filter: hue-rotate(-60deg);
+  }  
+}
+@include styles.mxs-colorThemes(green,dark) {
+  .model--person {
+    filter: hue-rotate(-60deg);
+  }  
+}
+@include styles.mxs-colorThemes(brown,light) {
+  .model--person {
+    filter: hue-rotate(-162deg);
+  }  
+}
+@include styles.mxs-colorThemes(brown,dark) {
+  .model--person {
+    filter: hue-rotate(-162deg);
+  }  
+}
+</style>
+
+
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
 
 
 .row {
   margin-top: 12rem;
   display: flex;
 
-  @include abs.mxs-respond(ltablet) {
+  @include styles.mxs-respond(ltablet) {
     margin-top: 8vw;
   }
-  @include abs.mxs-respond(pphone) {
+  @include styles.mxs-respond(pphone) {
     flex-wrap: wrap;
   }
 }
@@ -129,10 +217,10 @@ export default {
   flex: 1 0 50%;
 
   &--1 {
-    @include abs.mxs-respond(lphone) {
+    @include styles.mxs-respond(lphone) {
       flex: 1 1;
     }
-    @include abs.mxs-respond(pphone) {
+    @include styles.mxs-respond(pphone) {
       margin-bottom: 4rem;
     }
   }
@@ -147,15 +235,14 @@ export default {
     height: auto;
     min-height: 75rem;
     width: 100%;
-    background: abs.$vars-c-lprimary;
 
     padding: 7rem 0rem;
     position: relative;
 
-    @include abs.mxs-respond(ltablet) {
+    @include styles.mxs-respond(ltablet) {
       min-height: 65rem;
     }
-    @include abs.mxs-respond(ptablet) {
+    @include styles.mxs-respond(ptablet) {
       min-height: 25rem;
     }
   }
@@ -171,26 +258,27 @@ export default {
     position: relative;
 
 
-    @include abs.mxs-respond(ltablet) {
+    @include styles.mxs-respond(ltablet) {
       height: 35rem;
       width: 33rem;
     }
-    @include abs.mxs-respond(lphone) {
+    @include styles.mxs-respond(lphone) {
       height: 33rem;
       width: 30rem;
     }
   }
-  &--person {
+  &--group {
     height: 100%;
     width: 100%;
-
-    background-image: url("~@/assets/bgs/facemaskBlob@2x.png");
-    @include abs.mxs-img-contain;
-
 
     filter: drop-shadow(0 0 0 rgba(black, 0));
     position: relative;
     z-index: 50;
+  }
+  &--person {
+    height: 100%;
+    width: 100%;
+    @include styles.mxs-img-contain;
   }
 }
 
@@ -204,32 +292,32 @@ export default {
     margin-top: 4rem;
     position: relative;
 
-    @include abs.mxs-respond(ltablet) {
+    @include styles.mxs-respond(ltablet) {
       min-width: 30rem;
     }
-    @include abs.mxs-respond(lphone) {
+    @include styles.mxs-respond(lphone) {
       min-width: 26rem;
     }
-    @include abs.mxs-respond(pphone) {
+    @include styles.mxs-respond(pphone) {
       margin-top: 4vw;
     }
   }
 
   &-title {
-    @include abs.mxs-respond(ltablet) {
-      @include abs.mxs-font-type(heading3);
+    @include styles.mxs-respond(ltablet) {
+      @include styles.mxs-font-size(heading3);
     }
-    @include abs.mxs-respond(lphone) {
-      @include abs.mxs-font-type(heading4);
+    @include styles.mxs-respond(lphone) {
+      @include styles.mxs-font-size(heading4);
     }
   }
   &-subtitle {
     font-family: heading;
-    @include abs.mxs-font-type(subtitle1);
+    @include styles.mxs-font-size(subtitle1);
     margin-bottom: 4rem;
 
-    @include abs.mxs-respond(lphone) {
-      @include abs.mxs-font-type(subtitle2);
+    @include styles.mxs-respond(lphone) {
+      @include styles.mxs-font-size(subtitle2);
     }
   }
   &-btn {
@@ -242,19 +330,13 @@ export default {
 
     &--text {
       font-family: tsemibold;
-      @include abs.mxs-font-type(btn);
+      @include styles.mxs-font-size(btn);
 
       display: block;
       padding: 1rem 2rem;
       border-radius: 10rem;
-      border: 2px solid abs.$vars-c-dprimary;
 
       transition: all 0.3s ease-in-out;
-    }
-
-    &:hover &--text {
-      background: abs.$vars-c-dprimary;
-      color: abs.$vars-c-lprimary;
     }
   }
 }
@@ -264,26 +346,23 @@ export default {
 // covid icon
 .covidgroup {
   position: absolute;
-  @include abs.mxs-img-contain;
-
-  filter: drop-shadow(0 0 0 rgba(black,0));
+  @include styles.mxs-img-contain;
 
   &--1 {
     height: 12rem;
     width: 20rem;
-    background-image: url("~@/assets/covidicons/covidCluster1@2x.png");
 
     position: relative;
     left: 40%;
     transform: rotateY(180deg);
 
-    @include abs.mxs-respond(lphone) {
+    @include styles.mxs-respond(lphone) {
       height: 10rem;
       width: 15rem;
       left: 60%;
       transform: none;
     }
-    @include abs.mxs-respond(pphone) {
+    @include styles.mxs-respond(pphone) {
       margin-top: -4rem;
       transform: rotateY(180deg);
     }
@@ -292,9 +371,12 @@ export default {
     height: 10rem;
     width: 10rem;
 
-    background-image: url("~@/assets/covidicons/covidCluster2@2x.png");
     bottom: -3rem;
     right: -3rem;
+  }
+  &-img {
+    height: 100%;
+    width: 100%;
   }
 }
 </style>

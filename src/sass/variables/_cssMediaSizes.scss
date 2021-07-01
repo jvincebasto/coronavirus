@@ -1,0 +1,36 @@
+@use "~@/sass/functions/functions" as fns;
+@use "~@/sass/variables/variables" as vars;
+
+
+/* root media queries */
+:root {	
+	--mq-pphone: 30em;
+	--mq-lphone: 42.375em;
+
+	--mq-ptablet: 62em;
+	--mq-ltablet: 80em;
+
+	--mq-laptop: 90em;
+	--mq-desktop: 90em;
+	--mq-ldesktop: 120em;
+}
+
+
+/* export media queries */
+:export {
+	
+	// phone
+	mqPphone: fns.strip-unit(vars.$mq-pphone);
+	mqLphone: fns.strip-unit(vars.$mq-lphone);
+
+
+	// tablet
+	mqPtablet: fns.strip-unit(vars.$mq-ptablet);
+	mqLtablte: fns.strip-unit(vars.$mq-ltablet);
+
+
+	// screens
+	mqLaptop: fns.strip-unit(vars.$mq-laptop);
+	mqDesktop: fns.strip-unit(vars.$mq-desktop);
+	mqLdsektop: fns.strip-unit(vars.$mq-ldesktop);
+}

@@ -1,0 +1,197 @@
+:root {
+		/* font sizes */
+
+	// headings
+	--fontsize-h1: 106px;
+	--fontsize-h2: 66px;
+	--fontsize-h3: 53px;
+	--fontsize-h4: 38px;
+	--fontsize-h5: 27px;
+	--fontsize-h6: 22px;
+
+	// subtitles
+	--fontsize-sub1: 18px;
+	--fontsize-sub1: 16px;
+
+	// body
+	--fontsize-body1: 16px;
+	--fontsize-body2: 14px;
+
+	// components
+	--fontsize-btn: 14px;
+	--fontsize-caption: 12px;
+	--fontsize-overline: 10px;
+
+
+	/* letter spacing */
+
+	// headings
+	--letterspacing-h1: -1.5px;
+	--letterspacing-h2: -.5px;
+	--letterspacing-h3: 0px;
+	--letterspacing-h4: .25px;
+	--letterspacing-h5: 0px;
+	--letterspacing-h6: .15px;
+
+	// subtitles
+	--letterspacing-sub1: .15px;
+	--letterspacing-sub1: .1px;
+
+	// body
+	--letterspacing-body1: .5px;
+	--letterspacing-body2: .25px;
+
+	// components
+	--letterspacing-btn: 1.25px;
+	--letterspacing-caption: .4px;
+	--letterspacing-overline: 1.5px;
+
+
+	/* font weight */
+
+	// headings
+	--fontweight-h1: '';
+	--fontweight-h2: '';
+	--fontweight-h3: '';
+	--fontweight-h4: '';
+	--fontweight-h5: '';
+	--fontweight-h6: '';
+
+	// subtitles
+	--fontweight-sub1: 400;
+	--fontweight-sub1: 600;
+
+	// body
+	--fontweight-body1: '';
+	--fontweight-body2: '';
+
+	// components
+	--fontweight-btn: '';
+	--fontweight-caption: '';
+	--fontweight-overline: '';
+
+
+
+	/* text Transform */
+
+	// headings
+	--texttransform-h1: '';
+	--texttransform-h2: '';
+	--texttransform-h3: '';
+	--texttransform-h4: '';
+	--texttransform-h5: '';
+	--texttransform-h6: '';
+
+	// subtitles
+	--texttransform-sub1: '';
+	--texttransform-sub1: '';
+
+	// body
+	--texttransform-body1: '';
+	--texttransform-body2: '';
+
+	// components
+	--texttransform-btn: uppercase;
+	--texttransform-caption: '';
+	--texttransform-overline: uppercase;
+}
+
+
+/* export colors */
+:export {
+		/* font sizes */
+
+	// headings
+	fontSize-h1: --fontsize-h1;
+	fontSize-h2: --fontsize-h2;
+	fontSize-h3: --fontsize-h3;
+	fontSize-h4: --fontsize-h4;
+	fontSize-h5: --fontsize-h5;
+	fontSize-h6: --fontsize-h6;
+
+	// subtitles
+	fontSize-sub1: --fontsize-sub1;
+	fontSize-sub2: --fontsize-sub2;
+
+	// body
+	fontSize-body1: --fontsize-body1;
+	fontSize-body2: --fontsize-body2;
+
+	// components
+	fontSize-btn: --fontsize-btn;
+	fontSize-caption: --fontsize-caption;
+	fontSize-overline: --fontsize-overline;
+
+
+	/* letter spacing */
+
+	// headings
+	letterSpacing-h1: --letterspacing-h1;
+	letterSpacing-h2: --letterspacing-h2;
+	letterSpacing-h3: --letterspacing-h3;
+	letterSpacing-h4: --letterspacing-h4;
+	letterSpacing-h5: --letterspacing-h5;
+	letterSpacing-h6: --letterspacing-h6;
+
+	// subtitles
+	letterSpacing-sub1: --letterspacing-sub1;
+	letterSpacing-sub1: --letterspacing-sub1;
+
+	// body
+	letterSpacing-body1: --letterspacing-body1;
+	letterSpacing-body2: --letterspacing-body2;
+
+	// components
+	letterSpacing-btn: --letterspacing-btn;
+	letterSpacing-caption: --letterspacing-caption;
+	letterSpacing-overline: --letterspacing-overline;
+
+
+	/* font weight */
+
+	// headings
+	fontWeight-h1: --fontweight-h1;
+	fontWeight-h2: --fontweight-h2;
+	fontWeight-h3: --fontweight-h3;
+	fontWeight-h4: --fontweight-h4;
+	fontWeight-h5: --fontweight-h5;
+	fontWeight-h6: --fontweight-h6;
+
+	// subtitles
+	fontweWght-sub1: --fontweight-sub1;
+	fontweWght-sub1: --fontweight-sub1;
+
+	// body
+	fontweiWht-body1: --fontweight-body1;
+	fontweiWht-body2: --fontweight-body2;
+
+	// components
+	fontwWight-btn: --fontweight-btn;
+	fontweighW-caption: --fontweight-caption;
+	fontweightWoverline: --fontweight-overline;
+
+
+
+	/* text Transform */
+
+	// headings
+	textTransform-h1: --texttransform-h1;
+	textTransform-h2: --texttransform-h2;
+	textTransform-h3: --texttransform-h3;
+	textTransform-h4: --texttransform-h4;
+	textTransform-h5: --texttransform-h5;
+	textTransform-h6: --texttransform-h6;
+
+	// subtitles
+	textTransform-sub1: --texttransform-sub1;
+	textTransform-sub1: --texttransform-sub1;
+
+	// body
+	textTransform-body1: --texttransform-body1;
+	textTransform-body2: --texttransform-body2;
+
+	// components
+	textTransform-btn: --texttransform-btn;
+	textTransform-caption: --texttransform-caption;
+	textTransform-overline: --texttransform-overline;
+}

@@ -151,7 +151,39 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
+
+
+@include styles.mxs-themes(light) {
+  .btn {
+    // background: styles.$vars-c-lprimary;
+    border: 2px solid black;
+    box-shadow: 0px 2px 5px rgba(black, 0.8), 0px 5px 10px rgba(black, 0.5);
+
+    &--img {
+      background-image: url("~@/assets/icons/arrow-2@2x.png");
+      @include styles.mxs-img-contain;
+      background-position: center;
+    }
+  }
+
+  .carousel {
+    &-container {
+      // border: 2px solid black;
+    }
+    &-slider {
+      // border: 2px solid green;
+    }
+    &-items {
+      // border: 2px solid orangered;
+    }
+  }
+}
+</style>
+
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
 
 
 .block {
@@ -165,8 +197,6 @@ export default {
   height: 6rem;
   width: 6rem;
 
-  // background: abs.$vars-c-lprimary;
-  border: 2px solid black;
   border-radius: 10rem;
   cursor: pointer;
 
@@ -178,9 +208,7 @@ export default {
   bottom: -10rem;
   z-index: 100;
 
-  box-shadow: 0px 2px 5px rgba(black, 0.8), 0px 5px 10px rgba(black, 0.5);
-
-  @include abs.mxs-respond(ptablet) {
+  @include styles.mxs-respond(ptablet) {
     height: 4rem;
     width: 4rem;
     bottom: -7rem;
@@ -189,7 +217,7 @@ export default {
   &--left {
     right: 10rem;
     transform: rotateY(180deg);
-    @include abs.mxs-respond(ptablet) {
+    @include styles.mxs-respond(ptablet) {
       right: 5rem;
     }
   }
@@ -200,11 +228,7 @@ export default {
     height: 2rem;
     width: 2rem;
 
-    background-image: url("~@/assets/icons/arrow-2@2x.png");
-    @include abs.mxs-img-contain;
-    background-position: center;
-
-    @include abs.mxs-respond(ptablet) {
+    @include styles.mxs-respond(ptablet) {
       height: 1rem;
       width: 1rem;
     }
@@ -218,9 +242,8 @@ export default {
     min-height: 20rem;
     min-width: 20rem;
 
-    margin: auto;
-    // border: 2px solid black;
 
+    margin: auto;
     display: flex;
     align-items: center;
     position: relative;
@@ -228,7 +251,6 @@ export default {
   &-slider {
     height: 100%;
     width: 100%;
-    // border: 2px solid green;
 
     display: flex;
     align-items: center;
@@ -241,7 +263,6 @@ export default {
     height: 100%;
     max-width: 100%;
     margin: 0rem 2rem;
-    // border: 2px solid orangered;
 
     display: flex;
     justify-content: center;

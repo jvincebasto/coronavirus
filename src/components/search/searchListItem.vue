@@ -94,7 +94,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
 
 .countrylist {
   &-item {
@@ -120,7 +120,7 @@ export default {
     padding-left: 2rem;
 
 
-    @include abs.mxs-font-type(body2);
+    @include styles.mxs-font-size(body2);
     cursor: pointer;
   }
 }

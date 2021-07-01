@@ -1,0 +1,114 @@
+// configure color themes
+@mixin configColorThemes($theme: 'blue') {
+  html[color-theme=#{$theme}],
+  html [color-theme=#{$theme}], 
+  html[color-theme="light"] [color-theme=#{$theme}] { @content };
+}
+
+// configure color modes
+@mixin configColorModes($mode: light) {
+  @if $mode == light {
+    html[color-mode="light"], html { @content };
+  }
+  @if $mode == dark {
+    html[color-mode="dark"] { @content };
+  }
+}
+
+// configure inverted modes
+@mixin configInvertedModes($theme: light) {
+  @if $theme == light {
+    html[color-mode-invert="true"], 
+    html[color-mode="light"][color-mode-invert="true"], 
+    html[color-mode="light"] [color-mode-invert="true"] { @content };
+  }
+  @if $theme == dark {
+    html[color-mode="dark"][color-mode-invert="true"], 
+    html[color-mode="dark"] [color-mode-invert="true"] { @content };
+  }
+}
+
+// configure static modes
+@mixin configStaticModes($mode: light) {
+  html[color-static=#{$mode}], 
+  html[color-mode="light"][color-static=#{$mode}], 
+  html[color-mode="light"] [color-static=#{$mode}],
+  html[color-mode="dark"][color-static=#{$mode}], 
+  html[color-mode="dark"] [color-static=#{$mode}], { @content };
+}
+
+
+
+// reusable color modes
+@mixin themes($mode: light) {
+  @if $mode == light {
+    html[color-mode="light"], html,
+    html[color-mode-invert="true"],
+    html[color-mode="dark"][color-mode-invert="true"], 
+    html[color-mode="dark"] [color-mode-invert="true"],
+    html[color-static=#{$mode}], 
+    html[color-mode="light"][color-static=#{$mode}], 
+    html[color-mode="light"] [color-static=#{$mode}],
+    html[color-mode="dark"][color-static=#{$mode}], 
+    html[color-mode="dark"] [color-static=#{$mode}] { @content };
+  }
+  @if $mode == dark {
+    html[color-mode="dark"], 
+    html[color-mode="light"][color-mode-invert="true"],
+    html[color-mode="light"] [color-mode-invert="true"], 
+    html[color-mode="dark"][color-static=#{$mode}], 
+    html[color-mode="dark"] [color-static=#{$mode}],
+    html[color-mode="light"][color-static=#{$mode}], 
+    html[color-mode="light"] [color-static=#{$mode}] { @content };
+  }
+}
+
+
+// scoped colors
+@mixin colorThemes($theme: 'blue',$mode: light) {
+  
+  @if $mode == light {
+    html[color-theme=#{$theme}], 
+    html[color-mode="light"][color-theme=#{$theme}] { @content };
+  }
+  @if $mode == dark {
+    html[color-mode="dark"][color-theme=#{$theme}] { @content };
+  }
+}
+
+
+// reusable scoped colors
+@mixin scopedColorThemes($theme: 'blue',$mode: light) {
+  
+  @if $mode == light {
+    html [color-theme=#{$theme}], 
+    html[color-mode="light"] [color-theme=#{$theme}] { @content };
+  }
+  @if $mode == dark {
+    html[color-mode="dark"] [color-theme=#{$theme}] { @content };
+  }
+}
+
+// reusable inverted color modes
+@mixin scopedInvertedModes($mode: light) {
+  
+  @if $mode == light {
+    html [color-mode-invert="true"], 
+    html[color-mode="light"] [color-mode-invert="true"] { @content };
+  }
+  @if $mode == dark {
+    html[color-mode="dark"] [color-mode-invert="true"] { @content };
+  }
+}
+
+// reusable inverted color modes
+@mixin scopedStaticModes($base: light,$mode: light) {
+  @if $base == light {
+    html [color-static=#{$mode}], 
+    html[color-mode="light"] [color-static=#{$mode}] { @content };    
+  }
+  @if $base == dark {
+    html[color-mode="dark"] [color-static=#{$mode}] { @content };
+  }
+}
+

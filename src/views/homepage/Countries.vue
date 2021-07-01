@@ -32,13 +32,21 @@
 
 
         <!-- covid -->
-        <div class="section-covidCluster section-covidCluster--1" ref="covid1">&nbsp;</div>
-        <div class="section-covidCluster section-covidCluster--2" ref="covid2">&nbsp;</div>
+        <div class="covidCluster covidCluster-group--1" ref="covid1">
+          <div class="covidCluster-img">&nbsp;</div>
+        </div>
+        <div class="covidCluster covidCluster-group--2" ref="covid2">
+          <div class="covidCluster-img">&nbsp;</div>
+        </div>
 
 
         <!-- grids -->
-        <div class="section-grid section-grid--1">&nbsp;</div>
-        <div class="section-grid section-grid--2">&nbsp;</div>
+        <div class="grid grid-group--1">
+          <div class="grid-img">&nbsp;</div>
+        </div>
+        <div class="grid grid-group--2">
+          <div class="grid-img">&nbsp;</div>
+        </div>
       </div>
     </div>
   </section>
@@ -162,20 +170,71 @@ export default {
     this.spliceState({ prop: "countryCards", data: 0 });
   },
   mounted() {
-    this.covidGroup();
-    this.fadeIns();
+    // this.covidGroup();
+    // this.fadeIns();
   }
 };
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
+
+@include styles.mxs-themes(light) {
+  .section {
+    &-countries {
+      background: styles.fns-lighten(var(--c-lprimary), 8);
+    }
+  }
+  .covidCluster {
+    &-group {
+      filter: drop-shadow(0 0 0 rgba(black,0));
+    }
+    &-img {
+      @supports(mask: url("~@/assets/covidicons/covid.svg")) {
+        mask: url("~@/assets/covidicons/covid.svg");
+        @include styles.mxs-svg-contain;
+      }
+      background: url("~@/assets/covidicons/covid@2x.png");
+    }
+    &-img {
+      @include styles.mxs-img-contain;
+      background: var(--c-dprimary);
+    }
+  }
+  .grid {
+    &-img {
+      @supports(mask: url("~@/assets/bgs/circle-grid-10.svg")) {
+        mask: url("~@/assets/bgs/circle-grid-10.svg");
+        @include styles.mxs-svg-contain;
+      }
+      background: url("~@/assets/bgs/circle-grid-10@2x.png");
+    }
+    &-img {
+      @include styles.mxs-img-contain;
+      background: var(--c-dprimary);
+    }
+  }
+}
+
+@include styles.mxs-themes(dark) {
+  .section {
+    &-countries {
+      background: styles.fns-darken(var(--c-lprimary), 4);
+    }
+  }
+}
+
+</style>
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
 
 
 .row {
   margin: 4rem auto 4rem;
+  display: block;
 
-  @include abs.mxs-respond(lphone) {
+  @include styles.mxs-respond(lphone) {
     margin-top: 6rem;
   }
 }
@@ -183,9 +242,6 @@ export default {
 
 .section {
   &-countries {
-    $section-bg: lighten(abs.$vars-c-lprimary, 10%);
-    background: $section-bg;
-
     position: relative;
   }
   &--titlegroup {
@@ -197,65 +253,49 @@ export default {
 
 
 // covid
-.section {
-  &-covidCluster {
-    position: absolute;
-    @include abs.mxs-img-contain;
+.covidCluster {
+  position: absolute;
 
-    filter: drop-shadow(0 0 0 rgba(black,0));
-
+  &-group {
     &--1 {
       height: 18rem;
       width: 18rem;
 
-      background: url("~@/assets/covidicons/covid@2x.png");
       top: 25rem;
       right: 0%;
 
-      @include abs.mxs-respond(ltablet) {
+      @include styles.mxs-respond(ltablet) {
         height: 15rem;
         width: 15rem;
-        // top: -6rem;
-        // right: 0rem;
       }
-      @include abs.mxs-respond(ptablet) {
+      @include styles.mxs-respond(ptablet) {
         height: 12rem;
         width: 12rem;
-        // top: -5rem;
       }
-      @include abs.mxs-respond(lphone) {
-        // top: -7rem;
-        // right: -9rem;
+      @include styles.mxs-respond(lphone) {
       }
     }
     &--2 {
       height: 15rem;
       width: 15rem;
 
-      background: url("~@/assets/covidicons/covid@2x.png");
       bottom: 20rem;
       left: 2%;
       transform: rotateY(180deg);
 
-      @include abs.mxs-respond(ltablet) {
+      @include styles.mxs-respond(ltablet) {
         height: 12rem;
         width: 12rem;
-        // bottom: -5rem;
       }
-      @include abs.mxs-respond(ptablet) {
+      @include styles.mxs-respond(ptablet) {
         height: 10rem;
         width: 10rem;
-        // bottom: -4rem;
-        // left: -5%;
-      }
-      @include abs.mxs-respond(lphone) {
-        // bottom: -5rem;
-        // left: -8rem;
       }
     }
   }
-  &-covidCluster {
-    @include abs.mxs-img-contain;
+  &-img {
+    height: 100%;
+    width: 100%;
   }
 }
 
@@ -270,10 +310,10 @@ export default {
     z-index: 200;
 
 
-    @include abs.mxs-respond(lphone) {
+    @include styles.mxs-respond(lphone) {
       width: 80%;
     }
-    @include abs.mxs-respond(pphone) {
+    @include styles.mxs-respond(pphone) {
       width: 100%;
     }
   }
@@ -290,37 +330,30 @@ export default {
 
     position: relative;
 
-    @include abs.mxs-respond(pphone) {
+    @include styles.mxs-respond(pphone) {
       padding: 0;
     }
   }
 }
 
-.section {
-  &-grid {
-    height: 15rem;
-    width: 15rem;
-    position: absolute;
+.grid {
+  height: 15rem;
+  width: 15rem;
+  position: absolute;
 
-    @include abs.mxs-respond(pphone) {
-      // display: none;
-    }
-
+  &-group {
     &--1 {
-      background-image: url("~@/assets/bgs/circle-grid-10@2x.png");
       top: -6rem;
       left: -1rem;
-
     }
     &--2 {
-      background-image: url("~@/assets/bgs/circle-grid-10@2x.png");
       bottom: -2rem;
       right: -1rem;
-
     }
   }
-  &-grid {
-    @include abs.mxs-img-contain;
+  &-img {
+    height: 100%;
+    width: 100%;
   }
 }
 </style>

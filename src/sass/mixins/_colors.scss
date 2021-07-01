@@ -1,0 +1,15 @@
+@mixin varHsl($color,$hue,$sat,$light) {
+	#{$color}: unquote("hsl(#{$hue}, #{$sat}, #{$light})");
+	#{$color}-h: #{$hue};
+	#{$color}-s: #{$sat};
+	#{$color}-l: #{$light};
+}
+
+
+@mixin varHsla($color,$hue,$sat,$light,$alpha: 1) {
+	#{$color}: unquote("hsl(#{$hue}, #{$sat}, #{$light}, #{$alpha})");
+	#{$color}-h: #{$hue};
+	#{$color}-s: #{$sat};
+	#{$color}-l: #{$light};
+	#{$color}-a: #{$alpha};
+}

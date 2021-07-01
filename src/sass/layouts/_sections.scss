@@ -1,0 +1,45 @@
+@use "~@/sass/styles" as styles;
+
+
+.section {
+  height: auto;
+  min-height: 25vh;
+  width: auto;
+  max-width: 144rem;
+
+  overflow: hidden;
+
+  padding: 7rem 0;
+  background: var(--c-lprimary);
+
+  &-margin {
+    height: auto;
+    width: 100%;
+    max-width: 85%;
+    margin: auto;
+  }
+
+
+  &--titlegroup {
+    text-align: center;
+    margin-top: 4rem;
+  }
+  &--title {
+    @include styles.mxs-font-size(heading3);
+
+    @include styles.mxs-respond(pphone) {
+      @include styles.mxs-font-size(heading4);
+    }
+  }
+  &--subtitle {
+    @include styles.mxs-font-size(subtitle1);
+
+    @include styles.mxs-respond(pphone) {
+      @include styles.mxs-font-size(subtitle2);
+    }
+  }
+  &--title,
+  &--subtitle {
+    color: var(--c-dprimary);
+  }
+}

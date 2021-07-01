@@ -112,7 +112,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
 
 .countrylist {
   &--container {
@@ -121,8 +121,8 @@ export default {
     display: none;
 
 
-    background: lighten(abs.$vars-c-lprimary, 9%);
-    box-shadow: abs.$vars-box-shadow;
+    background: lighten(styles.$vars-c-lprimary, 9%);
+    box-shadow: styles.$vars-box-shadow;
     border-radius: 1rem;
 
 

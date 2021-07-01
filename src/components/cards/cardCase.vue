@@ -77,7 +77,59 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
+
+@include styles.mxs-themes(light) {
+
+  .case-content {
+    &--block {
+      box-shadow: styles.$vars-box-shadow;
+    }
+    &--title {
+      color: var(--c-defblack);
+    }
+  }
+
+  .case {
+    &--title,
+    &--value {
+      color: var(--c-dprimary);
+    }
+  }
+
+  .caseicon {
+    &--deaths {
+      background-image: url("~@/assets/covidicons/deaths@2x.png");
+    }
+    &--active {
+      background-image: url("~@/assets/covidicons/active@2x.png");
+    }
+    &--recovered {
+      background-image: url("~@/assets/covidicons/recovered@2x.png");
+    }
+    &--total {
+      background-image: url("~@/assets/covidicons/total@2x.png");
+    }
+  }
+  .caseicon {
+    @include styles.mxs-img-contain;
+  }
+}
+
+
+@include styles.mxs-themes(dark) {
+
+  .case-content {
+    &--title {
+      color: var(--c-dprimary);
+    }
+  }
+}
+</style>
+
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
 
 .case-content {
   &--block {
@@ -89,11 +141,10 @@ export default {
     padding: 2rem;
     border-radius: 1rem;
 
-    box-shadow: abs.$vars-box-shadow;
     background: inherit;
   }
   &--title {
-    @include abs.mxs-font-type(subtitle1);
+    @include styles.mxs-font-size(subtitle1);
     margin-bottom: 2rem;
   }
 }
@@ -112,7 +163,7 @@ export default {
 
     & > * {
       flex: 1 0 50%;
-      @include abs.mxs-font-type(body1);
+      @include styles.mxs-font-size(body1);
     }
   }
   &--value {
@@ -129,20 +180,5 @@ export default {
 
   margin-right: 1rem;
   border-radius: 1rem;
-
-  @include abs.mxs-img-contain;
-
-  &--deaths {
-    background-image: url("~@/assets/covidicons/deaths@2x.png");
-  }
-  &--active {
-    background-image: url("~@/assets/covidicons/active@2x.png");
-  }
-  &--recovered {
-    background-image: url("~@/assets/covidicons/recovered@2x.png");
-  }
-  &--total {
-    background-image: url("~@/assets/covidicons/total@2x.png");
-  }
 }
 </style>

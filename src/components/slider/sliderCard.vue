@@ -236,7 +236,19 @@ export default {
 
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
+
+
+.carousel {
+  &-items {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+</style>
+
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
 
 
 .carousel {
@@ -250,11 +262,7 @@ export default {
     justify-content: center;
     align-items: center;
     // flex: 1 0 100%;
-
-
-    -webkit-tap-highlight-color: transparent;
     cursor: pointer;
-
 
     transition: all 0.3s;
   }

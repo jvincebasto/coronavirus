@@ -1,0 +1,68 @@
+@mixin font-size($font) { 
+
+  @if $font == heading1 {
+    font-size: var(--fontsize-h1);
+    letter-spacing: var(--letterspacing-h1);
+  }
+  @if $font == heading2 {
+    font-size: var(--fontsize-h2);
+    letter-spacing: var(--letterspacing-h2);
+  }
+  @if $font == heading3 {
+    font-size: var(--fontsize-h3);
+    letter-spacing: var(--letterspacing-h3);
+  }
+  @if $font == heading4 {
+    font-size: var(--fontsize-h4);
+    letter-spacing: var(--letterspacing-h4);
+  }
+  @if $font == heading5 {
+    font-size: var(--fontsize-h5);
+    letter-spacing: var(--letterspacing-h5);
+  }
+  @if $font == heading6 {
+    font-size: var(--fontsize-h6);
+    letter-spacing: var(--letterspacing-h6);
+  }
+
+
+  // subtitle
+  @if $font == subtitle1 {
+    font-size: var(--fontsize-sub1);
+    letter-spacing: var(--letterspacing-sub1);
+    font-weight: var(--fontweight-sub1);
+  }
+  @if $font == subtitle2 {
+    font-size: var(--fontsize-sub2);
+    letter-spacing: var(--letterspacing-sub2);
+    font-weight: var(--fontweight-sub2);
+  }
+
+
+  // body
+  @if $font == body1 {
+    font-size: var(--fontsize-body1);
+    letter-spacing: var(--letterspacing-body1);
+  }
+  @if $font == body2 {
+    font-size: var(--fontsize-body2);
+    letter-spacing: var(--letterspacing-body2);
+  }
+
+
+  // components
+  @if $font == btn {
+    font-size: var(--fontsize-btn);
+    letter-spacing: var(--letterspacing-btn);
+    text-transform: var(--texttransform-btn);
+  }
+  @if $font == captions {
+    font-size: var(--fontsize-caption);
+    letter-spacing: var(--letterspacing-caption);
+  }
+  @if $font == overline {
+    font-size: var(--fontsize-overline);
+    letter-spacing: var(--letterspacing-overline);
+    text-transform: var(--texttransform-overline);
+  }
+}

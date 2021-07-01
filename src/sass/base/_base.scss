@@ -1,0 +1,66 @@
+@use "fonts";
+@use "~@/sass/functions/functions" as fns;
+@use "~@/sass/mixins/mixins" as mxs;
+
+
+// general
+*,
+::before,
+::after {
+	padding: 0;
+	margin: 0;
+	box-sizing: inherit;
+
+	// outline: none !important;
+	// -webkit-tap-highlight-color: transparent !important;
+	// box-shadow: none;
+}
+::selection { background: rgba(black,.5); }
+
+
+// html
+html { 
+	font-size: 62.5%;
+	scroll-behavior: smooth;
+	background: var(--c-lprimary);
+	color: var(--c-defblack);
+}
+
+
+// body
+body {
+	font-size: 1.6rem;
+	box-sizing: border-box;
+}
+
+
+// scrollbar
+body {
+	$scrollbar: fns.darken(var(--c-lprimary), 20);
+	scrollbar-width: 15px;
+	scrollbar-color: $scrollbar;
+	
+	&::-webkit-scrollbar {
+		width: 15px;
+	}
+	&::-webkit-scrollbar-track {
+		background: var(--c-white);
+	}
+	&::-webkit-scrollbar-thumb {
+		background: var(--c-dprimary);
+	}
+	&::-webkit-scrollbar-thumb:hover {
+		// background: var(--c-black);
+	}
+}
+@include mxs.themes(dark) {
+	body {
+		$scrollbar: fns-lighten(var(--c-dprimary), 20);
+	}
+}
+
+
+
+// elements
+li { list-style: none; }
+a { text-decoration: none; color: black; }

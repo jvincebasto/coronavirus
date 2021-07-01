@@ -1,79 +1,62 @@
 <template>
-  <!-- <media-queries /> -->
 
+  <navbar :data="data" />
   <hero />
   <global />
   <continent />
   <countries />
+  <my-footer />
 
 </template>
 
 <script>
+import Navbar from "@/components/layouts/navbar.vue";
 import Hero from "./homepage/Hero.vue";
 import Global from "./homepage/Global.vue";
 import Continent from "./homepage/Continent.vue";
 import Countries from "./homepage/Countries.vue";
-
-// import styles from "@/sass/abstracts/_variables.scss";
-// import mediaQueries from "@/components/helpers/mediaQueries.vue";
+import MyFooter from "@/components/layouts/footer.vue";
 
 export default {
   components: {
+    Navbar,
     Hero,
     Global,
     Continent,
     Countries,
-    // mediaQueries,
+    MyFooter,
   },
-  mounted() {
-  }
+  setup() {
+    const links = [
+      {
+        title: "Global",
+        hash: "#global",
+      },
+      {
+        title: "Continents",
+        hash: "#continents",
+      },
+      {
+        title: "Countries",
+        hash: "#countries",
+      },
+      {
+        title: "Contacts",
+        hash: "#contacts",
+      },
+    ];
+    const data = {
+      links,
+    };
+
+    return {
+      links,
+      data,
+    };
+  },
 };
 </script>
 
 <style lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
-
-.section {
-  height: auto;
-  min-height: 25vh;
-  width: auto;
-  max-width: 144rem;
-
-  overflow: hidden;
-
-  &-global,
-  &-continents,
-  &-countries,
-  &-footer {
-    padding: 7rem 0;
-    background: abs.$vars-c-lprimary;
-  }
-
-  &-margin {
-    height: auto;
-    width: 100%;
-    max-width: 85%;
-    margin: auto;
-  }
-
-
-  &--titlegroup {
-    text-align: center;
-    margin-top: 4rem;
-  }
-  &--title {
-    @include abs.mxs-font-type(heading3);
-
-    @include abs.mxs-respond(pphone) {
-      @include abs.mxs-font-type(heading4);
-    }
-  }
-  &--subtitle {
-    @include abs.mxs-font-type(subtitle1);
-
-    @include abs.mxs-respond(pphone) {
-      @include abs.mxs-font-type(subtitle2);
-    }
-  }
-}
+@use "~@/sass/styles" as styles;
 </style>

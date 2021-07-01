@@ -28,7 +28,35 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
+
+@include styles.mxs-themes(light) {
+  .search {
+    &--errorgroup {
+      background: var(--sc-dprimary);
+      box-shadow: styles.$vars-box-shadow;
+    }
+    &--error {
+      &-title {
+        // complementary
+        // color: hsl(1, 80%, 55%);
+        color: var(--sc-lprimary);
+      }
+      &-content {
+        color: var(--sc-white);
+      }
+      &-title, &-content {
+        display: flex;
+        align-items: flex-end;
+      }
+    }
+  }
+}
+</style>
+
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
 
 
 // Search Errors
@@ -42,27 +70,19 @@ export default {
     flex-wrap: wrap;
     border-radius: .5rem;
 
-    background: abs.$vars-c-dprimary;
-    box-shadow: abs.$vars-box-shadow;
-
     padding: 1rem;
     padding-left: 2rem;
     margin-bottom: 1rem;
-
   }
   &--error {
     &-title {
       margin-right: 1rem;
   
       font-family: tsemibold;
-      @include abs.mxs-font-type(body2);
-
-      // complementary
-      color: hsl(1, 80%, 55%);
+      @include styles.mxs-font-size(body2);
     }
     &-content {
-      color: white;
-      @include abs.mxs-font-type(captions);
+      @include styles.mxs-font-size(captions);
     }
     &-title, &-content {
       display: flex;

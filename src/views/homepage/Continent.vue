@@ -14,9 +14,15 @@
 
 
     <div class="section-margin slider-container">
-      <div class="grid grid--1">&nbsp;</div>
-      <div class="covidgroup covidgroup--1" ref="covid1">&nbsp;</div>
-      <div class="covidgroup covidgroup--2" ref="covid2">&nbsp;</div>
+      <div class="gridgroup gridgroup--1">
+        <div class="grid-img">&nbsp;</div>
+      </div>
+      <div class="covidgroup covidgroup--1" ref="covid1">
+        <div class="covid-img">&nbsp;</div>
+      </div>
+      <div class="covidgroup covidgroup--2" ref="covid2">
+        <div class="covid-img">&nbsp;</div>
+      </div>
 
 
       <template v-if="continentBool">
@@ -28,7 +34,9 @@
       </template>
     </div>
 
-    <div class="grid grid--2">&nbsp;</div>
+    <div class="gridgroup gridgroup--2">
+      <div class="grid-img">&nbsp;</div>
+    </div>
 
   </section>
 </template>
@@ -138,7 +146,72 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
+
+
+@include styles.mxs-themes(light) {
+  .section {
+    &-continents {
+      background: styles.fns-lighten(var(--c-lprimary), 4);
+    }
+  }
+
+
+  // covid
+  .covid {
+    &group {
+      filter: drop-shadow(0 0 0 rgba(black,0));      
+    }
+
+    &-img {
+      @supports(mask: url("~@/assets/covidicons/covid.svg")) {
+        mask: url("~@/assets/covidicons/covid.svg");
+        @include styles.mxs-svg-contain;
+      }
+      background: url("~@/assets/covidicons/covid@2x.png");
+    }
+  }
+  .covid {
+    &-img {
+      @include styles.mxs-img-contain;
+      background: var(--c-dprimary);
+    }
+  }
+
+
+  // grid
+  .grid {
+    &-img {
+      @supports(mask: url("~@/assets/bgs/circle-grid-10.svg")) {
+        mask: url("~@/assets/bgs/circle-grid-10.svg");
+        @include styles.mxs-svg-contain;
+      }
+      background: url("~@/assets/bgs/circle-grid-10@2x.png");
+    }
+  }
+
+  .grid {
+    &-img {
+      @include styles.mxs-img-contain;
+      background: var(--c-dprimary);
+    }
+  }
+}
+
+
+@include styles.mxs-themes(dark) {
+  .section {
+    &-continents {
+      background: styles.fns-darken(var(--c-lprimary),2);
+    }
+  }
+}
+
+</style>
+
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
 
 #cursor {
   height: 4rem;
@@ -165,6 +238,7 @@ export default {
 
 .row {
   margin: 4rem auto 10rem;
+  justify-content: center;
 }
 
 
@@ -174,16 +248,12 @@ export default {
 
   position: relative;
   z-index: 100;
-
 }
 
 
 .section {
   &-continents {
-    $section-bg: lighten(abs.$vars-c-lprimary, 6%);
-    background: $section-bg;
-    min-height: 50vh;
-    
+    min-height: 50vh;    
     position: relative;
   }
 }
@@ -192,30 +262,26 @@ export default {
 // covid
 .covidgroup {
   position: absolute;
-  @include abs.mxs-img-contain;
-
-  filter: drop-shadow(0 0 0 rgba(black,0));
 
   &--1 {
     height: 18rem;
     width: 18rem;
 
-    background-image: url("~@/assets/covidicons/covid@2x.png");
     top: -8rem;
     right: 6%;
 
-    @include abs.mxs-respond(ltablet) {
+    @include styles.mxs-respond(ltablet) {
       height: 15rem;
       width: 15rem;
       top: -6rem;
       right: 0rem;
     }
-    @include abs.mxs-respond(ptablet) {
+    @include styles.mxs-respond(ptablet) {
       height: 12rem;
       width: 12rem;
       top: -5rem;
     }
-    @include abs.mxs-respond(lphone) {
+    @include styles.mxs-respond(lphone) {
       top: -7rem;
       right: -9rem;
     }
@@ -224,48 +290,55 @@ export default {
     height: 15rem;
     width: 15rem;
 
-    background-image: url("~@/assets/covidicons/covid@2x.png");
     bottom: -6rem;
     left: 10%;
     transform: rotateY(180deg);
 
-    @include abs.mxs-respond(ltablet) {
+    @include styles.mxs-respond(ltablet) {
       height: 12rem;
       width: 12rem;
       bottom: -5rem;
     }
-    @include abs.mxs-respond(ptablet) {
+    @include styles.mxs-respond(ptablet) {
       height: 10rem;
       width: 10rem;
       bottom: -4rem;
       left: -5%;
     }
-    @include abs.mxs-respond(lphone) {
+    @include styles.mxs-respond(lphone) {
       bottom: -5rem;
       left: -8rem;
     }
   }
 }
+.covid {
+  &-img {
+    height: 100%;
+    width: 100%;
+  }
+}
 
 
 // grid
-.grid {
+.gridgroup {
   height: 15rem;
   width: 15rem;
-
-  @include abs.mxs-img-contain;
   position: absolute;
 
   &--1 {
-    background-image: url("~@/assets/bgs/circle-grid-10@2x.png");
     top: -4rem;
     left: -10rem;
   }
   &--2 {
-    background-image: url("~@/assets/bgs/circle-grid-10@2x.png");
     bottom: -10.5rem;
     right: 0rem;
   }
 }
 
+.grid {
+  &-img {
+    height: 100%;
+    width: 100%;
+  }
+}
 </style>

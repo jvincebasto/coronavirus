@@ -1,0 +1,26 @@
+@forward 'variables/variables' as vars-*;
+@forward 'mixins/mixins' as mxs-*;
+@forward 'functions/functions' as fns-*;
+
+
+
+/* Variables ($) */
+// $vars-color;
+// forward.$vars-color;
+
+
+
+/* Mixins */ 
+// @include mixinname;
+// @include mixinname();
+
+
+/* Mixins as functions */ 
+// @include forward.mxs-mixinname;
+// @include forward.mxs-mixinname();
+
+
+
+/* Functions */ 
+// functionname();
+// forward.fns-functionname();

@@ -181,26 +181,62 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
 
-
-
-#new-cases {
+@include styles.mxs-themes(light) {
+  .grid {
+    &--1 {
+      @supports(mask: url("~@/assets/bgs/circle-grid-10.svg")) {
+        mask: url("~@/assets/bgs/circle-grid-10.svg");
+        @include styles.mxs-svg-contain;
+      }
+      background: url("~@/assets/bgs/circle-grid-10@2x.png");
+    }
+    &--2 {
+      @supports(mask: url("~@/assets/bgs/circle-grid-10.svg")) {
+        mask: url("~@/assets/bgs/circle-grid-10.svg");
+        @include styles.mxs-svg-contain;
+      }
+      background: url("~@/assets/bgs/circle-grid-10@2x.png");
+    }
+  }
+  .grid {
+    @include styles.mxs-img-contain;
+    background: var(--c-dprimary);
+  }
+  .col {
+    :deep(.case-content--block) {
+      background: styles.fns-lighten(var(--c-lprimary), 2);
+    }
+  }
 }
-#total-cases {
-}
 
+@include styles.mxs-themes(dark) {
+  .col {
+    :deep(.case-content--block) {
+      background: styles.fns-darken(var(--c-lprimary), 1);
+    }
+  }
+}
+</style>
+
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
 
 // row 
 .row {
   height: 100%;
-  width: 100%;
+  width: 70%;
 
   display: flex;
   justify-content: center;
 
-  @include abs.mxs-respond(lphone) {
+  @include styles.mxs-respond(lphone) {
     flex-wrap: wrap;
+  }
+  @include styles.mxs-respond(pphone) {
+    width: 100%;
   }
 }
 
@@ -209,31 +245,30 @@ export default {
   padding: 2rem 2rem;
   position: relative;
 
+  display: flex;
+  justify-content: center;
+
+  &--1 {
+    height: 100%;
+  }
 
   :deep(.case-content--block) {
-    min-width: 40rem;
+    max-width: 40rem;
     padding: 5rem;
-    background: lighten(abs.$vars-c-lprimary, 3%);
 
     position: relative;
     z-index: 10;
 
-    @include abs.mxs-respond(ptablet) {
-      min-width: 35rem;
+    @include styles.mxs-respond(ptablet) {
+      max-width: 35rem;
       padding: 3rem;
     }
-    @include abs.mxs-respond(pphone) {
+    @include styles.mxs-respond(pphone) {
       min-width: 30rem;
     }
   }
   :deep(.case-content--title) {
-    @include abs.mxs-font-type(subtitle1);
-  }
-
-  &--1 {
-    height: 100%;
-    display: flex;
-    justify-content: flex-end;
+    @include styles.mxs-font-size(subtitle1);
   }
 }
 
@@ -243,16 +278,12 @@ export default {
   height: 16rem;
   width: 16rem;
   position: absolute;
-  @include abs.mxs-img-contain;
-
 
   &--1 {
-    background-image: url("~@/assets/bgs/circle-grid-10@2x.png");
     top: -5rem;
     left: -3rem;
   }
   &--2 {
-    background-image: url("~@/assets/bgs/circle-grid-10@2x.png");
     bottom: -5rem;
     right: -3rem;
   }

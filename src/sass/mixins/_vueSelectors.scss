@@ -1,0 +1,16 @@
+// dark theme
+@mixin vselectors($mode: deep,$selector) {
+
+  @if $mode == deep {
+		:deep($selector) { @content };
+  }
+  // @if $mode == slotted {
+  //   :slots($selector) { @content };
+  // }
+  @if $mode == global {
+    :global($selector) { @content };
+  }
+  // @else {
+  //   :deep($selector) { @content };
+  // }
+}

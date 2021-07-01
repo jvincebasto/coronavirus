@@ -293,7 +293,93 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
+
+@include styles.mxs-themes(light) {
+  .search {
+    &-field {
+      &--group {
+        background: var(--sc-defwhite);
+        box-shadow: styles.$vars-box-shadow;
+      }
+    }
+  }
+  .searchbtn {
+    background: styles.fns-lighten(var(--c-lprimary), 8);
+    box-shadow: styles.$vars-box-shadow;
+    &--title {
+      color: var(--c-dprimary);
+    }
+    &:hover {
+      background: var(--c-dprimary);
+    }
+    &:hover .searchbtn--title {
+      color: var(--c-lprimary);
+    }
+  }
+  .search {
+    &-list {
+      &--btn {
+        background: styles.fns-lighten(var(--c-lprimary), 8);
+        &:hover {
+          background: var(--c-dprimary);
+        }
+      }
+      &--icon {
+        @supports(mask-image: url("~@/assets/icons/arrow-2.svg")) {
+          mask-image: url("~@/assets/icons/arrow-2.svg");
+          @include styles.mxs-svg-contain;
+          mask-position: center;
+        }
+        background: url("~@/assets/icons/arrow-2@2x.png");
+      }
+      &--icon {
+        @include styles.mxs-img-contain;
+        background-position: center;
+        background: var(--c-dprimary);
+      }
+      &--btn:hover .search-list--icon {
+        background: var(--c-lprimary);
+      }
+    }
+  }
+}
+
+
+@include styles.mxs-themes(dark) {
+  .searchbtn {
+    background: styles.fns-darken(var(--c-lprimary), 4);
+    &:hover {
+      background: var(--c-dprimary);
+    }
+    &:hover .searchbtn--title {
+      color: var(--c-lprimary);
+    }
+  }
+  .search {
+    &-list {
+      &--btn {
+        background: styles.fns-darken(var(--c-lprimary), 4);
+        &:hover {
+          background: var(--c-dprimary);
+        }
+      }
+      &--icon {
+        background: var(--c-dprimary);
+      }
+      &--btn:hover .search-list--icon {
+        // background: var(--c-lprimary);
+      }
+    }
+  }
+}
+
+
+</style>
+
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
 
 // Search Group and Field
 .search {
@@ -320,17 +406,17 @@ export default {
     font-size: 1.6rem;
     border: 0;
 
-    @include abs.mxs-respond(pphone) {
+    @include styles.mxs-respond(pphone) {
       flex-shrink: 1;
     }
 
     &::placeholder {
-      @include abs.mxs-font-type(body2);
+      @include styles.mxs-font-size(body2);
       transition: all .3s ease-in-out;
     }
     &:focus::placeholder {
       color: black;
-      @include abs.mxs-font-type(body1);
+      @include styles.mxs-font-size(body1);
     }
   }
 }
@@ -343,16 +429,10 @@ export default {
     &--group {
       height: 100%;
       width: 100%;
-
       display: flex;
-
-      background: rgba(255, 255, 255, 0.8);
-      box-shadow: abs.$vars-box-shadow;
-
 
       border-top-left-radius: inherit;
       border-bottom-left-radius: inherit;
-
       overflow: hidden;
     }
   }
@@ -364,9 +444,6 @@ export default {
   height: 100%;
   padding: 0rem 2rem;
   margin-left: 1rem;
-
-  background: lighten(abs.$vars-c-lprimary, 9%);
-  box-shadow: abs.$vars-box-shadow;
   cursor: pointer;
 
   display: flex;
@@ -380,18 +457,10 @@ export default {
   transition: all .3s ease-in-out;
 
   &--title {
-    color: abs.$vars-c-dprimary;
     font-family: tsemibold;
-    @include abs.mxs-font-type(btn);
+    @include styles.mxs-font-size(btn);
 
     transition: all .3s ease-in-out;
-  }
-
-  &:hover {
-    background: abs.$vars-c-dprimary;
-  }
-  &:hover &--title {
-    color: abs.$vars-c-lprimary;
   }
 }
 
@@ -403,8 +472,6 @@ export default {
     &--btn {
       width: 6rem;
       height: 100%;
-
-      background: rgba(255, 255, 255, 0.8);
       cursor: pointer;
 
       display: flex;
@@ -412,32 +479,13 @@ export default {
       align-items: center;
 
       transition: all .3s ease-in-out;
-
-      &:hover {
-        background: abs.$vars-c-dprimary;
-      }
     }
     &--icon {
       width: 15px;
       height: 15px;
 
-      @include abs.mxs-img-contain;
-      background-position: center;
-
-      transition: all .3s ease-in-out;
-
-
-      @supports(mask-image: url("~@/assets/icons/arrow-2.svg")) {
-        mask-image: url("~@/assets/icons/arrow-2.svg");
-        @include abs.mxs-svg-contain;
-        mask-position: center;   
-      }
-      background-image: url("~@/assets/icons/arrow-2@2x.png");
       transform: rotateZ(90deg);
-    }
-
-    &--btn:hover &--icon {
-      background: abs.$vars-c-lprimary;
+      transition: all .3s ease-in-out;
     }
   }
 }

@@ -73,10 +73,33 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
+
+@include styles.mxs-themes(light) {
+  .section {
+    &-global {
+      background: styles.fns-lighten(var(--c-lprimary), 2);
+    }
+  }
+}
+
+@include styles.mxs-themes(dark) {
+  .section {
+    &-global {
+      background: styles.fns-darken(var(--c-lprimary), 1);
+    }
+  }
+}
+</style>
+
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
 
 
 .row {  
+  justify-content: center;
+
   &--1 {
     margin-bottom: 8rem;
   }
@@ -88,9 +111,6 @@ export default {
 
 .section {
   &-global {
-    $section-bg: lighten(abs.$vars-c-lprimary, 3%);
-    background: $section-bg;
-
     position: relative;
   }
 }

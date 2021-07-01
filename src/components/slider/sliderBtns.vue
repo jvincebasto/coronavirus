@@ -87,7 +87,57 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
+
+
+@include styles.mxs-themes(light) {
+  .btn {
+    border: 2px solid var(--c-dprimary);
+    
+    background: styles.fns-lighten(var(--c-lprimary), 6);
+    box-shadow: styles.$vars-box-shadow;
+    -webkit-tap-highlight-color: transparent;
+
+    &--img {
+      @supports(mask: url("~@/assets/icons/arrow-2.svg")) {
+        mask: url("~@/assets/icons/arrow-2.svg");
+        @include styles.mxs-svg-contain;
+        mask-position: center;
+      }
+      background: url("~@/assets/icons/arrow-2@2x.png");
+    }
+    &--img {
+      @include styles.mxs-img-contain;
+      background: var(--c-dprimary);   
+    }
+
+    &:hover {
+      background: var(--c-dprimary);
+    }
+    &:hover .btn--img {
+      background: var(--c-lprimary);
+    }
+  }
+}
+
+
+@include styles.mxs-themes(dark) {
+  .btn {
+    background: styles.fns-darken(var(--c-lprimary), 3);
+
+    &:hover {
+      background: var(--c-dprimary);
+    }
+    &:hover .btn--img {
+      background: var(--c-lprimary);
+    }
+  }
+}
+
+</style>
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
 
 .btn {
   height: 5rem;
@@ -97,15 +147,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-
-
-  border: 2px solid abs.$vars-c-dprimary;
   border-radius: 10rem;
-
-  background: lighten(abs.$vars-c-lprimary, 6%);
-  box-shadow: abs.$vars-box-shadow;
-  -webkit-tap-highlight-color: transparent;
-
 
   position: absolute;
   bottom: -10rem;
@@ -115,7 +157,7 @@ export default {
   cursor: pointer;
   transition: all .3s ease-in-out;
 
-  @include abs.mxs-respond(ptablet) {
+  @include styles.mxs-respond(ptablet) {
     height: 4rem;
     width: 4rem;
     bottom: -7rem;
@@ -124,7 +166,7 @@ export default {
   &--left {
     right: 6rem;
     transform: rotateY(180deg);
-    @include abs.mxs-respond(ptablet) {
+    @include styles.mxs-respond(ptablet) {
       right: 5rem;
     }
   }
@@ -135,31 +177,13 @@ export default {
     height: 2rem;
     width: 2rem;
 
-    background: abs.$vars-c-dprimary;    
-    @include abs.mxs-img-contain;
     background-position: center;
-
     transition: all .3s ease-in-out;
 
-
-    @supports(mask: url("~@/assets/icons/arrow-2.svg")) {
-      mask: url("~@/assets/icons/arrow-2.svg");
-      @include abs.mxs-svg-contain;
-      mask-position: center;
-    }
-    background-image: url("~@/assets/icons/arrow-2@2x.png");
-
-    @include abs.mxs-respond(ptablet) {
+    @include styles.mxs-respond(ptablet) {
       height: 1rem;
       width: 1rem;
     }
-  }
-
-  &:hover {
-    background: abs.$vars-c-dprimary;
-  }
-  &:hover &--img {
-    background: abs.$vars-c-lprimary;
   }
 }
 </style>

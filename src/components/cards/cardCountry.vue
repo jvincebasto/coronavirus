@@ -144,7 +144,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
 
 
 .card {
@@ -154,8 +154,8 @@ export default {
 
 
   border-radius: 1rem;
-  background: lighten(abs.$vars-c-lprimary, 9%);
-  box-shadow: abs.$vars-box-shadow;
+  background: lighten(styles.$vars-c-lprimary, 9%);
+  box-shadow: styles.$vars-box-shadow;
 
 
   margin-right: 4rem;
@@ -166,12 +166,12 @@ export default {
   z-index: 100;
 
 
-  @include abs.mxs-respond(ptablet) {
+  @include styles.mxs-respond(ptablet) {
     max-width: 27rem;
     margin-right: 3rem;
     margin-bottom: 3rem;
   }
-  @include abs.mxs-respond(pphone) {
+  @include styles.mxs-respond(pphone) {
     margin-right: 0;
     max-width: 30rem;
     width: 100%;
@@ -199,7 +199,7 @@ export default {
     cursor: pointer;
     overflow: hidden;
 
-    @include abs.mxs-respond(pphone) {
+    @include styles.mxs-respond(pphone) {
       height: 3rem;
       width: 3rem;
     }
@@ -208,8 +208,8 @@ export default {
     height: 100%;
     width: 100%;
 
-    background: abs.$vars-c-dprimary;
-    @include abs.mxs-img-contain;
+    background: styles.$vars-c-dprimary;
+    @include styles.mxs-img-contain;
 
 
     cursor: pointer;
@@ -218,12 +218,12 @@ export default {
 
     @supports(mask: url("~@/assets/icons/cross.svg")) {
       mask: url("~@/assets/icons/cross.svg");
-      @include abs.mxs-svg-contain;
+      @include styles.mxs-svg-contain;
     }
     background-image: url("~@/assets/icons/cross.svg");
 
     &:hover {
-      background: abs.$vars-c-lprimary;
+      background: styles.$vars-c-lprimary;
     }
   }
 }
@@ -240,14 +240,14 @@ export default {
     overflow: hidden;
 
 
-    @include abs.mxs-respond(ptablet) {
+    @include styles.mxs-respond(ptablet) {
       height: 18rem;
     }
   }
   &--country {
     height: 100%;
     width: 100%;
-    @include abs.mxs-img-cover;
+    @include styles.mxs-img-cover;
   }
 }
 
@@ -259,7 +259,7 @@ export default {
     background: transparent;
     box-shadow: none;
 
-    @include abs.mxs-respond(ptablet) {
+    @include styles.mxs-respond(ptablet) {
       min-width: unset;
     }
   }

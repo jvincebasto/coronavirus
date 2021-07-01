@@ -1,0 +1,73 @@
+@use "~@/sass/mixins/mixins" as mxs;
+
+
+
+
+/* 
+Typographic Scales
+base-font: 10/16px = 62.5%;
+1rem = 10px;
+
+html { font-size: 62.5% }
+body { font-size: 1.6rem }
+
+
+Line Height
+1) 130% to 150% (recommended)
+
+Line Length (Characters per Line)
+1) 45 to 60 or 75 characters
+2) 45 to 90 characters
+*/
+
+
+
+// typeface
+@font-face {
+	font-family: heading;
+	src: url("~@/assets/fonts/Raleway/Raleway-VariableFont_wght.ttf") format('truetype');
+}
+@font-face {
+	font-family: tbody;
+	src: url("~@/assets/fonts/OpenSans/OpenSans-Regular.ttf") format('truetype');
+}
+@font-face {
+	font-family: tsemibold;
+	src: url("~@/assets/fonts/OpenSans/OpenSans-SemiBold.ttf") format('truetype');
+}
+
+
+
+// general
+*,
+::before,
+::after { 
+	@include mxs.font-size(body1); 
+	line-height: 150%;
+	font-family: tbody, sans-serif;
+}
+
+
+
+
+// headings
+h1,h2,h3,h4,h5,h6 { font-family: heading, sans-serif; }
+h1 { @include mxs.font-size(heading1); }
+h2 { @include mxs.font-size(heading2); }
+h3 { @include mxs.font-size(heading3); }
+h4 { @include mxs.font-size(heading4); }
+h5 { @include mxs.font-size(heading5); }
+h6 { @include mxs.font-size(heading6); }
+
+
+
+// elements
+input[type=text]::placeholder { 
+	@include mxs.font-size(body2); 
+	color: rgba(black,.9); 
+}
+button { 
+	@include mxs.font-size(btn); 
+	font-family: tsemibold, sans-serif; 
+}
+

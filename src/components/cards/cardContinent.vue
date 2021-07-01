@@ -1,8 +1,10 @@
 <template>
   <div class="card card-container" ref="continentSlide">
+      <!-- <div class="card-img" ref="img" 
+        :style="cardImage(data.continent)">
+      </div> -->
     <div class="card-imgbox">
-      <div class="card-img" ref="img" 
-        :style="`${cardImage(data.continent)}`">
+      <div class="card-img" ref="img" :class="continentNamesClassName(data.continent)">
       </div>
     </div>
 
@@ -33,6 +35,10 @@ export default {
       const continent = this.continentNames(value);
       const path = `${require(`@/assets/continents/${continent}@2x.png`)}`;
       return `background-image: url(${path})`;
+    },
+    continentNamesClassName(value) {
+      const continent = this.continentNames(value);
+      return `card-img--${continent}`;
     }
   },
   mounted() {
@@ -42,7 +48,122 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@use "~@/sass/abstracts/abstracts" as abs;
+@use "~@/sass/styles" as styles;
+
+
+@include styles.mxs-themes(light) {
+  .card {
+    &-container {
+      background: styles.fns-lighten(var(--c-lprimary), 6);
+      box-shadow: styles.$vars-box-shadow;
+      -webkit-tap-highlight-color: transparent;
+    }
+  }
+
+
+  // card image
+  .card {
+    &-imgbox {
+      filter: drop-shadow(0 0 4px rgba(crimson, 0.8))
+        drop-shadow(0 4px 4px rgba(black, 0.5));
+    }
+    &-img {
+      height: 100%;
+      width: 60%;
+
+      &--europe,
+      &--asia {
+        width: 80%;
+      }
+
+      &--world {
+        @supports(mask: url("~@/assets/continents/worldmap.svg")) {
+          mask: url("~@/assets/continents/worldmap.svg");
+          @include styles.mxs-svg-contain;
+        }
+        background: url("~@/assets/continents/worldmap@2x.png");
+      }
+      &--north-america {
+        @supports(mask: url("~@/assets/continents/north-america.svg")) {
+          mask: url("~@/assets/continents/north-america.svg");
+          @include styles.mxs-svg-contain;
+        }
+        background: url("~@/assets/continents/north-america@2x.png");
+      }
+      &--south-america {
+        @supports(mask: url("~@/assets/continents/south-america.svg")) {
+          mask: url("~@/assets/continents/south-america.svg");
+          @include styles.mxs-svg-contain;
+        }
+        background: url("~@/assets/continents/south-america@2x.png");
+      }
+      &--europe {
+        @supports(mask: url("~@/assets/continents/europe.svg")) {
+          mask: url("~@/assets/continents/europe.svg");
+          @include styles.mxs-svg-contain;
+        }
+        background: url("~@/assets/continents/europe@2x.png");
+      }
+      &--australia {
+        @supports(mask: url("~@/assets/continents/australia.svg")) {
+          mask: url("~@/assets/continents/australia.svg");
+          @include styles.mxs-svg-contain;
+        }
+        background: url("~@/assets/continents/australia@2x.png");
+      }
+      &--antartica {
+        @supports(mask: url("~@/assets/continents/antartica.svg")) {
+          mask: url("~@/assets/continents/antartica.svg");
+          @include styles.mxs-svg-contain;
+        }
+        background: url("~@/assets/continents/antartica@2x.png");
+      }
+
+
+      // broken images: africa and asia
+      &--africa {
+        @supports(mask: url("~@/assets/continents/africa.svg")) {
+          mask: url("~@/assets/continents/africa.svg");
+          @include styles.mxs-svg-contain;
+        }
+        background: url("~@/assets/continents/africa@2x.png");
+      }
+      &--asia {
+        @supports(mask: url("~@/assets/continents/asia.svg")) {
+          mask: url("~@/assets/continents/asia.svg");
+          @include styles.mxs-svg-contain;
+        }
+        background: url("~@/assets/continents/asia@2x.png");
+      }
+    }
+    &-img {
+      @include styles.mxs-img-contain;
+      background-position: center;
+      background: var(--c-dprimary);
+    }
+  }
+
+
+  .card {
+    :deep(.case-content--block) {
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+}
+
+@include styles.mxs-themes(dark) {
+  .card {
+    &-container {
+      background: styles.fns-darken(var(--c-lprimary), 3);
+    }
+  }
+}
+</style>
+
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
 
 
 .card {
@@ -53,11 +174,6 @@ export default {
     margin: auto;
     border-radius: 1rem;
     padding: 2rem;
-
-    background: lighten(abs.$vars-c-lprimary, 6%);
-    box-shadow: abs.$vars-box-shadow;
-    -webkit-tap-highlight-color: transparent;
-
 
     position: relative;
     z-index: 100;
@@ -82,49 +198,13 @@ export default {
   &-img {
     height: 100%;
     width: 100%;
-
-    @include abs.mxs-img-contain;
-    background-position: center;
-    filter: drop-shadow(0 0 4px rgba(crimson, 0.8))
-      drop-shadow(0 4px 4px rgba(black, 0.5));
-
-    // &--world {
-    //   background-image: url("~@/assets/continents/worldmap@2x.png");
-    // }
-    // &--north-america {
-    //   background-image: url("~@/assets/continents/north-america@2x.png");
-    // }
-    // &--south-america {
-    //   background-image: url("~@/assets/continents/south-america@2x.png");
-    // }
-    // &--europe {
-    //   background-image: url("~@/assets/continents/europe@2x.png");
-    // }
-    // &--australia {
-    //   background-image: url("~@/assets/continents/australia@2x.png");
-    // }
-    // &--antartica {
-    //   background-image: url("~@/assets/continents/antartica@2x.png");
-    // }
-
-
-    // broken images: africa and asia
-    // &--africa {
-    //   background-image: url("~@/assets/continents/africa@2x.png");
-    // }
-    // &--asia {
-    //   background-image: url("~@/assets/continents/asia@2x.png");
-    // }
   }
 }
-
 
 .card {
   :deep(.case-content--block) {
     min-width: unset;
     padding: 0;
-    background: transparent;
-    box-shadow: none;
   }
 }
 </style>

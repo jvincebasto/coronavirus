@@ -1,0 +1,109 @@
+// str-replace
+@function str-replace($string,$search,$replace: '') {
+  $index: str-index($string,$search);
+  @if $index {
+    @return str-slice($string,1,$index - 1) + $replace 
+      + str-replace(str-slice($string,$index + str-length($search)), $search,$replace);
+  }
+  @return $string;
+}
+
+// hsl alpha
+@function alpha($color,$opacity: 1){
+  $color: str-replace($color, 'var(' );
+  $color: str-replace($color, ')' );
+  $color-h: var(#{$color + '-h'});
+  $color-s: var(#{$color + '-s'});
+  $color-l: var(#{$color + '-l'});
+  $color-a: var(#{$color + '-a'});
+  $varOpacity: $color-a;
+
+  @if($opacity) { $varOpacity: $opacity; }
+  @else if($color-a) { $varOpacity: $color-a; }
+  @else { $varOpacity: 1; }
+
+  @return hsl($color-h,$color-s,$color-l,$varOpacity);
+}
+
+
+// hsl lighten
+@function lighten($color,$perc,$opacity: 1,$mode: true){
+  $color: str-replace($color, 'var(' );
+  $color: str-replace($color, ')' );
+  $color-h: var(#{$color + '-h'});
+  $color-s: var(#{$color + '-s'});
+  $color-l: var(#{$color + '-l'});
+  $color-a: var(#{$color + '-a'});
+
+  $varOpacity: $color-a;
+  @if($opacity) { $varOpacity: $opacity; }
+  @else if($color-a) { $varOpacity: $color-a; }
+  @else { $varOpacity: 1; }
+
+  $val: calc(var(--c-pos) * #{$perc}%);
+  @if $mode == false { $val: calc(1 * #{$perc}%); }
+
+  @return hsl($color-h,$color-s,calc(#{$color-l} + #{$val}),$varOpacity);
+}
+
+
+// hsl darken
+@function darken($color,$perc,$opacity: 1,$mode: true){
+  $color: str-replace($color, 'var(' );
+  $color: str-replace($color, ')' );
+  $color-h: var(#{$color + '-h'});
+  $color-s: var(#{$color + '-s'});
+  $color-l: var(#{$color + '-l'});
+  $color-a: var(#{$color + '-a'});
+
+  $varOpacity: $color-a;
+  @if($opacity) { $varOpacity: $opacity; }
+  @else if($color-a) { $varOpacity: $color-a; }
+  @else { $varOpacity: 1; }
+
+  $val: calc(var(--c-neg) * #{$perc}%);
+  @if $mode == false { $val: calc(-1 * #{$perc}%); }
+
+  @return hsl($color-h,$color-s,calc(#{$color-l} + #{$val}),$varOpacity);
+}
+
+
+// hsl saturation
+@function saturate($color,$perc,$opacity: 1,$mode: true){
+  $color: str-replace($color, "var(" );
+  $color: str-replace($color, ")" );
+  $color-h: var(#{$color + "-h"});
+  $color-s: var(#{$color + "-s"});
+  $color-l: var(#{$color + "-l"});
+  $color-a: var(#{$color + '-a'});
+
+  $varOpacity: $color-a;
+  @if($opacity) { $varOpacity: $opacity; }
+  @else if($color-a) { $varOpacity: $color-a; }
+  @else { $varOpacity: 1; }
+
+  $val: calc(var(--c-pos) * #{$perc}%);
+  @if $mode == false { $val: calc(1 * #{$perc}%); }
+
+  @return hsl($color-h,calc(#{$color-s} + #{$val}), $color-l,$varOpacity);
+}
+
+// hsl desaturate
+@function desaturate($color,$perc,$opacity: 1,$mode: true){
+  $color: str-replace($color, "var(" );
+  $color: str-replace($color, ")" );
+  $color-h: var(#{$color + "-h"});
+  $color-s: var(#{$color + "-s"});
+  $color-l: var(#{$color + "-l"});
+  $color-a: var(#{$color + '-a'});
+
+  $varOpacity: $color-a;
+  @if($opacity) { $varOpacity: $opacity; }
+  @else if($color-a) { $varOpacity: $color-a; }
+  @else { $varOpacity: 1; }
+
+  $val: calc(var(--c-neg) * #{$perc}%);
+  @if $mode == false { $val: calc(-1 * #{$perc}%); }
+
+  @return hsl($color-h,calc(#{$color-s} + #{$val}), $color-l,$varOpacity);
+}

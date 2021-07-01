@@ -1,0 +1,32 @@
+/* Primary Colors */
+
+	// hsl
+	$c-hue-primary: 202;
+	$c-sat-primary: 41%;
+	$c-lum-primary: 70%;
+
+	// granny smith green
+	// hsl(95, 46%, 73%)
+	// torq blue
+	// hsl(124, 36%, 78%)
+
+
+	// hsl
+	// $c-hue-primary: 124;
+	// $c-sat-primary: 46%;
+	// $c-lum-primary: 78%;
+
+	// primary 
+	$c-lprimary: hsl($c-hue-primary, $c-sat-primary, $c-lum-primary);
+	$c-dprimary: hsl($c-hue-primary, $c-sat-primary, 10%);
+
+
+	// monotones
+	$c-white: hsl($c-hue-primary, $c-sat-primary, 90%);
+	$c-grey: desaturate($c-lprimary, 30%);
+	$c-black: desaturate($c-dprimary, 30%);
+
+/* Random */
+	
+	$box-shadow: 0 0 4px rgba(black,.5), 0 4px 4px rgba(black,.5);
+

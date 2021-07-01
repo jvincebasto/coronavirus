@@ -1,0 +1,52 @@
+@use "~@/sass/variables/variables" as vars;
+
+
+
+
+// media breakpoints
+@mixin respond($breakpoint) { 
+
+  // phone
+  @if $breakpoint == pphone { // 480max - 30em
+    @media only screen and (max-width: vars.$mq-pphone) 
+    { @content };
+  }
+  @if $breakpoint == lphone { // 768max - 42.375em
+    @media only screen and (max-width: vars.$mq-lphone) 
+    { @content };
+  }
+
+
+  // tablet
+  @if $breakpoint == ptablet { // 992max - 62em
+    @media only screen and (max-width: vars.$mq-ptablet) 
+    { @content };
+  }
+  @if $breakpoint == ltablet { // 1280max - 80em
+    @media only screen and (max-width: vars.$mq-ltablet) 
+    { @content };
+  }
+
+
+  // screens
+  @if $breakpoint == laptop { // 1440max - 90em
+    @media only screen and (max-width: vars.$mq-laptop) 
+    { @content }; 
+  }
+  @if $breakpoint == desktop { // 1440min - 90em
+    @media only screen and (min-width: vars.$mq-desktop) 
+    { @content }; 
+  }
+  @if $breakpoint == ldesktop { // 1920min - 120em
+    @media only screen and (min-width: vars.$mq-ldesktop) 
+    { @content }; 
+  }
+}
+
+
+
+// min-max
+@mixin respond-minmax($min,$max) { 
+  @media only screen and (min-width: $min) and (max-width: $max)
+  { @content }; 
+}
