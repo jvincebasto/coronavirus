@@ -147,24 +147,65 @@ export default {
 @use "~@/sass/styles" as styles;
 
 
+@include styles.mxs-themes(light) {
+  .card {
+    background: styles.fns-lighten(var(--c-lprimary), 6);
+    box-shadow: styles.$vars-box-shadow;
+  }
+  .cardbtn {
+    &--icon {
+      @supports(mask: url("~@/assets/icons/cross.svg")) {
+        mask: url("~@/assets/icons/cross.svg");
+        @include styles.mxs-svg-contain;
+      }
+      background: url("~@/assets/icons/cross.svg");
+
+      &:hover {
+        background: var(--c-lprimary);
+      }
+    }
+    &--icon {
+      @include styles.mxs-img-contain;
+      background: var(--c-dprimary);
+    }
+  }
+  .cardimg {
+    &--country {
+      @include styles.mxs-img-cover;
+    }
+  }
+  .card {
+    :deep(.case-content--block) {
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+}
+
+
+@include styles.mxs-themes(dark) {
+  .card {
+    background: styles.fns-darken(var(--c-lprimary), 3);
+  }
+}
+</style>
+
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
+
+
 .card {
   max-width: 30rem;
   height: auto;
   flex: 1 0 100%;
 
-
   border-radius: 1rem;
-  background: lighten(styles.$vars-c-lprimary, 9%);
-  box-shadow: styles.$vars-box-shadow;
-
-
   margin-right: 4rem;
   margin-bottom: 4rem;
 
-
   position: relative;
   z-index: 100;
-
 
   @include styles.mxs-respond(ptablet) {
     max-width: 27rem;
@@ -185,7 +226,6 @@ export default {
   &--box {
     height: 3rem;
     width: 3rem;
-
     border-radius: inherit;
 
     position: absolute;
@@ -208,23 +248,8 @@ export default {
     height: 100%;
     width: 100%;
 
-    background: styles.$vars-c-dprimary;
-    @include styles.mxs-img-contain;
-
-
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-
-
-    @supports(mask: url("~@/assets/icons/cross.svg")) {
-      mask: url("~@/assets/icons/cross.svg");
-      @include styles.mxs-svg-contain;
-    }
-    background-image: url("~@/assets/icons/cross.svg");
-
-    &:hover {
-      background: styles.$vars-c-lprimary;
-    }
   }
 }
 
@@ -234,11 +259,11 @@ export default {
   &--box {
     height: 20rem;
     width: inherit;
+
     border-radius: inherit;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     overflow: hidden;
-
 
     @include styles.mxs-respond(ptablet) {
       height: 18rem;
@@ -247,7 +272,6 @@ export default {
   &--country {
     height: 100%;
     width: 100%;
-    @include styles.mxs-img-cover;
   }
 }
 
@@ -255,9 +279,8 @@ export default {
 // cardCase
 .card {
   :deep(.case-content--block) {
+    height: auto;
     border-radius: 0;
-    background: transparent;
-    box-shadow: none;
 
     @include styles.mxs-respond(ptablet) {
       min-width: unset;

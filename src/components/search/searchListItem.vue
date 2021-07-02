@@ -96,12 +96,26 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
 
+
+@include styles.mxs-themes(light) {
+  .countrylist {
+    &-item {
+      border-bottom: 2px solid styles.fns-alpha(var(--sc-defblack), .1);
+    }
+    &--label {
+      color: var(--c-dprimary);
+    }
+  }
+}
+</style>
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
+
 .countrylist {
   &-item {
     display: flex;
     align-items: center;
-    border-bottom: 2px solid rgba(black, 0.1);
-
     position: relative;
   }
   &--checkbox {
@@ -115,10 +129,10 @@ export default {
     display: block;
     width: 100%;
     height: 100%;
+    font-weight: 600;
 
     padding: 1.5rem;
     padding-left: 2rem;
-
 
     @include styles.mxs-font-size(body2);
     cursor: pointer;

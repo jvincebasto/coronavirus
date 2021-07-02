@@ -119,77 +119,81 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
 
-.section-hero {
-  background: var(--c-lprimary);
-}
-.model {
-  &--group {
-    filter: drop-shadow(0 0 0 rgba(black, 0));
-  }
-  &--person {
-    background-image: url("~@/assets/bgs/facemaskBlob@2x.png");
-  }
-}
-.headline {
-  &-title,
-  &-subtitle {
-    color: var(--c-dprimary);
-  }
-}
-.headline-btn {
-  &--text {
-    color: var(--c-dprimary);
-    border: 2px solid var(--c-dprimary);
-  }
 
-  &:hover &--text {
-    background: var(--c-dprimary);
-    color: var(--c-lprimary);
+@include styles.mxs-themes(light) {
+  .section-hero {
+    background: var(--c-lprimary);
   }
-}
-.covidgroup {
-  filter: drop-shadow(0 0 0 rgba(black,0));
-
-  &-img {
-    &--1 {
-      @supports(mask: url("~@/assets/covidicons/covidCluster1.svg")) {
-        mask: url("~@/assets/covidicons/covidCluster1.svg");
-        @include styles.mxs-svg-contain;
-      }
-      background: url("~@/assets/covidicons/covidCluster1@2x.png");
+  .model {
+    &--group {
+      filter: drop-shadow(0 0 0 rgba(black, 0));
     }
-    &--2 {
-      @supports(mask: url("~@/assets/covidicons/covidCluster2.svg")) {
-        mask: url("~@/assets/covidicons/covidCluster2.svg");
-        @include styles.mxs-svg-contain;
-      }
-      background: url("~@/assets/covidicons/covidCluster2@2x.png");
+    &--person {
+      fitler: saturate(2);
+      background-image: url("~@/assets/bgs/facemaskBlob@2x.png");
     }
   }
-}
-.covidgroup {
-  &-img {
-    background: var(--c-dprimary);
+  .headline {
+    &-title,
+    &-subtitle {
+      color: var(--c-dprimary);
+    }
+  }
+  .headline-btn {
+    &--text {
+      color: var(--c-dprimary);
+      border: 2px solid var(--c-dprimary);
+    }
+
+    &:hover &--text {
+      background: var(--c-dprimary);
+      color: var(--c-lprimary);
+    }
+  }
+  .covidgroup {
+    filter: drop-shadow(0 0 0 rgba(black,0));
+
+    &-img {
+      &--1 {
+        @supports(mask: url("~@/assets/covidicons/covidCluster1.svg")) {
+          mask: url("~@/assets/covidicons/covidCluster1.svg");
+          @include styles.mxs-svg-contain;
+        }
+        background: url("~@/assets/covidicons/covidCluster1@2x.png");
+      }
+      &--2 {
+        @supports(mask: url("~@/assets/covidicons/covidCluster2.svg")) {
+          mask: url("~@/assets/covidicons/covidCluster2.svg");
+          @include styles.mxs-svg-contain;
+        }
+        background: url("~@/assets/covidicons/covidCluster2@2x.png");
+      }
+    }
+  }
+  .covidgroup {
+    &-img {
+      background: var(--c-dprimary);
+    }
   }
 }
 
 
-@include styles.mxs-colorThemes(green,light) {
+@include styles.mxs-colorThemes('green',light) {
+  .model--person {
+    filter: hue-rotate(-60deg) saturate(2);
+  }  
+}
+@include styles.mxs-colorThemes('green',dark) {
   .model--person {
     filter: hue-rotate(-60deg);
   }  
 }
-@include styles.mxs-colorThemes(green,dark) {
+@include styles.mxs-colorThemes('brown',light) {
   .model--person {
-    filter: hue-rotate(-60deg);
+    filter: hue-rotate(-162deg) saturate(2);
   }  
 }
-@include styles.mxs-colorThemes(brown,light) {
-  .model--person {
-    filter: hue-rotate(-162deg);
-  }  
-}
-@include styles.mxs-colorThemes(brown,dark) {
+@include styles.mxs-colorThemes('brown',dark) {
   .model--person {
     filter: hue-rotate(-162deg);
   }  

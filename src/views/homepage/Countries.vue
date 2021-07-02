@@ -170,8 +170,8 @@ export default {
     this.spliceState({ prop: "countryCards", data: 0 });
   },
   mounted() {
-    // this.covidGroup();
-    // this.fadeIns();
+    this.covidGroup();
+    this.fadeIns();
   }
 };
 </script>
@@ -182,7 +182,7 @@ export default {
 @include styles.mxs-themes(light) {
   .section {
     &-countries {
-      background: styles.fns-lighten(var(--c-lprimary), 8);
+      background: styles.fns-lighten(var(--c-lprimary), 6);
     }
   }
   .covidCluster {
@@ -219,7 +219,7 @@ export default {
 @include styles.mxs-themes(dark) {
   .section {
     &-countries {
-      background: styles.fns-darken(var(--c-lprimary), 4);
+      background: styles.fns-darken(var(--c-lprimary), 3);
     }
   }
 }

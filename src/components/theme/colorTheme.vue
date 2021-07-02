@@ -50,13 +50,13 @@ export default {
     }
     &-color {
       &--blue {
-        background: styles.fns-darken(var(--cblue-lprimary), 10);
+        background: styles.fns-darken(var(--c-iblue-lprimary), 10);
       }
       &--green {
-        background: styles.fns-darken(var(--cgreen-lprimary), 10);
+        background: styles.fns-darken(var(--c-igreen-lprimary), 10);
       }
       &--brown {
-        background: styles.fns-darken(var(--cbrown-lprimary), 10);
+        background: styles.fns-darken(var(--c-ibrown-lprimary), 10);
       }
     }
     &-group:hover {
@@ -69,13 +69,13 @@ export default {
   .colortheme {
     &-color {
       &--blue {
-        background: styles.fns-darken(var(--cblue-lprimary), 20);
+        background: styles.fns-darken(var(--c-iblue-lprimary), 20);
       }
       &--green {
-        background: styles.fns-darken(var(--cgreen-lprimary), 20);
+        background: styles.fns-darken(var(--c-igreen-lprimary), 20);
       }
       &--brown {
-        background: styles.fns-darken(var(--cbrown-lprimary), 20);
+        background: styles.fns-darken(var(--c-ibrown-lprimary), 20);
       }
     }
   }
@@ -85,13 +85,13 @@ export default {
   .colortheme {
     &-color {
       &--blue {
-        background: styles.fns-lighten(var(--cblue-lprimary), 10);
+        background: styles.fns-lighten(var(--c-iblue-lprimary), 10);
       }
       &--green {
-        background: styles.fns-lighten(var(--cgreen-lprimary), 10);
+        background: styles.fns-lighten(var(--c-igreen-lprimary), 10);
       }
       &--brown {
-        background: styles.fns-lighten(var(--cbrown-lprimary), 10);
+        background: styles.fns-lighten(var(--c-ibrown-lprimary), 10);
       }
     }
   }

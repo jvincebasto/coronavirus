@@ -114,23 +114,39 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
 
+
+@include styles.mxs-themes(light) {
+  .countrylist {
+    &--container {
+      background: styles.fns-lighten(var(--c-lprimary), 6);
+      box-shadow: styles.$vars-box-shadow;
+    }
+  }
+}
+
+@include styles.mxs-themes(dark) {
+  .countrylist {
+    &--container {
+      background: styles.fns-darken(var(--c-lprimary), 3);
+    }
+  }
+}
+</style>
+
+<style scoped lang="scss">
+@use "~@/sass/styles" as styles;
+
 .countrylist {
   &--container {
     max-height: 30rem;
     width: 100%;
     display: none;
-
-
-    background: lighten(styles.$vars-c-lprimary, 9%);
-    box-shadow: styles.$vars-box-shadow;
     border-radius: 1rem;
-
 
     position: absolute;
     z-index: 10;
     top: 0;
     opacity: 0;
-
 
     overflow: hidden;
     transition: all 0.3s ease-in-out;

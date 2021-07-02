@@ -130,7 +130,7 @@ export default {
       this.searchRequestDuplicates(state.inputs.valid);
       this.searchDataLimit(state.inputs.passed);
       const data = await this.searchRequest(state.inputs.final);
-
+      for(const input of state.countries) this.disableListItem(input.country);
 
       if(await data) {
         this.searchErrors(this.stringCapitalizeLoop);
@@ -305,7 +305,7 @@ export default {
     }
   }
   .searchbtn {
-    background: styles.fns-lighten(var(--c-lprimary), 8);
+    background: styles.fns-lighten(var(--c-lprimary), 6);
     box-shadow: styles.$vars-box-shadow;
     &--title {
       color: var(--c-dprimary);
@@ -320,7 +320,7 @@ export default {
   .search {
     &-list {
       &--btn {
-        background: styles.fns-lighten(var(--c-lprimary), 8);
+        background: styles.fns-lighten(var(--c-lprimary), 6);
         &:hover {
           background: var(--c-dprimary);
         }
@@ -348,7 +348,7 @@ export default {
 
 @include styles.mxs-themes(dark) {
   .searchbtn {
-    background: styles.fns-darken(var(--c-lprimary), 4);
+    background: styles.fns-darken(var(--c-lprimary), 3);
     &:hover {
       background: var(--c-dprimary);
     }
@@ -359,7 +359,7 @@ export default {
   .search {
     &-list {
       &--btn {
-        background: styles.fns-darken(var(--c-lprimary), 4);
+        background: styles.fns-darken(var(--c-lprimary), 3);
         &:hover {
           background: var(--c-dprimary);
         }

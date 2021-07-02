@@ -1,8 +1,14 @@
 // configure color themes
-@mixin configColorThemes($theme: 'blue') {
-  html[color-theme=#{$theme}],
-  html [color-theme=#{$theme}], 
-  html[color-theme="light"] [color-theme=#{$theme}] { @content };
+@mixin configColorThemes($theme: 'blue',$mode: light) {
+  @if $mode == light {
+    html[color-theme=#{$theme}],
+    html [color-theme=#{$theme}], 
+    html[color-mode="light"] [color-theme=#{$theme}] { @content };
+  }
+  @else if $mode == dark {
+    html[color-mode="dark"][color-theme=#{$theme}], 
+    html[color-mode="dark"] [color-theme=#{$theme}] { @content };
+  }
 }
 
 // configure color modes
