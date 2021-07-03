@@ -145,7 +145,7 @@ export default {
       border: 2px solid var(--c-dprimary);
     }
 
-    &:hover &--text {
+    &:hover .headline--text {
       background: var(--c-dprimary);
       color: var(--c-lprimary);
     }
@@ -189,14 +189,64 @@ export default {
   }  
 }
 @include styles.mxs-colorThemes('brown',light) {
+  .section-hero {
+    background: styles.fns-lighten(var(--c-lprimary), 5);
+  }
+  .headline {
+    &-title,
+    &-subtitle {
+      color: var(--c-black);
+    }
+  }
+  .headline-btn {
+    &--text {
+      color: var(--c-black);
+      border: 2px solid var(--c-black);
+    }
+
+    &:hover .headline-btn--text {
+      background: var(--c-black);
+      color: var(--c-lprimary);
+    }
+  }
   .model--person {
-    filter: hue-rotate(-162deg) saturate(2);
-  }  
+    filter: hue-rotate(-186deg) saturate(2);
+  }
+  .covidgroup {
+    &-img {
+      background: var(--c-black);
+    }
+  }
 }
 @include styles.mxs-colorThemes('brown',dark) {
+  .section-hero {
+    background: var(--c-white);
+  }
+  .headline {
+    &-title,
+    &-subtitle {
+      color: var(--c-dprimary);
+    }
+  }
+  .headline-btn {
+    &--text {
+      color: var(--c-dprimary);
+      border: 2px solid var(--c-dprimary);
+    }
+
+    &:hover .headline-btn--text {
+      background: var(--c-dprimary);
+      color: var(--c-lprimary);
+    }
+  }
   .model--person {
-    filter: hue-rotate(-162deg);
-  }  
+    filter: hue-rotate(-186deg) saturate(2);
+  }
+  .covidgroup {
+    &-img {
+      background: var(--c-dprimary);
+    }
+  }
 }
 </style>
 

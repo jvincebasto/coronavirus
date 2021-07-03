@@ -2,7 +2,8 @@
 @use "~@/sass/functions/functions" as fns;
 
 
-@mixin dvColorProps($name: '',$hue: 0,$sat: 0%,$lum: 0%,$lightsat: 0%,$darksat: 0%,$lightlum: 0%,$darklum: 0%) {
+// DEFINE color properties
+@mixin defineColorProperties($name: '',$hue: 0,$sat: 0%,$lum: 0%,$lightsat: 0%,$darksat: 0%,$lightlum: 0%,$darklum: 0%) {
 
 	$varname: '';
 	@if $name == '' { $varname: '' }
@@ -17,163 +18,207 @@
 	--dc#{$varname}-lightlum: #{$lightlum};
 	--dc#{$varname}-darklum: #{$darklum};
 }
-
-
-// @mixin target() {
-	// 	--c#-{$colorVar + $varname}-hue: var(--dc#-{$varname}-#-{$hue});
-	// 	--c#-{$colorVar + $varname}-sat: var(--dc#-{$varname}-#-{$sat});
-	// 	--c#-{$colorVar + $varname}-lum: var(--dc#-{$varname}-#-{$lum});
-
-	// 	--c#-{$colorVar + $varname}-lightsat: var(--dc#-{$varname}-#-{$lightsat});
-	// 	--c#-{$colorVar + $varname}-darksat: var(--dc#-{$varname}-#-{$darksat});
-	// 	--c#-{$colorVar + $varname}-lightlum: var(--dc#-{$varname}-#-{$lightlum});
-	// 	--c#-{$colorVar + $varname}-darklum: var(--dc#-{$varname}-#-{$darklum});
-// }
-
-@mixin svColorProps($name: '',$hue: 'hue',$sat: 'sat',$lum: 'lum',$lightsat: 'lightsat',$darksat: 'darksat',$lightlum: 'lightlum',$darklum: 'darklum') {
-// ,$custom: false, $colorVar: 'lp'
-
+// DYNAMIC color properties
+@mixin dynamicColorProperties($name: '') {
 
 	$varname: '';
 	@if $name == '' { $varname: '' }
 	@else { $varname: '-#{$name}' }
 
-	--c#{$varname}-hue: var(--dc#{$varname}-#{$hue});
-	--c#{$varname}-sat: var(--dc#{$varname}-#{$sat});
-	--c#{$varname}-lum: var(--dc#{$varname}-#{$lum});
+	--c#{$varname}-hue: var(--dc#{$varname}-hue);
+	--c#{$varname}-sat: var(--dc#{$varname}-sat);
+	--c#{$varname}-lum: var(--dc#{$varname}-lum);
 
-	--c#{$varname}-lightsat: var(--dc#{$varname}-#{$lightsat});
-	--c#{$varname}-darksat: var(--dc#{$varname}-#{$darksat});
-	--c#{$varname}-lightlum: var(--dc#{$varname}-#{$lightlum});
-	--c#{$varname}-darklum: var(--dc#{$varname}-#{$darklum});
-
-	// @elsef if $custom == true {
-		// @if $colorVar == 'lp' {
-		// 	@include target('lp',)
-		// }
-	// }
+	--c#{$varname}-lightsat: var(--dc#{$varname}-lightsat);
+	--c#{$varname}-darksat: var(--dc#{$varname}-darksat);
+	--c#{$varname}-lightlum: var(--dc#{$varname}-lightlum);
+	--c#{$varname}-darklum: var(--dc#{$varname}-darklum);
 }
+// HELPER: validate color property
+@function validateColorProperty($prop: '',$default: '') {
 
+	$varprop: '';
+	@if $prop == '' { $varprop: #{$default} }
+	@else { $varprop: #{$prop} }
 
-// default dynamic color properties
-@mixin dvDefaultColorProps($color: 'blue',$name: '') {
-	@if $color == 'blue' {
-		@include dvColorProps($name,202,41%,70%,90%,11%,90%,10%);
-	}
-	@if $color == 'green' {
-		@include dvColorProps($name,142,40%,70%,90%,10%,90%,10%);
-	}
-	@if $color == 'brown' {
-		@include dvColorProps($name,40,42%,70%,92%,11%,90%,10%);
-	}
+	@return $varprop;
 }
-// default static color properties
-@mixin svDefaultColorProps($mode: light,$name: '') {
+// DEFINE color variables
+@mixin defineColorVariables($colorname,$name: '',$mode: light,$sat: '',$lum: '') {
+	
+	$varsat: '';
+	$varlum: '';
+
 	@if $mode == light {
-		@include svColorProps($name);
+		@if $colorname == 'lprimary' { $varsat: validateColorProperty($sat,'sat'); $varlum: validateColorProperty($lum,'lum') }
+		@else if $colorname == 'dprimary' { $varsat: validateColorProperty($sat,'sat'); $varlum: validateColorProperty($lum,'darklum') }
+		@else if $colorname == 'white' { $varsat: validateColorProperty($sat,'lightsat'); $varlum: validateColorProperty($lum,'lightlum') }
+		@else if $colorname == 'black' { $varsat: validateColorProperty($sat,'darksat'); $varlum: validateColorProperty($lum,'darklum') }
+		@else if $colorname == 'grey' { $varsat: validateColorProperty($sat,'darksat'); $varlum: validateColorProperty($lum,'lum') }
 	}
 	@else if $mode == dark {
-		@include svColorProps($name,'hue','sat','darklum','lightsat','darksat','darklum','lum');
+		@if $colorname == 'lprimary' { $varsat: validateColorProperty($sat,'sat'); $varlum: validateColorProperty($lum,'darklum') }
+		@else if $colorname == 'dprimary' { $varsat: validateColorProperty($sat,'sat'); $varlum: validateColorProperty($lum,'lum') }
+		@else if $colorname == 'white' { $varsat: validateColorProperty($sat,'darksat'); $varlum: validateColorProperty($lum,'darklum') }
+		@else if $colorname == 'black' { $varsat: validateColorProperty($sat,'lightsat'); $varlum: validateColorProperty($lum,'lightlum') }
+		@else if $colorname == 'grey' { $varsat: validateColorProperty($sat,'darksat'); $varlum: validateColorProperty($lum,'darklum') }
 	}
+	
+	@include mxs.varHsl(--c#{$name}-#{$colorname},var(--c#{$name}-hue),var(--c#{$name}-#{$varsat}),var(--c#{$name}-#{$varlum}));
 }
 
 
 
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
 
-// custom dynamic light color properties
-@mixin dvCustomLightColorProps($color: 'blue',$name: '') {
+
+
+// DEFAULT color properties
+@mixin defaultColorProperties($color: 'blue',$name: '') {
+	@if $color == 'blue' {
+		@include defineColorProperties($name,202,41%,70%,90%,11%,90%,10%);
+	}
+	@if $color == 'green' {
+		@include defineColorProperties($name,142,40%,70%,90%,10%,90%,10%);
+	}
 	@if $color == 'brown' {
-		@include dvColorProps($name,53,98%,47%,100%,18%,87%,7%);
+		@include defineColorProperties($name,16,100%,50%,100%,10%,90%,10%);
 	}
 }
-// custom dynamic dark color properties
-@mixin dvCustomDarkColorProps($color: 'blue',$name: '') {
+// CUSTOM light color properties
+@mixin customLightColorProperties($color: 'blue',$name: '') {
 	@if $color == 'brown' {
-		@include dvColorProps($name,53,98%,47%,100%,18%,87%,7%);
+		@include defineColorProperties($name,16,100%,50%,100%,10%,90%,10%);
+	}
+}
+// CUSTOM dark color properties
+@mixin customDarkColorProperties($color: 'blue',$name: '') {
+	// @if $color == 'brown' {
+	// 	@include defineColorProperties($name,16,100%,50%,100%,10%,90%,10%);
+	// }
+}
+// CUSTOM color properties
+@mixin customColorProperties($color: 'blue',$name: '',$mode: light) {
+	@if $mode == light {
+		@include customLightColorProperties($color,$name);
+	}
+	@else if $mode == dark {
+		@include customDarkColorProperties($color,$name);
 	}
 }
 
 
 
-@mixin dvMultiColorProps($color: 'blue',$mode: light,$name: '',$custom: false) {
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+
+
+
+// DEFAULT color variables
+@mixin defaultColorVariables($name: '',$mode: light) {
+	@if $mode == light {
+		@include defineColorVariables('lprimary',$name);
+		@include defineColorVariables('dprimary',$name);
+		@include defineColorVariables('white',$name);
+		@include defineColorVariables('black',$name);
+		@include defineColorVariables('grey',$name);
+	}
+	@else if $mode == dark {
+		@include defineColorVariables('lprimary',$name,dark);
+		@include defineColorVariables('dprimary',$name,dark);
+		@include defineColorVariables('white',$name,dark);
+		@include defineColorVariables('black',$name,dark);
+		@include defineColorVariables('grey',$name,dark);
+	}
+}
+// CUSTOM light color variables
+@mixin customLightColorVariables($color: 'blue',$name: '') {
+	$mode: light;
+
+	@if $color == 'blue' {
+		@include defineColorVariables('lprimary',$name,$mode,'sat','lum');
+	}
+}
+// CUSTOM dark color variables
+@mixin customDarkColorVariables($color: 'blue',$name: '') {
+	$mode: dark;
+
+	@if $color == 'blue' {
+		@include defineColorVariables('lprimary',$name,$mode,'sat','darklum');
+	}
+}
+// CUSTOM color variables
+@mixin customColorVariables($color: 'blue',$name: '',$mode: light) {
+	@if $mode == light {
+		@include customLightColorVariables($color,$name);
+	}
+	@else if $mode == dark {
+		@include customDarkColorVariables($color,$name);
+	}
+}
+
+
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+
+
+
+// SCOPED color properties
+@mixin scopedColorProperties($color: 'blue',$name: '',$mode: light,$custom: false) {
 	@if $custom == false {
-		@include dvDefaultColorProps($color,$name);
+		@include defaultColorProperties($color,$name);
 	}
 	@else if $custom == true {
-		@if $mode == light {
-			@include dvCustomLightColorProps();
-		}
-		@if $mode == dark {
-			@include dvCustomDarkColorProps();
-		}
+		@include customColorProperties($color,$name,$mode);
 	}
 }
-// here
-@mixin svMultiColorProps($mode: light,$name: '',$custom: false) {
-	@if $custom == false {
-		@include svDefaultColorProps($mode,$name);
-	}
-	@else if $custom == true {
-		@if $mode == light {
-			// @if $color == brown {
-			// 	@include svColorProps($name,'hue','sat','darklum','lightsat','darksat','darklum','lum');
-			// }
-		}
-		@if $mode == dark {
-			// @if $color == brown {
-			// 	@include svColorProps($name,'hue','sat','darklum','lightsat','darksat','darklum','lum');
-
-
-			// yogi issoyo
-			// 	@include svColorProps($name,$custom,'lp','hue','sat','darklum','lightsat','darksat','darklum','lum');
-			// }
-		}
-	}
-}
-
-
-@mixin colorThemeVariables($name: '',$scope: 'default') {
-// ,$custom: false
+// SCOPED color variables
+@mixin scopedColorVariables($color: 'blue',$name: '',$mode: light,$custom: false) {
 
 	$varname: '';
 	@if $name == '' { $varname: '' }
 	@else { $varname: '-#{$name}' }
 
-	@include mxs.varHsl(--c#{$varname}-lprimary,var(--c#{$varname}-hue),var(--c#{$varname}-sat),var(--c#{$varname}-lum));
-	@include mxs.varHsl(--c#{$varname}-dprimary,var(--c#{$varname}-hue),var(--c#{$varname}-sat),var(--c#{$varname}-darklum));
-	@include mxs.varHsl(--c#{$varname}-white,var(--c#{$varname}-hue),var(--c#{$varname}-sat),var(--c#{$varname}-lightlum));
-	@include mxs.varHsl(--c#{$varname}-black,var(--c#{$varname}-hue),var(--c#{$varname}-darksat),var(--c#{$varname}-darklum));
-	@include mxs.varHsl(--c#{$varname}-grey,var(--c#{$varname}-hue),var(--c#{$varname}-darksat),var(--c#{$varname}-lum));
 
-	// @else if $custom == true {
-	// 	@include mxs.varHsl(--c#-{$varname}-lprimary,var(--c#-{$varname}-hue),var(--c#-{$varname}-sat),var(--c#-{$varname}-lum));
-	// 	@include mxs.varHsl(--c#-{$varname}-dprimary,var(--c#-{$varname}-hue),var(--c#-{$varname}-sat),var(--c#-{$varname}-darklum));
-	// 	@include mxs.varHsl(--c#-{$varname}-white,var(--c#-{$varname}-hue),var(--c#-{$varname}-sat),var(--c#-{$varname}-lightlum));
-	// 	@include mxs.varHsl(--c#-{$varname}-black,var(--c#-{$varname}-hue),var(--c#-{$varname}-darksat),var(--c#-{$varname}-darklum));
-	// 	@include mxs.varHsl(--c#-{$varname}-grey,var(--c#-{$varname}-hue),var(--c#-{$varname}-darksat),var(--c#-{$varname}-lum));
-	// }
+	@if $custom == false {
+		@include defaultColorVariables($varname,$mode);
+	}
+	@else if $custom == true {
+		@include customColorVariables($color,$varname,$mode);
+	}
 }
-
-@mixin colorThemeScopes($color: 'blue',$mode: light,$custom: false,$scope: 'default') {
+// SCOPED color themes
+@mixin scopedColorThemes($color: 'blue',$mode: light,$custom: false,$scope: 'default') {
 	
 	$varname: '';
 	@if $scope == 'default' { $varname: '' }
 	@else if $scope == 'independent' { $varname: 'i#{$color}' }
 
-	@include dvMultiColorProps($color,$mode,$varname,$custom);
-	@include svMultiColorProps($mode,$varname,$custom);
-	@include colorThemeVariables($varname,$scope);
+
+	@include scopedColorProperties($color,$varname,$mode,$custom);
+	@include dynamicColorProperties($varname);
+	@include scopedColorVariables($color,$varname,$mode,$custom);
 }
 
 
 
-// global dynamic color property variables
-@mixin dvGlobalColorProps($color: 'blue') {
-	@include dvDefaultColorProps($color);
-}
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
 
-// global static color property variables
-@mixin svGlobalColorProps($mode: light) {
+
+
+// GLOBAL color property variables
+@mixin globalColorProperties($color: 'blue',$name: '') {
+	@include defaultColorProperties($color,$name);
+}
+// GLOBAL static color property variables
+@mixin globalDynamicColorProperties($mode: light,$name: '') {
 
   @if $mode == light {
 		// natural colors
@@ -185,11 +230,10 @@
 		@include mxs.varHsl(--c-defwhite,0,0%,0%);
 		@include mxs.varHsla(--c-defblack,0,0%,90%,.9);
   }
-	@include svDefaultColorProps($mode);
+	@include dynamicColorProperties($name);
 
 }
-
-// global color sign values
+// GLOBAL color signs
 @mixin globalColorSigns($mode: light) {
 
 	// dynamic sign
@@ -202,37 +246,28 @@
 		--c-neg: +1;
 	}
 }
-
-
-// global color theme variables
-@mixin globalColorThemeVariables {
-	@include colorThemeVariables();
+// GLOBAL color variables
+@mixin globalColorVariables($mode: light,$name: '') {
+	@include defaultColorVariables($name,$mode);
+}
+// GLOBAL color config
+@mixin globalColorConfig($color: 'blue',$mode: light,$name: '') {
+	@include globalColorProperties($color,$name);
+	@include globalDynamicColorProperties($mode,$name);
+	@include globalColorVariables($mode);
+	@include globalColorSigns($mode);
 }
 
 
-// global color config variables
-@mixin globalColorConfig($color: 'blue',$mode: light) {
-	@include dvGlobalColorProps($color);
-	@include svGlobalColorProps($mode);
-	@include globalColorThemeVariables;
-}
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
 
 
 
-/* root colors */
-:root {
-
-	// dynamic color properties
-	@include dvGlobalColorProps('blue');
-	// base color property variables
-	@include svGlobalColorProps(light);
-	// base signs 
-	@include globalColorSigns(light);
-	// base color variables
-	@include globalColorThemeVariables;
-
-
-	// static color properties
+// Static color properties
+@mixin staticColorProperties() {
 	--sc-hue: var(--dc-hue);
 	--sc-sat: var(--dc-sat);
 	--sc-lum: var(--dc-lum);
@@ -241,34 +276,76 @@
 	--sc-darksat: var(--dc-darksat);
 	--sc-lightlum: var(--dc-lightlum);
 	--sc-darklum: var(--dc-darklum);
-
-
-	// static colors
+}
+// Static color variables
+@mixin staticColorVariables() {
 	@include mxs.varHsl(--sc-lprimary,var(--sc-hue),var(--sc-sat),var(--sc-lum));
 	@include mxs.varHsl(--sc-dprimary,var(--sc-hue),var(--sc-sat),var(--sc-darklum));
 	@include mxs.varHsl(--sc-white,var(--sc-hue),var(--sc-sat),var(--sc-lightlum));
 	@include mxs.varHsl(--sc-black,var(--sc-hue),var(--sc-darksat),var(--sc-darklum));
 	@include mxs.varHsl(--sc-grey,var(--sc-hue),var(--sc-darksat),var(--sc-lum));
 
-	// static signs
-	--sc-pos: +1;
-	--sc-neg: -1;
-
-
-	// independent multiple colors
-	@include colorThemeScopes('blue',light,false,'independent');
-	@include colorThemeScopes('green',light,false,'independent');
-	@include colorThemeScopes('brown',light,false,'independent');
+	@include mxs.varHsl(--sc-defwhite,0,0%,90%);
+	@include mxs.varHsl(--sc-defblack,0,0%,0%);
 
 
 	// natural colors
 	@include mxs.varHsl(--c-defwhite,0,0%,90%);
 	@include mxs.varHsl(--c-defblack,0,0%,0%);
+}
+// Static color signs
+@mixin staticColorSigns() {
+	--sc-pos: +1;
+	--sc-neg: -1;
+}
+// Static color config
+@mixin staticColorConfig() {
+	@include staticColorProperties();
+	@include staticColorVariables();
+	@include staticColorSigns();
+}
 
 
-	// static natural colors
-	@include mxs.varHsl(--sc-defwhite,0,0%,90%);
-	@include mxs.varHsl(--sc-defblack,0,0%,0%);
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+
+
+
+// Independent color themes
+@mixin independentColors($mode: light) {
+	@if $mode == light {
+		@include scopedColorThemes('blue',light,false,'independent');
+		@include scopedColorThemes('green',light,false,'independent');
+		@include scopedColorThemes('brown',light,false,'independent');
+	}
+	@else if $mode == dark {
+		@include scopedColorThemes('blue',dark,false,'independent');
+		@include scopedColorThemes('green',dark,false,'independent');
+		@include scopedColorThemes('brown',dark,false,'independent');
+	}
+}
+
+
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+
+
+
+/* root colors */
+:root {
+
+	// global color config
+	@include globalColorConfig('blue',light);
+
+	// static color config
+	@include staticColorConfig();
+
+	// independent colors themes
+	@include independentColors(light);
 }
 
 
@@ -290,9 +367,13 @@
 
 
 
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
 
 
-// config light mode with color themes
+
+// GLOBAL LIGHT mode config
 @include mxs.configColorThemes('blue') {
 	@include globalColorConfig('blue',light);
 }
@@ -302,242 +383,67 @@
 @include mxs.configColorThemes('brown') {
 	@include globalColorConfig('brown',light);
 }
-// config signs light modes
-@include mxs.configColorModes(light) {
-	@include globalColorSigns(light);
-}
-
-
-// config dark mode
+// GLOBAL DARK mode config
 @include mxs.configColorModes(dark) {
-	@include svGlobalColorProps(dark);
+	@include globalDynamicColorProperties(dark);
 	@include globalColorSigns(dark);
-	@include globalColorThemeVariables;
+	@include globalColorVariables(dark);
 
-	// independent multiple colors
-	@include colorThemeScopes('blue',dark,false,'independent');
-	@include colorThemeScopes('green',dark,false,'independent');
-	@include colorThemeScopes('brown',dark,false,'independent');
+	// independent colors themes
+	@include independentColors(dark);
 }
 
 
-// // custom config light mode with color themes
-// @include mxs.configColorThemes('blue') {
-// 	@include colorThemeScopes('blue',light,true);
-// }
-// @include mxs.configColorThemes('green') {
-// 	@include colorThemeScopes('green',light,true);
-// }
-// @include mxs.configColorThemes('brown') {
-// 	@include colorThemeScopes('brown',light,true);
-// }
-// // custom config dark mode with color themes
-// @include mxs.configColorThemes('blue',dark) {
-// 	@include colorThemeScopes('blue',dark,true);
-// }
-// @include mxs.configColorThemes('green',dark) {
-// 	@include colorThemeScopes('green',dark,true);
-// }
-// @include mxs.configColorThemes('brown',dark) {
-// 	@include colorThemeScopes('brown',dark,true);
-// }
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
 
 
 
-// configure inverted light mode
+// Custom color themes
+@include mxs.configColorThemes('brown') {
+	// @include scopedColorThemes('brown',light,true);
+}
+
+
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+
+
+
+// INVERTED LIGHT mode
 @include mxs.configInvertedModes(light) {
-	@include svGlobalColorProps(dark);
+	@include globalDynamicColorProperties(dark);
 	@include globalColorSigns(dark);
-	@include globalColorThemeVariables;
+	@include globalColorVariables(dark);
 }
-// configure inverted dark mode
+// INVERTED DARK mode
 @include mxs.configInvertedModes(dark) {
-	@include svGlobalColorProps(light);
+	@include globalDynamicColorProperties(light);
 	@include globalColorSigns(light);
-	@include globalColorThemeVariables;
+	@include globalColorVariables(dark);
 }
 
 
-// configure static light mode
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+
+
+
+// STATIC LIGHT mode
 @include mxs.configStaticModes(light) {
-	@include svGlobalColorProps(light);
+	@include globalDynamicColorProperties(light);
 	@include globalColorSigns(light);
-	@include globalColorThemeVariables;
+	@include globalColorVariables(dark);
 }
-// configure static dark mode
+// STATIC DARK mode
 @include mxs.configStaticModes(dark) {
-	@include svGlobalColorProps(dark);
+	@include globalDynamicColorProperties(dark);
 	@include globalColorSigns(dark);
-	@include globalColorThemeVariables;
+	@include globalColorVariables(dark);
 }
-
-
-/* 
-Legends: 
-	- [space]: white space/ spacebar
-
-Uses:
-	- CSS Variables: mutates values. Sass variables are not mutatable since they are pre-defined on build
-	- Sass's Color Functions ONLY takes sass variables as arguements. 
-	- Implemented Color Manipulating Functions (Copied on Google) like Sass's Color Functions: 
-		- Lighten, Darken, Alpha, Saturate, Desature
-	- Use of Scoped Inverted Color Modes are to be able to Invert a Component's UI Static Colors 
-		but its really not ideal, Static Colors should do the job.
-
-		Example:
-			- Inverted Modes: Light background, Dark Navbar (Reacts in Changing Modes)
-			- Static Colors - Light Mode: Light background, Dark Navbar 
-			- Static Colors - Dark Mode: Dark background, Dark Navbar
-
-	- Use of Scoped Colors in Components are the same with Inverted Colors but it would be quite annoying to 
-		redefine all styles in many places.
-
-
-
-Briefing: 
-1) Uses HSLA Color (Hue,Saturation,Lightness,Alpha)
-2) Define Base Colors, Static Colors, Natural Colors: "black/white" in "Root Psuedo Selector" (:root{})  
-3) Uses Html Attributes to Scope Styles: 
-	- Colors: html[color="colorVariable"], 
-	- Modes: [mode="light/dark"], 
-	-	Inverted Modes: Prefered Inverted => [colorInverted]
-	- Inverted Modes: Edge Case => [colorInverted="light/dark"]
-	- Scoped/Local Colors: html [space] [scopedColor="colorVariable"]
-
-4) Uses Dynamic "HSLA" Properties Variables (light and dark)
-5) Defining colors Requires of Light Color ONLY
-6) All Dark colors are handled automatically in 1 base code(@mixin), which takes in a "Dynamic Color Property Variables" (HSLA Props)
-7) Base Code for Dark mode defines the outlook of opposite of a color. 
-	
-	Example: Manually Defined
-		- Light Mode: --white: white, --black: black 
-		- Dark Mode: --black: white, --white: black
-	Example: Dynamically Defined
-		- Light Mode: --dynamic-hue: blue, --dynamic-hue: green;
-		- Dark Mode: --static-hue: --dynamic-hue
-		- Scoping: 
-			- html[color="blue"] { --dynamic-hue: blue }
-			- html[color="green"] { --dynamic-hue: green }
-
-
-8) Define 2 for each @mixins or @functions:
-	- Configure @mixin or @function 
-	- Reusable @mixin or @function
-
-
-Challenges:
-1) Scoping modes 
-	a. Somed Code Fallbacks to default Html Scoped if html[dark/light] are not defined
-		- html, html[mode="dark"], html[mode="light"]
-
-2) Scoping Independent Colors (Local/Component Scale)
-	a. Requires coding in "2 Modes(Light/Dark)" Multiply by the "Number of Colors" => 2*Nth_Color.
-		If not defined and relies on the default html dynamic dark mode, changes will not take effect 
-		b. Use html attribute to scope styles: [scopedColor="colorVariable"]
-
-		- html [space] [color="currentColor"], html[mode="light"] [space] [color="currentColor"]
-		- html[mode="dark"] [space] [color="currentColor"]
-
-3) Scoping Independent Colors and Modes (Local/Component Scale)
-	a. Ideally, codes used in light or dark mode should be reused. Therefore, css variables should not mutate 
-		and only rely on code defined in classes.
-	b. Use html attribute to scope styles; [colorInverted] or [colorInverted="light/dark"]
-
-		Example: @mixin
-		* mutated/local css variables are accessed throught a parent tag which has a special attribute (Ex: [colorInverted]), 
-			it is because of the scoping made in Sass's { @content }
-		* Use Sass interpolation to also access mutated/local css variables in target tags. (If Possible) 
-			default: 
-				- html, html[mode="light"],
-				- html[mode="dark"],
-			target: 
-				- html[mode="dark"] [space] #_{$selector}[colorinverted] { @content }
-			color invert children: 
-				- html[mode="dark"] [space] [colorinverted] { @content }
-					=> html[mode="dark"] [space] [colorinverted] * 
-				- html[mode="light"] [space] [colorinverted] { @content }
-					=> html[mode="light"] [space] [colorInverted] * 
-
-	c. Inverted colors are not equal to the ones defined in color modes(light/dark), reasons:
-		* Special functions that manipulate colors are not reactive to changes. 
-		* Manipulating colors should not increment "Away" the base color but "Toward" the base color 
-			to avoid over brightened and darkened colors
-
-			NOTE: Variables are Inverted 
-				- Light Mode: --light-color = --dark-color 
-				- Dark Mode: --dark-color = --light-color 
-			Example: 
-			 - Lightn Mode: darken(--light-color,percentage) => Toward
-			 - Dark Mode: lighten(--dark-color,percentage) => Toward
-			 - Inverted Light Mode: darken(--light-color,percentage) => darken(--dark-color,percentage) Away (Over Darkened)
-			 - Inverted Dark Mode: lighten(--dark-color,percentage) => lighten(--light-color,percentage) Away (Over Lightened)
-
-
-Limitations:
-	- Implementing it with Only Sass and Css will populate css styles with different css variables and duplication.
-	- Scoped Colors and Inverted Color Modes have similar issues like redefining styles in both modes. 
-	- It is a Declarative way that limits in reacting to changes since it cannot access the DOM.
-	- It would be better to implement it with javascript in tandem with css and sass.
-	- Confusion with color variables in dark and inverted modes
-		Example: 
-			+ Light Mode: --white: white, --black: black, 
-			+ Dark Mode: --white: black, --black: white
-
-
-Warnings: 
-	- Color Functions can be made reactive to Color Modes by defining the css variables to mutate but it may cause an error if changes are made to newer sass versions.
-	- Probable Solution is to add signs in values: calc($light + "-32%"), calc($dark - "+32%")
-		Example: 
-		* types
-			-	string: '+', '-'
-			- string? expression? math conditions?: +, - (without quotes)
-		* @mixins
-			- lighten: light mode => '+' | dark mode => '-' 
-			- darken: light mode => '-' | dark mode => '+'
-	
-	- Sass differentiates css values as a data type from string values. These data types might be similar but it Sass treats them seperately, same applies to any other language. 
-		Example: Colors
-			- string: 'blue'
-			- css value: blue (without quotes)
-			- string: '+'
-			- expression?: + (without quotes)
-
-
-Possible Approach: (Not Ideal)
-	* Give up Reactive Global Changes in Dark Mode and avoid using confusing color varables but redefining manaully all styles in dark mode 
-	* Retain Global Configurations: (As much it can)
-	* Separate Special Cases like: Inverted Colors and Scoped Colors, then manually re-define styles in these scopes if needed and only the ones that needed changes.
-	* Re-define variables in Inverted Color Modes and Scoped Colors with Modes 
-	* Normally, Reusable @mixin or @functions for color modes are not needed in light mode and only make changes for dark mode. But it might be safe to also defined the styles enclosed in "light mode" and "base html"
-		
-		Example: 
-			- Light Mode: html, html[mode="light"] { color: darken(--white: black,percentage) } 
-			- Dark Mode: html[mode="dark"] { color: lighten(--black: white,percentage) }
-
-			* Colors in Inverted State:
-				+ --white: black
-				+ --black: white
-
-			* Redefine styles in Inverted Mode, Scoped Colors would have the same process:
-				+ Inverted Light Mode: html[mode="light"] { color: lighten(--white,percentage) }
-				+ Inverted Dark Mode: html[mode="dark"] { color: darken(--black,percentage) }
-				+ Scoped Color Light Mode: html[mode="light"] { color: lighten(--white,percentage) }
-				+ Scoped Color Dark Mode: html[mode="dark"] { color: darken(--black,percentage) }
-
-	* ONLY Mutate Scope Variables in Scoped Inverted Modes IF Munipulating Color Functions are reactive to Color Modes. 
-		If Resolved, mutated variables in Inverted Modes will be applied Html Targets that has Inverted Attributes 
-		by redifining color variables properties and color vairiables itself. 
-
-Conclusion: 
-	- This is possible but it may break down if updates occur. (Achieved)
-	- ALWAYS defined in styles in html or html[mode="light"]. html[mode="dark"], inveted colors or scoped colors is optional.
-	- Define Only once in html or html[mode="light"]. html[mode="dark"],[colorInverted],[color="colorVariable"] adapts to changes based on default styles in html, html[mode="light"] just by adding these specific attributes
-	- Redefine styles html[mode="dark"],[colorInverted],[color="colorVariable"] Only if needed or for special cases. 
-	- Redifining styles in special attributes can be targeted by @mixin and passing a string literal to adding and interpolating them. These is for class/scoped styles
-		Example: 
-			- Interpolation: #_{$selector} 
-			- @mixin($selector) { html #_{$seletor}[colorInverted] }
-		}
-	- It also does not stack in children selectors which is good so to avoid confusion and debugging
-
- */

@@ -55,28 +55,47 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
 
-// theme btn
-.themebtn {
-  &-toggle {
-    border: 2px solid styles.fns-alpha(var(--c-dprimary), 0.1);
+@include styles.mxs-themes(light) {
+  // theme btn
+  .themebtn {
+    &-toggle {
+      border: 2px solid styles.fns-alpha(var(--c-dprimary), 0.1);
+    }
+    &-circle {
+      background: var(--c-lprimary);
+    }
+    &-bg {
+      background: var(--c-dprimary);
+    }
+    &-toggle:hover {
+      background: var(--sc-white);
+    }
   }
-  &-circle {
-    background: var(--c-lprimary);
-  }
-  &-bg {
-    background: var(--c-dprimary);
-  }
-  &-toggle:hover {
-    background: var(--sc-white);
+
+  // theme list
+  .themelist {
+    &--container {
+      background: var(--c-lprimary);
+    }
   }
 }
 
-// theme list
-.themelist {
-  &--container {
-    background: var(--c-lprimary);
+@include styles.mxs-colorThemes('brown',light) { 
+  .themelist {
+    &--container {
+      background: var(--c-white);
+    }
   }
 }
+
+@include styles.mxs-colorThemes('brown',dark) { 
+  .themelist {
+    &--container {
+      background: var(--c-white);
+    }
+  }
+}
+
 
 // theme css functions
 .theme {

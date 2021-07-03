@@ -224,6 +224,33 @@ export default {
   }
 }
 
+
+@include styles.mxs-colorThemes('brown',light) {
+  .section {
+    &-countries {
+      background: styles.fns-lighten(var(--c-white), 6);
+    }
+  }
+  .grid {
+    &-img {
+      background: var(--c-black);
+    }
+  }
+}
+
+@include styles.mxs-colorThemes('brown',dark) {
+  .section {
+    &-countries {
+      background: styles.fns-darken(var(--c-white), 3);
+    }
+  }
+  .grid {
+    &-img {
+      background: var(--c-dprimary);
+    }
+  }
+}
+
 </style>
 
 <style scoped lang="scss">

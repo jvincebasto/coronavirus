@@ -36,9 +36,8 @@ body {
 
 // scrollbar
 body {
-	$scrollbar: fns.darken(var(--c-lprimary), 20);
 	scrollbar-width: 15px;
-	scrollbar-color: $scrollbar;
+	scrollbar-color: fns.darken(var(--c-lprimary), 20);
 	
 	&::-webkit-scrollbar {
 		width: 15px;
@@ -56,6 +55,30 @@ body {
 @include mxs.themes(dark) {
 	body {
 		$scrollbar: fns-lighten(var(--c-dprimary), 20);
+	}
+}
+@include mxs.colorThemes('brown',light) {
+	body {
+		scrollbar-color: var(--sc-defwhite);
+
+		&::-webkit-scrollbar-track {
+			background: var(--sc-defwhite);
+		}
+		&::-webkit-scrollbar-thumb {
+			background: var(--c-black);
+		}
+	}
+}
+@include mxs.colorThemes('brown',dark) {
+	body {
+		scrollbar-color: var(--c-dprimary);
+
+		&::-webkit-scrollbar-track {
+			background: var(--c-white);
+		}
+		&::-webkit-scrollbar-thumb {
+			background: var(--c-black);
+		}
 	}
 }
 

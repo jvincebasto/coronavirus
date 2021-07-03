@@ -375,6 +375,64 @@ export default {
 }
 
 
+@include styles.mxs-colorThemes('brown',light) {
+  .searchbtn {
+    background: styles.fns-lighten(var(--c-white), 6);
+    &:hover {
+      background: var(--c-black);
+    }
+    &:hover .searchbtn--title {
+      color: var(--c-lprimary);
+    }
+  }
+  .search {
+    &-list {
+      &--btn {
+        background: styles.fns-lighten(var(--c-white), 6);
+        &:hover {
+          background: var(--c-black);
+        }
+      }
+      &--icon {
+        background: var(--c-black);
+      }
+      &--btn:hover .search-list--icon {
+        background: var(--c-lprimary);
+      }
+    }
+  }
+}
+
+
+@include styles.mxs-colorThemes('brown',dark) {
+  .searchbtn {
+    background: styles.fns-darken(var(--c-white), 3);
+    &:hover {
+      background: var(--c-dprimary);
+    }
+    &:hover .searchbtn--title {
+      color: var(--c-lprimary);
+    }
+  }
+  .search {
+    &-list {
+      &--btn {
+        background: styles.fns-darken(var(--c-white), 3);
+        &:hover {
+          background: var(--c-dprimary);
+        }
+      }
+      &--icon {
+        background: var(--c-dprimary);
+      }
+      &--btn:hover .search-list--icon {
+        background: var(--c-lprimary);
+      }
+    }
+  }
+}
+
+
 </style>
 
 

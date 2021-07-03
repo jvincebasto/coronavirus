@@ -218,6 +218,23 @@ export default {
     }
   }
 }
+
+@include styles.mxs-colorThemes('brown',light) {
+  .col {
+    :deep(.case-content--block) {
+      background: styles.fns-lighten(var(--c-white), 2);
+    }
+  }
+}
+
+@include styles.mxs-colorThemes('brown',dark) {
+  .col {
+    :deep(.case-content--block) {
+      background: styles.fns-darken(var(--c-white), 1);
+    }
+  }
+}
+
 </style>
 
 

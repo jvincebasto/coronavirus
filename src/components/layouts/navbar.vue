@@ -143,6 +143,35 @@ export default {
     }
   }
 }
+
+@include styles.mxs-colorThemes('brown',light) {
+  .nav {
+    background: var(--c-white);
+  }
+  .nav-bg {
+    background: var(--c-white);
+  }
+  .nav-logo {
+    :deep(*) {
+      .link {
+        &::before {
+          background: var(--c-dprimary);
+        }
+        &--text {
+          color: var(--c-dprimary);
+        }
+      }
+      .link:hover .link--text {
+        color: var(--c-dprimary);
+      }
+    }
+  }
+}
+@include styles.mxs-colorThemes('brown',dark) {
+  .nav-bg {
+    background: var(--c-white);
+  }
+}
 </style>
 
 <style scoped lang="scss">

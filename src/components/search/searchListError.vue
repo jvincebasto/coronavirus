@@ -52,6 +52,22 @@ export default {
     }
   }
 }
+
+@include styles.mxs-colorThemes('brown',light) {
+  .search {
+    &--errorgroup {
+      background: var(--sc-black);
+    }
+  }
+}
+
+@include styles.mxs-colorThemes('brown',dark) {
+  .search {
+    &--errorgroup {
+      background: var(--sc-black);
+    }
+  }
+}
 </style>
 
 

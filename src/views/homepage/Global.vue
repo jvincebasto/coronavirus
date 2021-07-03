@@ -90,6 +90,21 @@ export default {
     }
   }
 }
+
+@include styles.mxs-colorThemes('brown',light) {
+  .section {
+    &-global {
+      background: styles.fns-lighten(var(--c-white), 2);
+    }
+  }
+}
+@include styles.mxs-colorThemes('brown',dark) {
+  .section {
+    &-global {
+      background: styles.fns-darken(var(--c-white), 1);
+    }
+  }
+}
 </style>
 
 

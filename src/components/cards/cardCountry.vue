@@ -188,6 +188,18 @@ export default {
     background: styles.fns-darken(var(--c-lprimary), 3);
   }
 }
+
+
+@include styles.mxs-colorThemes('brown',light) {
+  .card {
+    background: styles.fns-lighten(var(--c-white), 6);
+  }
+}
+@include styles.mxs-colorThemes('brown',dark) {
+  .card {
+    background: styles.fns-darken(var(--c-white), 3);
+  }
+}
 </style>
 
 

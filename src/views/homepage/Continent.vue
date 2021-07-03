@@ -202,7 +202,33 @@ export default {
 @include styles.mxs-themes(dark) {
   .section {
     &-continents {
-      background: styles.fns-darken(var(--c-lprimary),2);
+      background: styles.fns-darken(var(--c-lprimary), 2);
+    }
+  }
+}
+
+
+@include styles.mxs-colorThemes('brown',light) {
+  .section {
+    &-continents {
+      background: styles.fns-lighten(var(--c-white), 4);
+    }
+  }
+  .grid {
+    &-img {
+      background: var(--c-black);
+    }
+  }
+}
+@include styles.mxs-colorThemes('brown',dark) {
+  .section {
+    &-continents {
+      background: styles.fns-darken(var(--c-white), 2);
+    }
+  }
+  .grid {
+    &-img {
+      background: var(--c-dprimary);
     }
   }
 }
