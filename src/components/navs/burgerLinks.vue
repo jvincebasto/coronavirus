@@ -61,95 +61,145 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
 
-// burgerblur
-.burgerblur {
-  height: 100%;
-  width: 100%;
+@include styles.mxs-themes(light) {
 
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 100;
-}
+  // burgerblur
+  .burgerblur {
+    height: 100%;
+    width: 100%;
 
-// burger btn
-.burger {
-  &-line {
-    background: var(--c-dprimary);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
   }
-}
 
-// scrollbar
-.scrollbar {
-  $scrollbar: styles.fns-darken(var(--c-lprimary), 20);
-  scrollbar-width: 15px;
-  scrollbar-color: $scrollbar;
+  // burger btn
+  .burger {
+    &-line {
+      background: var(--c-dprimary);
+    }
+  }
 
-  &::-webkit-scrollbar {
-    width: 15px;
-  }
-  &::-webkit-scrollbar-track {
-    background: var(--c-white);
-  }
-  &::-webkit-scrollbar-thumb {
-    background: var(--c-dprimary);
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    // background: var(--c-black);
-  }
-}
-
-// burger Links
-.burgerblock {
+  // scrollbar
   .scrollbar {
-    @include styles.mxs-respond(ptablet) {
-      background: styles.fns-lighten(var(--c-lprimary), 0);
+    $scrollbar: styles.fns-darken(var(--c-lprimary), 20);
+    scrollbar-width: 15px;
+    scrollbar-color: $scrollbar;
+
+    &::-webkit-scrollbar {
+      width: 15px;
+    }
+    &::-webkit-scrollbar-track {
+      background: var(--c-white);
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--c-dprimary);
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      // background: var(--c-black);
+    }
+  }
+
+  // burger Links
+  .burgerblock {
+    .scrollbar {
+      @include styles.mxs-respond(ptablet) {
+        background: styles.fns-lighten(var(--c-lprimary), 0);
+      }
+    }
+  }
+
+  // burger link text
+  .burgerblock {
+    :deep(*) {
+      .link:hover .link--text {
+        @include styles.mxs-respond(ptablet) {
+          color: var(--c-white);
+        }
+      }
+    }
+  }
+
+  // burger Links
+  .burgerblock {
+    :deep(*) {
+      .link {
+        @include styles.mxs-respond(ptablet) {
+          border-bottom: 2px solid var(--c-dprimary);
+        }
+      }
+      .link:last-child {
+        border: none;
+      }
+    }
+  }
+
+  // burger links psuedo
+  .burgerblock {
+    :deep(*) {
+      .link::before {
+        @include styles.mxs-respond(ptablet) {
+          background: var(--c-dprimary);
+        }
+      }
+    }
+  }
+
+  // burger css functions
+  .burger {
+    &-checkbox:checked ~ &-btn &-line {
+      background: var(--c-dprimary);
     }
   }
 }
 
-// burger link text
-.burgerblock {
-  :deep(*) {
-    .link:hover .link--text {
-      @include styles.mxs-respond(ptablet) {
-        color: var(--c-white);
+@include styles.mxs-themes(dark) {
+  .burgerblock {
+    .scrollbar  {
+      background: var(--c-white);
+
+      &::-webkit-scrollbar-track {
+        background: var(--c-white);
+      }
+      &::-webkit-scrollbar-thumb {
+        background: var(--c-black);
       }
     }
   }
 }
 
-// burger Links
-.burgerblock {
-  :deep(*) {
-    .link {
-      @include styles.mxs-respond(ptablet) {
-        border-bottom: 2px solid var(--c-dprimary);
-      }
-    }
-    .link:last-child {
-      border: none;
-    }
-  }
-}
+@include styles.mxs-colorThemes('brown',light) {
+  .burgerblock {
+    .scrollbar  {
+      background: var(--c-white);
 
-// burger links psuedo
-.burgerblock {
-  :deep(*) {
-    .link::before {
-      @include styles.mxs-respond(ptablet) {
-        background: var(--c-dprimary);
+      &::-webkit-scrollbar-track {
+        background: var(--sc-defwhite);
+      }
+      &::-webkit-scrollbar-thumb {
+        background: var(--c-white);
       }
     }
   }
 }
 
-// burger css functions
-.burger {
-  &-checkbox:checked ~ &-btn &-line {
-    background: var(--c-dprimary);
+
+@include styles.mxs-colorThemes('brown',dark) {
+  .burgerblock {
+    .scrollbar  {
+      background: var(--c-white);
+
+      &::-webkit-scrollbar-track {
+        background: var(--c-white);
+      }
+      &::-webkit-scrollbar-thumb {
+        background: var(--c-black);
+      }
+    }
   }
 }
+
 </style>
 
 <style scoped lang="scss">

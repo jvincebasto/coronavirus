@@ -145,7 +145,7 @@ export default {
       border: 2px solid var(--c-dprimary);
     }
 
-    &:hover .headline--text {
+    &:hover .headline-btn--text {
       background: var(--c-dprimary);
       color: var(--c-lprimary);
     }
