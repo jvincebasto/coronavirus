@@ -104,9 +104,7 @@ export default {
   // burger Links
   .burgerblock {
     .scrollbar {
-      @include styles.mxs-respond(ptablet) {
-        background: styles.fns-lighten(var(--c-lprimary), 0);
-      }
+      background: var(--c-lprimary);
     }
   }
 
@@ -157,7 +155,6 @@ export default {
 @include styles.mxs-themes(dark) {
   .burgerblock {
     .scrollbar  {
-      background: var(--c-white);
 
       &::-webkit-scrollbar-track {
         background: var(--c-white);
