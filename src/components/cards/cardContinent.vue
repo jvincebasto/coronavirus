@@ -54,7 +54,7 @@ export default {
 @include styles.mxs-themes(light) {
   .card {
     &-container {
-      background: styles.fns-lighten(var(--c-lprimary), 4);
+      background: styles.fns-darken(var(--c-white), 2);
       box-shadow: styles.$vars-box-shadow;
       -webkit-tap-highlight-color: transparent;
     }
@@ -155,22 +155,7 @@ export default {
 @include styles.mxs-themes(dark) {
   .card {
     &-container {
-      background: styles.fns-darken(var(--c-lprimary), 2);
-    }
-  }
-}
-
-@include styles.mxs-colorThemes('brown',light) {
-  .card {
-    &-container {
-      background: styles.fns-lighten(var(--c-white), 4);
-    }
-  }
-}
-@include styles.mxs-colorThemes('brown',dark) {
-  .card {
-    &-container {
-      background: styles.fns-darken(var(--c-white), 2);
+      background: var(--c-white);
     }
   }
 }

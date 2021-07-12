@@ -118,24 +118,22 @@ export default {
 @include styles.mxs-themes(light) {
   .countrylist {
     &--container {
-      background: styles.fns-lighten(var(--c-lprimary), 6);
+      background: styles.fns-darken(var(--c-white), 4);
       box-shadow: styles.$vars-box-shadow;
     }
   }
-
-  // scrollbar
-  .countrylist--overflow-scroll {
+  .countrylist--overflow-scroll  {
     scrollbar-width: 15px;
-    scrollbar-color: styles.fns-darken(var(--c-lprimary), 20);
-    
+    scrollbar-color: var(--sc-defwhite);
+
     &::-webkit-scrollbar {
       width: 15px;
     }
     &::-webkit-scrollbar-track {
-      background: var(--c-white);
+      background: var(--sc-defwhite);
     }
     &::-webkit-scrollbar-thumb {
-      background: var(--c-dprimary);
+      background: var(--c-black);
     }
     &::-webkit-scrollbar-thumb:hover {
       // background: var(--c-black);
@@ -146,33 +144,7 @@ export default {
 @include styles.mxs-themes(dark) {
   .countrylist {
     &--container {
-      background: styles.fns-darken(var(--c-lprimary), 3);
-    }
-  }
-}
-
-@include styles.mxs-colorThemes('brown',light) {
-  .countrylist {
-    &--container {
-      background: styles.fns-lighten(var(--c-white), 6);
-    }
-  }
-  .countrylist--overflow-scroll  {
-    scrollbar-color: var(--sc-defwhite);
-
-    &::-webkit-scrollbar-track {
-      background: var(--sc-defwhite);
-    }
-    &::-webkit-scrollbar-thumb {
-      background: var(--c-black);
-    }
-  }
-}
-
-@include styles.mxs-colorThemes('brown',dark) {
-  .countrylist {
-    &--container {
-      background: styles.fns-darken(var(--c-white), 3);
+      background: var(--c-white);
     }
   }
   .countrylist--overflow-scroll  {
@@ -186,6 +158,7 @@ export default {
     }
   }
 }
+
 </style>
 
 <style scoped lang="scss">

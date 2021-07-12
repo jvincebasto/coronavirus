@@ -33,7 +33,7 @@ export default {
 @include styles.mxs-themes(light) {
   .search {
     &--errorgroup {
-      background: var(--sc-dprimary);
+      background: var(--sc-black);
       box-shadow: styles.$vars-box-shadow;
     }
     &--error {
@@ -49,22 +49,6 @@ export default {
         display: flex;
         align-items: flex-end;
       }
-    }
-  }
-}
-
-@include styles.mxs-colorThemes('brown',light) {
-  .search {
-    &--errorgroup {
-      background: var(--sc-black);
-    }
-  }
-}
-
-@include styles.mxs-colorThemes('brown',dark) {
-  .search {
-    &--errorgroup {
-      background: var(--sc-black);
     }
   }
 }

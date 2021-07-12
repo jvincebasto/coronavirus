@@ -178,6 +178,13 @@ export default {
 }
 
 
+@include styles.mxs-themes(dark) {
+  .section-hero {
+    background: var(--c-white);
+  }
+}
+
+
 @include styles.mxs-colorThemes('green',light) {
   .model--person {
     filter: hue-rotate(-60deg) saturate(2);
@@ -188,6 +195,8 @@ export default {
     filter: hue-rotate(-60deg);
   }  
 }
+
+
 @include styles.mxs-colorThemes('brown',light) {
   .section-hero {
     background: styles.fns-lighten(var(--c-lprimary), 5);
@@ -218,6 +227,8 @@ export default {
     }
   }
 }
+
+
 @include styles.mxs-colorThemes('brown',dark) {
   .section-hero {
     background: var(--c-white);

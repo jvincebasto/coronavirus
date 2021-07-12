@@ -52,7 +52,7 @@
 	@if $mode == light {
 		@if $colorname == 'lprimary' { $varsat: validateColorProperty($sat,'sat'); $varlum: validateColorProperty($lum,'lum') }
 		@else if $colorname == 'dprimary' { $varsat: validateColorProperty($sat,'sat'); $varlum: validateColorProperty($lum,'darklum') }
-		@else if $colorname == 'white' { $varsat: validateColorProperty($sat,'lightsat'); $varlum: validateColorProperty($lum,'lightlum') }
+		@else if $colorname == 'white' { $varsat: validateColorProperty($sat,'darksat'); $varlum: validateColorProperty($lum,'lightlum') }
 		@else if $colorname == 'black' { $varsat: validateColorProperty($sat,'darksat'); $varlum: validateColorProperty($lum,'darklum') }
 		@else if $colorname == 'grey' { $varsat: validateColorProperty($sat,'darksat'); $varlum: validateColorProperty($lum,'lum') }
 	}
@@ -60,7 +60,7 @@
 		@if $colorname == 'lprimary' { $varsat: validateColorProperty($sat,'sat'); $varlum: validateColorProperty($lum,'darklum') }
 		@else if $colorname == 'dprimary' { $varsat: validateColorProperty($sat,'sat'); $varlum: validateColorProperty($lum,'lum') }
 		@else if $colorname == 'white' { $varsat: validateColorProperty($sat,'darksat'); $varlum: validateColorProperty($lum,'darklum') }
-		@else if $colorname == 'black' { $varsat: validateColorProperty($sat,'lightsat'); $varlum: validateColorProperty($lum,'lightlum') }
+		@else if $colorname == 'black' { $varsat: validateColorProperty($sat,'darksat'); $varlum: validateColorProperty($lum,'lightlum') }
 		@else if $colorname == 'grey' { $varsat: validateColorProperty($sat,'darksat'); $varlum: validateColorProperty($lum,'darklum') }
 	}
 	

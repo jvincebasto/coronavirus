@@ -78,7 +78,8 @@ export default {
 @include styles.mxs-themes(light) {
   .section {
     &-global {
-      background: styles.fns-lighten(var(--c-lprimary), 2);
+      // background: styles.fns-lighten(var(--c-lprimary), 2);
+      background: var(--c-white);
     }
   }
 }
@@ -86,22 +87,6 @@ export default {
 @include styles.mxs-themes(dark) {
   .section {
     &-global {
-      background: styles.fns-darken(var(--c-lprimary), 1);
-    }
-  }
-}
-
-@include styles.mxs-colorThemes('brown',light) {
-  .section {
-    &-global {
-      background: styles.fns-lighten(var(--c-white), 2);
-    }
-  }
-}
-@include styles.mxs-colorThemes('brown',dark) {
-  .section {
-    &-global {
-      background: styles.fns-darken(var(--c-white), 1);
     }
   }
 }

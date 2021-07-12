@@ -149,7 +149,7 @@ export default {
 
 @include styles.mxs-themes(light) {
   .card {
-    background: styles.fns-lighten(var(--c-lprimary), 6);
+    background: styles.fns-darken(var(--c-white), 4);
     box-shadow: styles.$vars-box-shadow;
   }
   .cardbtn {
@@ -185,7 +185,7 @@ export default {
 
 @include styles.mxs-themes(dark) {
   .card {
-    background: styles.fns-darken(var(--c-lprimary), 3);
+    background: var(--c-white);
   }
 }
 

@@ -94,7 +94,7 @@ export default {
   .btn {
     border: 2px solid var(--c-dprimary);
     
-    background: styles.fns-lighten(var(--c-lprimary), 4);
+    background: styles.fns-darken(var(--c-white), 2);
     box-shadow: styles.$vars-box-shadow;
     -webkit-tap-highlight-color: transparent;
 
@@ -123,7 +123,6 @@ export default {
 
 @include styles.mxs-themes(dark) {
   .btn {
-    background: styles.fns-darken(var(--c-lprimary), 2);
 
     &:hover {
       background: var(--c-dprimary);
@@ -133,34 +132,6 @@ export default {
     }
   }
 }
-
-
-@include styles.mxs-colorThemes('brown',light) {
-  .btn {
-    background: styles.fns-lighten(var(--c-white), 4);
-
-    &:hover {
-      background: var(--c-lprimary);
-    }
-    &:hover .btn--img {
-      background: var(--c-dprimary);
-    }
-  }
-}
-
-@include styles.mxs-colorThemes('brown',dark) {
-  .btn {
-    background: styles.fns-darken(var(--c-white), 2);
-
-    &:hover {
-      background: var(--c-dprimary);
-    }
-    &:hover .btn--img {
-      background: var(--c-lprimary);
-    }
-  }
-}
-
 </style>
 
 <style scoped lang="scss">

@@ -305,13 +305,13 @@ export default {
     }
   }
   .searchbtn {
-    background: styles.fns-lighten(var(--c-lprimary), 6);
+    background: styles.fns-darken(var(--c-white), 4);
     box-shadow: styles.$vars-box-shadow;
     &--title {
       color: var(--c-dprimary);
     }
     &:hover {
-      background: var(--c-dprimary);
+      background: var(--c-black);
     }
     &:hover .searchbtn--title {
       color: var(--c-lprimary);
@@ -320,9 +320,9 @@ export default {
   .search {
     &-list {
       &--btn {
-        background: styles.fns-lighten(var(--c-lprimary), 6);
+        background: styles.fns-darken(var(--c-white), 4);
         &:hover {
-          background: var(--c-dprimary);
+          background: var(--c-black);
         }
       }
       &--icon {
@@ -348,76 +348,18 @@ export default {
 
 @include styles.mxs-themes(dark) {
   .searchbtn {
-    background: styles.fns-darken(var(--c-lprimary), 3);
+    background: var(--c-white);
     &:hover {
       background: var(--c-dprimary);
     }
     &:hover .searchbtn--title {
-      color: var(--c-lprimary);
+      color: var(--c-white);
     }
   }
   .search {
     &-list {
       &--btn {
-        background: styles.fns-darken(var(--c-lprimary), 3);
-        &:hover {
-          background: var(--c-dprimary);
-        }
-      }
-      &--icon {
-        background: var(--c-dprimary);
-      }
-      &--btn:hover .search-list--icon {
-        // background: var(--c-lprimary);
-      }
-    }
-  }
-}
-
-
-@include styles.mxs-colorThemes('brown',light) {
-  .searchbtn {
-    background: styles.fns-lighten(var(--c-white), 6);
-    &:hover {
-      background: var(--c-black);
-    }
-    &:hover .searchbtn--title {
-      color: var(--c-lprimary);
-    }
-  }
-  .search {
-    &-list {
-      &--btn {
-        background: styles.fns-lighten(var(--c-white), 6);
-        &:hover {
-          background: var(--c-black);
-        }
-      }
-      &--icon {
-        background: var(--c-black);
-      }
-      &--btn:hover .search-list--icon {
-        background: var(--c-lprimary);
-      }
-    }
-  }
-}
-
-
-@include styles.mxs-colorThemes('brown',dark) {
-  .searchbtn {
-    background: styles.fns-darken(var(--c-white), 3);
-    &:hover {
-      background: var(--c-dprimary);
-    }
-    &:hover .searchbtn--title {
-      color: var(--c-lprimary);
-    }
-  }
-  .search {
-    &-list {
-      &--btn {
-        background: styles.fns-darken(var(--c-white), 3);
+        background: var(--c-white);
         &:hover {
           background: var(--c-dprimary);
         }
@@ -431,7 +373,6 @@ export default {
     }
   }
 }
-
 
 </style>
 

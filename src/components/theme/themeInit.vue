@@ -58,7 +58,7 @@ export default {
       const setColorMode = this.setColorMode;
       // const themeLog = this.themeLog;
 
-      if (lsMode.toLowerCase() === "light" || lsMode.toLowerCase() === "dark") {
+      if (lsMode && (lsMode.toLowerCase() === "light" || lsMode.toLowerCase() === "dark")) {
         this.setColorTheme();
         localStorage.setItem("colorMode", lsMode);
         html.setAttribute("color-mode", lsMode);

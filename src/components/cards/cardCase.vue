@@ -93,7 +93,7 @@ export default {
   .case {
     &--title,
     &--value {
-      color: var(--c-dprimary);
+      color: var(--c-defblack);
     }
   }
 
@@ -122,6 +122,13 @@ export default {
   .case-content {
     &--title {
       color: var(--c-dprimary);
+    }
+  }
+
+  .case {
+    &--title,
+    &--value {
+      color: styles.fns-alpha(var(--c-defblack),.8);
     }
   }
 }

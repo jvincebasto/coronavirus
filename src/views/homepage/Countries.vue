@@ -182,7 +182,7 @@ export default {
 @include styles.mxs-themes(light) {
   .section {
     &-countries {
-      background: styles.fns-lighten(var(--c-lprimary), 6);
+      background: styles.fns-darken(var(--c-white), 4);
     }
   }
   .covidCluster {
@@ -219,34 +219,7 @@ export default {
 @include styles.mxs-themes(dark) {
   .section {
     &-countries {
-      background: styles.fns-darken(var(--c-lprimary), 3);
-    }
-  }
-}
-
-
-@include styles.mxs-colorThemes('brown',light) {
-  .section {
-    &-countries {
-      background: styles.fns-lighten(var(--c-white), 6);
-    }
-  }
-  .grid {
-    &-img {
-      background: var(--c-black);
-    }
-  }
-}
-
-@include styles.mxs-colorThemes('brown',dark) {
-  .section {
-    &-countries {
-      background: styles.fns-darken(var(--c-white), 3);
-    }
-  }
-  .grid {
-    &-img {
-      background: var(--c-dprimary);
+      background: var(--c-white);
     }
   }
 }
