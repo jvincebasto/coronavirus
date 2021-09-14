@@ -15,7 +15,7 @@ export default {
         "September",
         "October",
         "November",
-        "December"
+        "December",
       ];
       const dayArr = [
         "Sunday",
@@ -24,7 +24,7 @@ export default {
         "Wednesday",
         "Thursday",
         "Friday",
-        "Saturday"
+        "Saturday",
       ];
 
       const year = newDate.getFullYear();
@@ -36,7 +36,7 @@ export default {
         year,
         month,
         date,
-        day
+        day,
       };
     },
     numberFormat(num) {
@@ -52,7 +52,7 @@ export default {
         "06",
         "07",
         "08",
-        "09"
+        "09",
       ];
 
       for (let cur of numArr) {
@@ -92,7 +92,7 @@ export default {
         "08",
         "09",
         10,
-        11
+        11,
       ];
 
       const hour = hourFormat[newDate.getHours()];
@@ -109,7 +109,7 @@ export default {
         hour,
         minute,
         second,
-        daytime
+        daytime,
       };
     },
     stringDates() {
@@ -121,7 +121,7 @@ export default {
 
       return {
         dateString,
-        timeString
+        timeString,
       };
     },
     clock(date, time) {
@@ -136,10 +136,10 @@ export default {
       const newClock = this.clock;
 
       newClock(date, time);
-      setInterval(function() {
+      setInterval(function () {
         newClock(date, time);
       }, 1000);
-    }
-  }
+    },
+  },
 };
 </script>

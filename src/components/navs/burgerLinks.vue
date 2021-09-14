@@ -62,7 +62,6 @@ export default {
 @use "~@/sass/styles" as styles;
 
 @include styles.mxs-themes(light) {
-
   // burgerblur
   .burgerblur {
     height: 100%;
@@ -154,8 +153,7 @@ export default {
 
 @include styles.mxs-themes(dark) {
   .burgerblock {
-    .scrollbar  {
-
+    .scrollbar {
       &::-webkit-scrollbar-track {
         background: var(--c-white);
       }
@@ -166,9 +164,9 @@ export default {
   }
 }
 
-@include styles.mxs-colorThemes('brown',light) {
+@include styles.mxs-colorThemes("brown", light) {
   .burgerblock {
-    .scrollbar  {
+    .scrollbar {
       background: var(--c-white);
 
       &::-webkit-scrollbar-track {
@@ -181,10 +179,9 @@ export default {
   }
 }
 
-
-@include styles.mxs-colorThemes('brown',dark) {
+@include styles.mxs-colorThemes("brown", dark) {
   .burgerblock {
-    .scrollbar  {
+    .scrollbar {
       background: var(--c-white);
 
       &::-webkit-scrollbar-track {
@@ -196,7 +193,6 @@ export default {
     }
   }
 }
-
 </style>
 
 <style scoped lang="scss">

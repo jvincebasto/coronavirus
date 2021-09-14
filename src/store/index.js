@@ -13,15 +13,15 @@ export default createStore({
   modules: {
     covid: {
       namespaced: true,
-      ...covidApi
+      ...covidApi,
     },
     slider: {
       namespaced: true,
-      ...slider
+      ...slider,
     },
     countrySearch: {
       namespaced: true,
-      ...countrySearch
-    }
-  }
+      ...countrySearch,
+    },
+  },
 });

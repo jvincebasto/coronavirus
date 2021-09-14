@@ -1,13 +1,12 @@
 <script>
 import { gsap } from "gsap";
 import { createNamespacedHelpers } from "vuex";
-const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers(
-  "slider"
-);
+const { mapGetters, mapMutations, mapActions } =
+  createNamespacedHelpers("slider");
 
 export default {
   computed: {
-    ...mapGetters(["sliderStates", "adjacentIndices"])
+    ...mapGetters(["sliderStates", "adjacentIndices"]),
   },
   methods: {
     ...mapMutations(["stateObjs"]),
@@ -21,7 +20,7 @@ export default {
         "positions",
         "options",
         "offset",
-        "els"
+        "els",
       ]);
       let curPos = pos;
       let sliderObj = { x: curPos, transition: "ease-in-out", duration: 0.3 };
@@ -48,15 +47,13 @@ export default {
         indices: {
           prevIndex: prev,
           nextIndex: next,
-        }
+        },
       });
-
 
       const duration = 0.3;
       const curObj = { scale: 1.05, duration };
       const prevObj = { scale: 1, duration };
       const nextObj = { scale: 1, duration };
-
 
       const animate = gsap.timeline();
       animate.to(state.slides[cur].value, curObj, "<");
@@ -66,7 +63,6 @@ export default {
       return animate;
     },
 
-
     animateSlider(position) {
       const state = this.sliderStates(["animations"]);
       const animate = gsap.timeline({ onComplete: this.resetSlider });
@@ -75,15 +71,14 @@ export default {
       if (state.animations.default) animate.add(this.animateSlides(), "<");
     },
 
-
     // Reset Slider
     animateResetSlider(direction) {
       const state = this.sliderStates(["positions", "indices", "els"]);
       this.stateObjs({
         offset: {
           initial: false,
-          mutate: true
-        }
+          mutate: true,
+        },
       });
 
       const animate = gsap.timeline();
@@ -92,15 +87,15 @@ export default {
         this.transposeSlides({
           slider: state.els.slider,
           mode: direction,
-          value: state.indices.offset
+          value: state.indices.offset,
         })
       );
 
       this.stateObjs({
         offset: {
           initial: true,
-          mutate: false
-        }
+          mutate: false,
+        },
       });
       animate.add(this.moveSlider(state.positions.curPos));
       animate.add(this.resetProps());
@@ -112,23 +107,22 @@ export default {
         "options",
         "indices",
         "positions",
-        "els"
+        "els",
       ]);
 
       if (state.options.center && state.options.loop) {
         this.stateObjs({
           offset: {
             initial: true,
-            mutate: false
-          }
+            mutate: false,
+          },
         });
         this.slideIndices("decr");
         this.sliderCenterPos(state.els);
         this.sliderCurPos(state.indices.trails);
         this.animateResetSlider(state.positions.direction);
-      } 
-      else this.resetProps();
-    }
-  }
+      } else this.resetProps();
+    },
+  },
 };
 </script>

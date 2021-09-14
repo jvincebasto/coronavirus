@@ -1,8 +1,9 @@
 <template>
-  <section class="section section-continents" id="continents"
-    ref="sectContinents">
-    
-
+  <section
+    class="section section-continents"
+    id="continents"
+    ref="sectContinents"
+  >
     <div class="section-margin row">
       <div class="section--titlegroup">
         <h1 class="section--title">continental cases</h1>
@@ -11,7 +12,6 @@
         </p>
       </div>
     </div>
-
 
     <div class="section-margin slider-container">
       <div class="gridgroup gridgroup--1">
@@ -23,7 +23,6 @@
       <div class="covidgroup covidgroup--2" ref="covid2">
         <div class="covid-img">&nbsp;</div>
       </div>
-
 
       <template v-if="continentBool">
         <slider :data="continents">
@@ -37,7 +36,6 @@
     <div class="gridgroup gridgroup--2">
       <div class="grid-img">&nbsp;</div>
     </div>
-
   </section>
 </template>
 
@@ -50,11 +48,10 @@ gsap.registerPlugin(ScrollTrigger);
 import { /*useStore,*/ createNamespacedHelpers } from "vuex";
 const { mapActions: covidActions } = createNamespacedHelpers("covid");
 
-
 export default {
   components: {
     slider: defineAsyncComponent({
-      loader: () => import("@/components/slider/slider.vue")
+      loader: () => import("@/components/slider/slider.vue"),
       // delay: 200,
       // timeout: 3000,
       // errorComponent: errorComponent,
@@ -69,13 +66,13 @@ export default {
 
     return {
       continents,
-      bool
+      bool,
     };
   },
   computed: {
     continentBool() {
       return this.bool;
-    }
+    },
   },
   methods: {
     ...covidActions(["fetchAllContinents"]),
@@ -83,7 +80,6 @@ export default {
       this.continents = await this.fetchAllContinents();
       if (this.continents) this.bool = true;
     },
-
 
     // animations
     covidIcon() {
@@ -93,78 +89,77 @@ export default {
         return {
           ease: "ease",
           duration,
-        }
+        };
       }
 
       const covid1 = gsap.timeline(timelineObj);
-      covid1.to(this.$refs.covid1,{ y: 10, ...animateObj(3) });
-      covid1.to(this.$refs.covid1,{ filter, ...animateObj(3) },"<");
-
+      covid1.to(this.$refs.covid1, { y: 10, ...animateObj(3) });
+      covid1.to(this.$refs.covid1, { filter, ...animateObj(3) }, "<");
 
       const covid2 = gsap.timeline(timelineObj);
-      covid2.to(this.$refs.covid2,{ y: 10, ...animateObj(2) });
-      covid2.to(this.$refs.covid2,{ filter, ...animateObj(2)},"<");
+      covid2.to(this.$refs.covid2, { y: 10, ...animateObj(2) });
+      covid2.to(this.$refs.covid2, { filter, ...animateObj(2) }, "<");
     },
     fadeIns() {
-      const scroll = (el) => gsap.timeline({
-        scrollTrigger: {
-          // markers: {
-          //   startColor: "green",
-          //   endColor: "red",
-          //   fontSize: "16px"
-          // },
+      const scroll = (el) =>
+        gsap.timeline({
+          scrollTrigger: {
+            // markers: {
+            //   startColor: "green",
+            //   endColor: "red",
+            //   fontSize: "16px"
+            // },
 
-          // trigger | (trigger, viewport)
-          trigger: el,
-          start: "top 75%",
-          end: "bottom bottom",
-          // scrub: 1,
-        }
-      });
+            // trigger | (trigger, viewport)
+            trigger: el,
+            start: "top 75%",
+            end: "bottom bottom",
+            // scrub: 1,
+          },
+        });
 
       function animateObj() {
         return {
           ease: "ease",
           opacity: 0,
           duration: 2,
-        }
+        };
       }
 
       const covid1 = scroll(this.$refs.covid1);
-      covid1.from(this.$refs.covid1,{ ...animateObj() });
+      covid1.from(this.$refs.covid1, { ...animateObj() });
 
       const covid2 = scroll(this.$refs.covid2);
-      covid2.from(this.$refs.covid2,{ ...animateObj() });
-    }
+      covid2.from(this.$refs.covid2, { ...animateObj() });
+    },
   },
   mounted() {
     this.getContinents();
     this.covidIcon();
     this.fadeIns();
-  }
+  },
 };
 </script>
 
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
 
-
 @include styles.mxs-themes(light) {
   .section {
     &-continents {
-      background: styles.fns-darken(var(--c-white), 2);
+      background: styles.fns-lighten(var(--c-lprimary), 4);
+      // background: styles.fns-darken(var(--c-white), 2);
     }
   }
-
 
   // covid
   .covid {
     &group {
-      filter: drop-shadow(0 0 0 rgba(black,0));      
+      filter: drop-shadow(0 0 0 rgba(black, 0));
     }
 
     &-img {
-      @supports(mask: url("~@/assets/covidicons/covid.svg")) {
+      @supports (mask: url("~@/assets/covidicons/covid.svg")) {
         mask: url("~@/assets/covidicons/covid.svg");
         @include styles.mxs-svg-contain;
       }
@@ -178,11 +173,10 @@ export default {
     }
   }
 
-
   // grid
   .grid {
     &-img {
-      @supports(mask: url("~@/assets/bgs/circle-grid-10.svg")) {
+      @supports (mask: url("~@/assets/bgs/circle-grid-10.svg")) {
         mask: url("~@/assets/bgs/circle-grid-10.svg");
         @include styles.mxs-svg-contain;
       }
@@ -198,7 +192,6 @@ export default {
   }
 }
 
-
 @include styles.mxs-themes(dark) {
   .section {
     &-continents {
@@ -206,8 +199,23 @@ export default {
     }
   }
 }
-</style>
 
+@include styles.mxs-colorThemes("brown", light) {
+  .section {
+    &-continents {
+      background: styles.fns-lighten(var(--c-lprimary), 5);
+    }
+  }
+}
+
+@include styles.mxs-colorThemes("brown", dark) {
+  .section {
+    &-continents {
+      background: var(--c-white);
+    }
+  }
+}
+</style>
 
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
@@ -224,22 +232,20 @@ export default {
   left: 0;
   z-index: 200;
 
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   transform-origin: 100% 100%;
   cursor: none;
   // backdrop-filter: grayscale();
 
   pointer-events: none;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   transition-property: background, transform;
 }
-
 
 .row {
   margin: 4rem auto 10rem;
   justify-content: center;
 }
-
 
 .slider-container {
   margin: auto;
@@ -249,14 +255,12 @@ export default {
   z-index: 100;
 }
 
-
 .section {
   &-continents {
-    min-height: 50vh;    
+    min-height: 50vh;
     position: relative;
   }
 }
-
 
 // covid
 .covidgroup {
@@ -316,7 +320,6 @@ export default {
     width: 100%;
   }
 }
-
 
 // grid
 .gridgroup {

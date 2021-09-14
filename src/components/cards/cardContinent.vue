@@ -1,11 +1,14 @@
 <template>
   <div class="card card-container" ref="continentSlide">
-      <!-- <div class="card-img" ref="img" 
+    <!-- <div class="card-img" ref="img" 
         :style="cardImage(data.continent)">
       </div> -->
     <div class="card-imgbox">
-      <div class="card-img" ref="img" :class="continentNamesClassName(data.continent)">
-      </div>
+      <div
+        class="card-img"
+        ref="img"
+        :class="continentNamesClassName(data.continent)"
+      ></div>
     </div>
 
     <card-case :data="data">
@@ -20,7 +23,7 @@ import cardCase from "@/components/cards/cardCase.vue";
 export default {
   props: ["data"],
   components: {
-    cardCase
+    cardCase,
   },
   methods: {
     continentNames(value) {
@@ -39,27 +42,26 @@ export default {
     continentNamesClassName(value) {
       const continent = this.continentNames(value);
       return `card-img--${continent}`;
-    }
+    },
   },
   mounted() {
     // console.log("cardContinent", this.data);
-  }
+  },
 };
 </script>
 
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
 
-
 @include styles.mxs-themes(light) {
   .card {
     &-container {
-      background: styles.fns-darken(var(--c-white), 2);
+      background: styles.fns-lighten(var(--c-lprimary), 4);
+      // background: styles.fns-darken(var(--c-white), 2);
       box-shadow: styles.$vars-box-shadow;
       -webkit-tap-highlight-color: transparent;
     }
   }
-
 
   // card image
   .card {
@@ -77,59 +79,58 @@ export default {
       }
 
       &--world {
-        @supports(mask: url("~@/assets/continents/worldmap.svg")) {
+        @supports (mask: url("~@/assets/continents/worldmap.svg")) {
           mask: url("~@/assets/continents/worldmap.svg");
           @include styles.mxs-svg-contain;
         }
         background: url("~@/assets/continents/worldmap@2x.png");
       }
       &--north-america {
-        @supports(mask: url("~@/assets/continents/north-america.svg")) {
+        @supports (mask: url("~@/assets/continents/north-america.svg")) {
           mask: url("~@/assets/continents/north-america.svg");
           @include styles.mxs-svg-contain;
         }
         background: url("~@/assets/continents/north-america@2x.png");
       }
       &--south-america {
-        @supports(mask: url("~@/assets/continents/south-america.svg")) {
+        @supports (mask: url("~@/assets/continents/south-america.svg")) {
           mask: url("~@/assets/continents/south-america.svg");
           @include styles.mxs-svg-contain;
         }
         background: url("~@/assets/continents/south-america@2x.png");
       }
       &--europe {
-        @supports(mask: url("~@/assets/continents/europe.svg")) {
+        @supports (mask: url("~@/assets/continents/europe.svg")) {
           mask: url("~@/assets/continents/europe.svg");
           @include styles.mxs-svg-contain;
         }
         background: url("~@/assets/continents/europe@2x.png");
       }
       &--australia {
-        @supports(mask: url("~@/assets/continents/australia.svg")) {
+        @supports (mask: url("~@/assets/continents/australia.svg")) {
           mask: url("~@/assets/continents/australia.svg");
           @include styles.mxs-svg-contain;
         }
         background: url("~@/assets/continents/australia@2x.png");
       }
       &--antartica {
-        @supports(mask: url("~@/assets/continents/antartica.svg")) {
+        @supports (mask: url("~@/assets/continents/antartica.svg")) {
           mask: url("~@/assets/continents/antartica.svg");
           @include styles.mxs-svg-contain;
         }
         background: url("~@/assets/continents/antartica@2x.png");
       }
 
-
       // broken images: africa and asia
       &--africa {
-        @supports(mask: url("~@/assets/continents/africa.svg")) {
+        @supports (mask: url("~@/assets/continents/africa.svg")) {
           mask: url("~@/assets/continents/africa.svg");
           @include styles.mxs-svg-contain;
         }
         background: url("~@/assets/continents/africa@2x.png");
       }
       &--asia {
-        @supports(mask: url("~@/assets/continents/asia.svg")) {
+        @supports (mask: url("~@/assets/continents/asia.svg")) {
           mask: url("~@/assets/continents/asia.svg");
           @include styles.mxs-svg-contain;
         }
@@ -143,7 +144,6 @@ export default {
     }
   }
 
-
   .card {
     :deep(.case-content--block) {
       background: transparent;
@@ -155,16 +155,30 @@ export default {
 @include styles.mxs-themes(dark) {
   .card {
     &-container {
+      // background: var(--c-white);
+    }
+  }
+}
+
+@include styles.mxs-colorThemes("brown", light) {
+  .card {
+    &-container {
+      background: styles.fns-lighten(var(--c-lprimary), 10);
+      // background: var(--c-white);
+    }
+  }
+}
+@include styles.mxs-colorThemes("brown", dark) {
+  .card {
+    &-container {
       background: var(--c-white);
     }
   }
 }
 </style>
 
-
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
-
 
 .card {
   &-container {
@@ -191,7 +205,6 @@ export default {
     overflow: hidden;
   }
 }
-
 
 // card image
 .card {

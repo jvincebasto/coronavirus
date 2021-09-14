@@ -10,14 +10,13 @@
 <script>
 import mixinSlider from "@/mixins/mixinSlider.vue";
 import { createNamespacedHelpers } from "vuex";
-const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers(
-  "slider"
-);
+const { mapGetters, mapMutations, mapActions } =
+  createNamespacedHelpers("slider");
 
 export default {
   mixins: [mixinSlider],
   computed: {
-    ...mapGetters(["sliderStates"])
+    ...mapGetters(["sliderStates"]),
   },
   methods: {
     ...mapMutations(["stateObjs"]),
@@ -33,23 +32,23 @@ export default {
         "indices",
         "positions",
         "els",
-        "animations"
+        "animations",
       ]);
 
       if (state.btns.start && !state.btns.animating) {
         this.stateObjs({
           btns: {
             start: false,
-            animating: true
+            animating: true,
           },
           drag: { start: false },
           offset: {
             initial: false,
-            mutate: true
+            mutate: true,
           },
-          positions: { direction }
+          positions: { direction },
         });
-        
+
         this.sliderEndPos(state.els.container);
         this.sliderCenterPos(state.els);
 
@@ -78,28 +77,28 @@ export default {
         btnLeft.style.display = "none";
         btnRight.style.display = "none";
       }
-    }
+    },
   },
   mounted() {
     this.btnEvents();
-  }
+  },
 };
 </script>
 
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
 
-
 @include styles.mxs-themes(light) {
   .btn {
     border: 2px solid var(--c-dprimary);
-    
-    background: styles.fns-darken(var(--c-white), 2);
+
+    background: styles.fns-lighten(var(--c-lprimary), 4);
+    // background: styles.fns-darken(var(--c-white), 2);
     box-shadow: styles.$vars-box-shadow;
     -webkit-tap-highlight-color: transparent;
 
     &--img {
-      @supports(mask: url("~@/assets/icons/arrow-2.svg")) {
+      @supports (mask: url("~@/assets/icons/arrow-2.svg")) {
         mask: url("~@/assets/icons/arrow-2.svg");
         @include styles.mxs-svg-contain;
         mask-position: center;
@@ -108,7 +107,7 @@ export default {
     }
     &--img {
       @include styles.mxs-img-contain;
-      background: var(--c-dprimary);   
+      background: var(--c-dprimary);
     }
 
     &:hover {
@@ -120,9 +119,32 @@ export default {
   }
 }
 
-
 @include styles.mxs-themes(dark) {
   .btn {
+    &:hover {
+      background: var(--c-dprimary);
+    }
+    &:hover .btn--img {
+      background: var(--c-lprimary);
+    }
+  }
+}
+
+@include styles.mxs-colorThemes("brown", light) {
+  .btn {
+    background: styles.fns-lighten(var(--c-lprimary), 10);
+
+    &:hover {
+      background: var(--c-dprimary);
+    }
+    &:hover .btn--img {
+      background: var(--c-lprimary);
+    }
+  }
+}
+@include styles.mxs-colorThemes("brown", dark) {
+  .btn {
+    background: var(--c-white);
 
     &:hover {
       background: var(--c-dprimary);
@@ -141,7 +163,6 @@ export default {
   height: 5rem;
   width: 5rem;
 
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -151,9 +172,8 @@ export default {
   bottom: -10rem;
   z-index: 100;
 
-
   cursor: pointer;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 
   @include styles.mxs-respond(ptablet) {
     height: 4rem;
@@ -176,7 +196,7 @@ export default {
     width: 2rem;
 
     background-position: center;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 
     @include styles.mxs-respond(ptablet) {
       height: 1rem;

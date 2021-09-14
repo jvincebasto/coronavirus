@@ -1,7 +1,10 @@
 <template>
-  <section class="section section-countries" id="countries" 
-    @click="searchListBlur($event)" ref="sectCountries">
-
+  <section
+    class="section section-countries"
+    id="countries"
+    @click="searchListBlur($event)"
+    ref="sectCountries"
+  >
     <div class="section-margin row" ref="titlegroup">
       <div class="section--titlegroup">
         <h1 class="section--title">Country Search</h1>
@@ -9,7 +12,6 @@
           Daily Records of the Virus in each Country
         </p>
       </div>
-
 
       <div class="search-container" ref="searchContainer">
         <search-bar ref="search">
@@ -22,14 +24,12 @@
         </search-bar>
       </div>
 
-
       <div class="country-block" id="cardContainer" ref="cardContainer">
         <!-- cards -->
         <template v-for="(obj, index) in countries" :key="index">
-          <card-country :data="obj" :ref="el=>countryCardEl(el)">
+          <card-country :data="obj" :ref="(el) => countryCardEl(el)">
           </card-country>
         </template>
-
 
         <!-- covid -->
         <div class="covidCluster covidCluster-group--1" ref="covid1">
@@ -38,7 +38,6 @@
         <div class="covidCluster covidCluster-group--2" ref="covid2">
           <div class="covidCluster-img">&nbsp;</div>
         </div>
-
 
         <!-- grids -->
         <div class="grid grid-group--1">
@@ -62,7 +61,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 import { ref } from "vue";
 import { /*useStore,*/ createNamespacedHelpers } from "vuex";
-const { mapState: countryState, mapGetters: countryGetters, mapMutations: countryMutations } = createNamespacedHelpers("countrySearch");
+const {
+  mapState: countryState,
+  mapGetters: countryGetters,
+  mapMutations: countryMutations,
+} = createNamespacedHelpers("countrySearch");
 
 export default {
   components: {
@@ -76,7 +79,7 @@ export default {
     // const store = useStore();
 
     return {
-      countryCards
+      countryCards,
     };
   },
   computed: {
@@ -84,31 +87,33 @@ export default {
     ...countryGetters(["searchStates"]),
   },
   methods: {
-    ...countryMutations(["pushState","spliceState"]),
+    ...countryMutations(["pushState", "spliceState"]),
     countryCardEl(el) {
-      if (el) { 
+      if (el) {
         this.countryCards.push(ref(el));
         this.pushState({ prop: "countryCards", data: ref(el) });
       }
     },
-
 
     // search Field Events
     searchListBlur(event) {
       const state = this.searchStates(["els"]);
       const target = event.target;
 
-      if(target === this.$refs.sectCountries || target === this.$refs.titlegroup || target === this.$refs.cardContainer && target !== this.$refs.searchContainer) {
-  
+      if (
+        target === this.$refs.sectCountries ||
+        target === this.$refs.titlegroup ||
+        (target === this.$refs.cardContainer &&
+          target !== this.$refs.searchContainer)
+      ) {
         state.els.searchListBtn.checked = false;
         const animate = gsap.timeline();
-        const duration = .2;
+        const duration = 0.2;
         animate.to(state.els.searchList, { y: 20, duration });
-        animate.to(state.els.searchList, { opacity: 0, duration: .4 },"<");
-        animate.to(state.els.searchList, { display: "none", duration: 0 },">");
+        animate.to(state.els.searchList, { opacity: 0, duration: 0.4 }, "<");
+        animate.to(state.els.searchList, { display: "none", duration: 0 }, ">");
       }
     },
-
 
     // animations
     covidGroup() {
@@ -117,50 +122,49 @@ export default {
       function animateObj(duration = 3) {
         return {
           ease: "ease",
-          duration
-        }
+          duration,
+        };
       }
 
-
       const covid1 = gsap.timeline(timelineObj);
-      covid1.to(this.$refs.covid1,{ y: 10, ...animateObj(3) });
-      covid1.to(this.$refs.covid1,{ filter, ...animateObj(3) },"<");
+      covid1.to(this.$refs.covid1, { y: 10, ...animateObj(3) });
+      covid1.to(this.$refs.covid1, { filter, ...animateObj(3) }, "<");
 
       const covid2 = gsap.timeline(timelineObj);
-      covid2.to(this.$refs.covid2,{ y: 10, ...animateObj(2) });
-      covid2.to(this.$refs.covid2,{ filter, ...animateObj(3)},"<");
-
+      covid2.to(this.$refs.covid2, { y: 10, ...animateObj(2) });
+      covid2.to(this.$refs.covid2, { filter, ...animateObj(3) }, "<");
     },
     fadeIns() {
-      const scroll = (el) => gsap.timeline({
-        scrollTrigger: {
-          // markers: {
-          //   startColor: "green",
-          //   endColor: "red",
-          //   fontSize: "16px"
-          // },
+      const scroll = (el) =>
+        gsap.timeline({
+          scrollTrigger: {
+            // markers: {
+            //   startColor: "green",
+            //   endColor: "red",
+            //   fontSize: "16px"
+            // },
 
-          // trigger | (trigger, viewport)
-          trigger: el,
-          start: "top 75%",
-          end: "bottom bottom",
-        }
-      });
+            // trigger | (trigger, viewport)
+            trigger: el,
+            start: "top 75%",
+            end: "bottom bottom",
+          },
+        });
 
       function animateObj() {
         return {
           ease: "ease",
           opacity: 0,
-          duration: 2
-        }
+          duration: 2,
+        };
       }
 
       const covid1 = scroll(this.$refs.covid1);
-      covid1.from(this.$refs.covid1,{ ...animateObj() });
+      covid1.from(this.$refs.covid1, { ...animateObj() });
 
       const covid2 = scroll(this.$refs.covid2);
-      covid2.from(this.$refs.covid2,{ ...animateObj() });
-    }
+      covid2.from(this.$refs.covid2, { ...animateObj() });
+    },
   },
   beforeUpdate() {
     this.countryCards.splice(0);
@@ -172,7 +176,7 @@ export default {
   mounted() {
     this.covidGroup();
     this.fadeIns();
-  }
+  },
 };
 </script>
 
@@ -182,15 +186,16 @@ export default {
 @include styles.mxs-themes(light) {
   .section {
     &-countries {
-      background: styles.fns-darken(var(--c-white), 4);
+      background: styles.fns-lighten(var(--c-lprimary), 6);
+      // background: styles.fns-darken(var(--c-white), 4);
     }
   }
   .covidCluster {
     &-group {
-      filter: drop-shadow(0 0 0 rgba(black,0));
+      filter: drop-shadow(0 0 0 rgba(black, 0));
     }
     &-img {
-      @supports(mask: url("~@/assets/covidicons/covid.svg")) {
+      @supports (mask: url("~@/assets/covidicons/covid.svg")) {
         mask: url("~@/assets/covidicons/covid.svg");
         @include styles.mxs-svg-contain;
       }
@@ -203,7 +208,7 @@ export default {
   }
   .grid {
     &-img {
-      @supports(mask: url("~@/assets/bgs/circle-grid-10.svg")) {
+      @supports (mask: url("~@/assets/bgs/circle-grid-10.svg")) {
         mask: url("~@/assets/bgs/circle-grid-10.svg");
         @include styles.mxs-svg-contain;
       }
@@ -223,12 +228,10 @@ export default {
     }
   }
 }
-
 </style>
 
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
-
 
 .row {
   margin: 4rem auto 4rem;
@@ -238,7 +241,6 @@ export default {
     margin-top: 6rem;
   }
 }
-
 
 .section {
   &-countries {
@@ -250,7 +252,6 @@ export default {
     z-index: 200;
   }
 }
-
 
 // covid
 .covidCluster {
@@ -299,16 +300,14 @@ export default {
   }
 }
 
-
 .search {
   &-container {
     width: 50rem;
     margin: auto;
     margin-bottom: 12rem;
-    
+
     position: relative;
     z-index: 200;
-
 
     @include styles.mxs-respond(lphone) {
       width: 80%;

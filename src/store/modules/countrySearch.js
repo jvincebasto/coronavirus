@@ -11,12 +11,10 @@ export default {
       // {"updated":1621503487853,"country":"S. Korea","countryInfo":{"_id":410,"iso2":"KR","iso3":"KOR","lat":37,"long":127.5,"flag":"https://disease.sh/assets/img/flags/kr.png"},"cases":134117,"todayCases":646,"deaths":1916,"todayDeaths":4,"recovered":123659,"todayRecovered":422,"active":8542,"critical":151,"casesPerOneMillion":2614,"deathsPerOneMillion":37,"tests":9447358,"testsPerOneMillion":184130,"population":51308098,"continent":"Asia","oneCasePerPeople":383,"oneDeathPerPeople":26779,"oneTestPerPeople":5,"undefined":166,"activePerOneMillion":166.48,"recoveredPerOneMillion":2410.13,"criticalPerOneMillion":2.94}
     ];
 
-
     // Search Elements
     let els = {};
     let listItems = [];
     let countryCards = [];
-
 
     // Search States
     let inputs = {
@@ -28,12 +26,11 @@ export default {
       passed: [], // String
       excess: [], // String
       final: [], // String
-      limit: 18
-    }
+      limit: 18,
+    };
 
     // Search Errors
     let errors = [];
-
 
     return {
       els,
@@ -42,90 +39,88 @@ export default {
 
       countries,
       inputs,
-      errors
+      errors,
     };
   },
   getters: {
     // States
-    allStates: state => {
+    allStates: (state) => {
       return state;
     },
-    searchStates: state => props => {
+    searchStates: (state) => (props) => {
       let obj = {};
-      for(const prop of props) obj[prop] = state[prop];
+      for (const prop of props) obj[prop] = state[prop];
       return obj;
     },
-    validateCountryName: () => (obj,input,retVal) => {
+    validateCountryName: () => (obj, input, retVal) => {
       const value = input.toLowerCase();
       let country;
       let iso2;
       let iso3;
-      
-      if(obj.country) country = obj.country.toLowerCase();
-      if(obj.countryInfo.iso2) iso2 = obj.countryInfo.iso2.toLowerCase();
-      if(obj.countryInfo.iso3) iso3 = obj.countryInfo.iso3.toLowerCase();
-      if(country === value || iso2 === value || iso3 === value) return retVal
+
+      if (obj.country) country = obj.country.toLowerCase();
+      if (obj.countryInfo.iso2) iso2 = obj.countryInfo.iso2.toLowerCase();
+      if (obj.countryInfo.iso3) iso3 = obj.countryInfo.iso3.toLowerCase();
+      if (country === value || iso2 === value || iso3 === value) return retVal;
     },
-    validateCountryNameList: () => (obj,input,retVal) => {
+    validateCountryNameList: () => (obj, input, retVal) => {
       const value = input.toLowerCase();
       let country;
       let iso2;
       let iso3;
-      
-      if(obj.country) country = obj.country.toLowerCase();
-      if(obj.iso2) iso2 = obj.iso2.toLowerCase();
-      if(obj.iso3) iso3 = obj.iso3.toLowerCase();
-      if(country === value || iso2 === value || iso3 === value) return retVal
+
+      if (obj.country) country = obj.country.toLowerCase();
+      if (obj.iso2) iso2 = obj.iso2.toLowerCase();
+      if (obj.iso3) iso3 = obj.iso3.toLowerCase();
+      if (country === value || iso2 === value || iso3 === value) return retVal;
     },
   },
   mutations: {
     // Add and Remove States
-    pushState(state,payload) {
+    pushState(state, payload) {
       const { prop: arr, data } = payload;
-      state.[arr].push(data);
+      state[arr].push(data);
     },
-    pushStateObjs(state,payload) {
-      for(const obj in payload) {
+    pushStateObjs(state, payload) {
+      for (const obj in payload) {
         const stateObj = payload[obj];
 
-        for(const item in stateObj) {
+        for (const item in stateObj) {
           state[obj][item].push(stateObj[item]);
         }
       }
     },
-    spliceState(state,payload) {
+    spliceState(state, payload) {
       const { prop: arr, data } = payload;
-      state.[arr].splice(data);
+      state[arr].splice(data);
     },
-    spliceStateItem(state,payload) {
+    spliceStateItem(state, payload) {
       const { prop: arr, data } = payload;
-      state.[arr].splice(data,1);
+      state[arr].splice(data, 1);
     },
     unshiftState(state, payload) {
       const { prop: arr, data } = payload;
-      state.[arr].unshift(data);
+      state[arr].unshift(data);
     },
 
-
-
     // Set States
-    stateItems(state,payload) {
-      for(const item in payload) {
+    stateItems(state, payload) {
+      for (const item in payload) {
         state[item] = payload[item];
       }
     },
-    stateObj(state,payload) {
+    stateObj(state, payload) {
       const { prop: obj, data } = payload;
 
-      for(const item in data) {
+      for (const item in data) {
         state[obj][item] = payload[item];
       }
     },
-    stateObjs(state,payload) {
-      for(const obj in payload) {
+    stateObjs(state, payload) {
+      for (const obj in payload) {
         const stateObj = payload[obj];
 
-        for(const item in stateObj) {
+        for (const item in stateObj) {
           state[obj][item] = stateObj[item];
         }
       }
@@ -136,7 +131,6 @@ export default {
     pushInputValidation({ state, getters, commit }, data) {
       const { inputs } = state;
       const { bool, value, stateValue } = data;
-      
 
       // includes - primitive bool (breaks) value
       // some - object bool (breaks) fn
@@ -146,96 +140,98 @@ export default {
       // findIndex - index (breaks) fn
       // indexOf - primitive (each) value
 
-
-      if(bool) {
-        if(inputs.valid.length === 0) commit("pushStateObjs",{ inputs: { valid: stateValue } });
+      if (bool) {
+        if (inputs.valid.length === 0)
+          commit("pushStateObjs", { inputs: { valid: stateValue } });
         else {
-          const match = inputs.valid.some((obj) => getters.validateCountryNameList(obj,value,true));
-          if(!match) commit("pushStateObjs",{ inputs: { valid: stateValue } });
+          const match = inputs.valid.some((obj) =>
+            getters.validateCountryNameList(obj, value, true)
+          );
+          if (!match)
+            commit("pushStateObjs", { inputs: { valid: stateValue } });
         }
-      }
-      else {
-        if(inputs.valid.length === 0) commit("pushStateObjs",{ inputs: { invalid: stateValue } });
-        else { 
+      } else {
+        if (inputs.valid.length === 0)
+          commit("pushStateObjs", { inputs: { invalid: stateValue } });
+        else {
           const match = inputs.invalid.includes(value);
-          if(!match) commit("pushStateObjs",{ inputs: { invalid: stateValue } });
+          if (!match)
+            commit("pushStateObjs", { inputs: { invalid: stateValue } });
         }
       }
     },
     searchInputValidation({ getters, dispatch }, data) {
       const { inputs, list } = data;
       let valid = {};
-      let obj = {}; 
+      let obj = {};
       // let invalid = "";
-
-      for(const input of inputs) {
-        const value = input.toLowerCase();
-
-        valid = list.find((obj) => getters.validateCountryNameList(obj,value,obj));
-        if(valid) obj = { bool: true, value, stateValue: valid }
-        else obj = { bool: false, value, stateValue: value };
-
-        dispatch("pushInputValidation",obj);
-      }
-    },
-
-
-
-    // Search Request Duplicates
-    searchRequestDuplicates({ getters, commit }, inputs) {
-      const state = getters.searchStates(["inputs","countries"]);
-
-      for(const input of inputs) {
-        const value = input.country.toLowerCase();
-
-        const match = state.countries.some((obj) => getters.validateCountryName(obj,value,true));
-        if(match) { 
-          if(state.inputs.duplicates.length === 0) commit("pushStateObjs",({ inputs: { duplicates: value } }));
-          else { 
-            const match = state.inputs.duplicates.includes(value);
-            if(!match) commit("pushStateObjs",({ inputs: { duplicates: value } }));
-          }
-        }
-        else {
-          if(state.inputs.passed.length === 0) commit("pushStateObjs",({ inputs: { passed: value } }));
-          else { 
-            const match = state.inputs.passed.includes(value);
-            if(!match) commit("pushStateObjs",({ inputs: { passed: value } }));
-          }
-        }
-      }
-    },
-
-
-
-    // Search Request Limit
-    searchDataLimit({ getters, commit }, inputs) {
-      const state = getters.searchStates(["inputs","countries"]);
-      let length = state.countries.length;
-
 
       for (const input of inputs) {
         const value = input.toLowerCase();
 
-        if (length === 0) { 
-          commit("pushStateObjs",({ inputs: { final: value } }));
-          length++;
-        }
-        else if (length < state.inputs.limit) {
-          commit("pushStateObjs",({ inputs: { final: value } }));
-          length++;
-        }
-        else {
-          if(state.inputs.excess.length === 0) commit("pushStateObjs",({ inputs: { excess: value } }));
-          else { 
-            const match = state.inputs.excess.includes(value);
-            if(!match) commit("pushStateObjs",({ inputs: { excess: value } }));
+        valid = list.find((obj) =>
+          getters.validateCountryNameList(obj, value, obj)
+        );
+        if (valid) obj = { bool: true, value, stateValue: valid };
+        else obj = { bool: false, value, stateValue: value };
+
+        dispatch("pushInputValidation", obj);
+      }
+    },
+
+    // Search Request Duplicates
+    searchRequestDuplicates({ getters, commit }, inputs) {
+      const state = getters.searchStates(["inputs", "countries"]);
+
+      for (const input of inputs) {
+        const value = input.country.toLowerCase();
+
+        const match = state.countries.some((obj) =>
+          getters.validateCountryName(obj, value, true)
+        );
+        if (match) {
+          if (state.inputs.duplicates.length === 0)
+            commit("pushStateObjs", { inputs: { duplicates: value } });
+          else {
+            const match = state.inputs.duplicates.includes(value);
+            if (!match)
+              commit("pushStateObjs", { inputs: { duplicates: value } });
+          }
+        } else {
+          if (state.inputs.passed.length === 0)
+            commit("pushStateObjs", { inputs: { passed: value } });
+          else {
+            const match = state.inputs.passed.includes(value);
+            if (!match) commit("pushStateObjs", { inputs: { passed: value } });
           }
         }
       }
     },
 
+    // Search Request Limit
+    searchDataLimit({ getters, commit }, inputs) {
+      const state = getters.searchStates(["inputs", "countries"]);
+      let length = state.countries.length;
 
+      for (const input of inputs) {
+        const value = input.toLowerCase();
+
+        if (length === 0) {
+          commit("pushStateObjs", { inputs: { final: value } });
+          length++;
+        } else if (length < state.inputs.limit) {
+          commit("pushStateObjs", { inputs: { final: value } });
+          length++;
+        } else {
+          if (state.inputs.excess.length === 0)
+            commit("pushStateObjs", { inputs: { excess: value } });
+          else {
+            const match = state.inputs.excess.includes(value);
+            if (!match) commit("pushStateObjs", { inputs: { excess: value } });
+          }
+        }
+      }
+    },
 
     // Search ErrorList
     searchErrorList({ commit }, data) {
@@ -243,53 +239,51 @@ export default {
       const bool = list.length > 0 ? true : false;
       let error = "";
 
-      if(bool) {
+      if (bool) {
         // Ommit Last Element
         const last = list.length - 1;
-        const inputs = list.filter((val,index) => index !== last);
-
+        const inputs = list.filter((val, index) => index !== last);
 
         // Join Elements
         error = inputs.join(", ");
         error += list.length === 1 ? list[last] : ` and ${list[last]}`;
         error = `${prepend} "${error}" ${append}`;
 
-
         // Commit
-        commit("pushState",({ prop: "errors", data: { title, content: error } }));  
-      }
-      else error = "";
+        commit("pushState", {
+          prop: "errors",
+          data: { title, content: error },
+        });
+      } else error = "";
 
       return error;
     },
-    searchErrors({ state, dispatch },format) {
+    searchErrors({ state, dispatch }, format) {
       const { inputs } = state;
 
-      dispatch("searchErrorList",{ 
+      dispatch("searchErrorList", {
         title: "Not Found:",
         list: format ? format(inputs.invalid) : inputs.invalid,
-        prepend: "Request for", 
+        prepend: "Request for",
         append: "were not found, please check your spelling and try again",
       });
-      dispatch("searchErrorList",{ 
+      dispatch("searchErrorList", {
         title: "Duplicates:",
         list: format ? format(inputs.duplicates) : inputs.duplicates,
-        prepend: " ", 
+        prepend: " ",
         append: "already exists",
       });
-      dispatch("searchErrorList",{ 
+      dispatch("searchErrorList", {
         title: "Excess:",
         list: format ? format(inputs.excess) : inputs.excess,
-        prepend: `Limit of ${inputs.limit} request exceeded, request for`, 
+        prepend: `Limit of ${inputs.limit} request exceeded, request for`,
         append: "are cancelled",
       });
-    },    
-
-
+    },
 
     // Reset State
     resetSearchStates({ commit }) {
-      commit("stateObjs",{
+      commit("stateObjs", {
         inputs: {
           raw: "",
           filtered: [],
@@ -299,9 +293,9 @@ export default {
           passed: [],
           excess: [],
           final: [],
-        }
+        },
       });
-    }
+    },
   },
-  modules: {}
+  modules: {},
 };

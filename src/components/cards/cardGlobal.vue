@@ -1,6 +1,5 @@
 <template>
   <div class="row">
-
     <div class="col col--1">
       <!-- New Cases -->
       <card-case class="card" id="new-cases" :data="data" ref="newcases">
@@ -18,24 +17,22 @@
           {{ numberFormat(data.todayCases) }}
         </template>
       </card-case>
-  
+
       <!-- grids -->
       <div class="grid grid--1">&nbsp;</div>
     </div>
-
 
     <div class="col col--2">
       <!-- Total Cases -->
       <card-case class="card" id="total-cases" :data="data" ref="totalcases">
         <template #title>Total Cases</template>
-      </card-case>  
-  
+      </card-case>
+
       <!-- grids -->
       <div class="grid grid--2">&nbsp;</div>
     </div>
   </div>
 </template>
-
 
 <script>
 import stringUtilities from "@/mixins/stringUtilities.vue";
@@ -46,10 +43,9 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
-
 export default {
-  props: ["data","els"],
-  mixins: [stringUtilities,counter],
+  props: ["data", "els"],
+  mixins: [stringUtilities, counter],
   setup() {
     const newcasesEl = reactive([]);
     const totalcasesEl = reactive([]);
@@ -61,51 +57,47 @@ export default {
     return {
       newcasesEl,
       totalcasesEl,
-      caseEls
-    }
+      caseEls,
+    };
   },
   components: {
     cardCase,
   },
   methods: {
-    caseRefs(list,value,propName) {
-      const order = ["deaths","active","recovered","total"];
+    caseRefs(list, value, propName) {
+      const order = ["deaths", "active", "recovered", "total"];
 
-      for(const curOrder of order) {
+      for (const curOrder of order) {
         const spanValue = `${curOrder + value}`.toLowerCase();
         const obj = { name: curOrder };
 
-        for(const item in list) {
+        for (const item in list) {
           const itemValue = item.toLowerCase();
           const el = list[item];
 
-          if(curOrder === itemValue) obj["li"] = el;
-          else if(spanValue === itemValue) obj["span"] = el;
+          if (curOrder === itemValue) obj["li"] = el;
+          else if (spanValue === itemValue) obj["span"] = el;
         }
 
-        if(obj.li || obj.span) this[propName].push(obj);
+        if (obj.li || obj.span) this[propName].push(obj);
       }
     },
-
-
 
     // animations
     listValues() {
       const newcasesValues = this.newcasesEl.values;
       const totalcasesValues = this.totalcasesEl.values;
 
-
       const unformatNumber = (value) => {
         const filtered = value.split(",").join("");
         return eval(filtered);
-      }
-
+      };
 
       const listValues = gsap.timeline();
-      for(const cur of newcasesValues) 
-        listValues.counter(cur,{ end: unformatNumber(cur.innerText)});
-      for(const cur of totalcasesValues)
-        listValues.counter(cur,{ end: unformatNumber(cur.innerText)});
+      for (const cur of newcasesValues)
+        listValues.counter(cur, { end: unformatNumber(cur.innerText) });
+      for (const cur of totalcasesValues)
+        listValues.counter(cur, { end: unformatNumber(cur.innerText) });
 
       return listValues;
     },
@@ -113,22 +105,19 @@ export default {
       const unformatNumber = (value) => {
         const filtered = value.split(",").join("");
         return eval(filtered);
-      }
-
+      };
 
       const opacity = 0;
-      const duration = .5;
-
+      const duration = 0.5;
 
       const items = gsap.timeline();
-      for(const cur of list) {
+      for (const cur of list) {
         const num = unformatNumber(cur.span.innerText);
         cur.span.innerText = 0;
 
-        items.from(cur.li,{ x: -25, opacity, duration });
-        items.counter(cur.span,{ end: num, duration: .2 },"<+.1");
+        items.from(cur.li, { x: -25, opacity, duration });
+        items.counter(cur.span, { end: num, duration: 0.2 }, "<+.1");
       }
-      
 
       return items;
     },
@@ -136,16 +125,14 @@ export default {
       const newcases = this.$refs.newcases;
       const totalcases = this.$refs.totalcases;
 
-
       const opacity = 0;
-      const duration = .5;
-
+      const duration = 0.5;
 
       const cards = gsap.timeline();
-      cards.from(newcases.$el,{ x: 25, opacity, duration });
-      cards.add(this.listItems(this.newcasesEl),"<");
-      cards.from(totalcases.$el,{ x: 25, opacity, duration },">")
-      cards.add(this.listItems(this.totalcasesEl),"<");
+      cards.from(newcases.$el, { x: 25, opacity, duration });
+      cards.add(this.listItems(this.newcasesEl), "<");
+      cards.from(totalcases.$el, { x: 25, opacity, duration }, ">");
+      cards.add(this.listItems(this.totalcasesEl), "<");
 
       return cards;
     },
@@ -163,20 +150,20 @@ export default {
           start: "25% center",
           end: "bottom bottom",
           // scrub: 1,
-        }
+        },
       });
 
       scroll.add(this.cards());
-    }
+    },
   },
   mounted() {
-    this.caseRefs(this.$refs.newcases.$refs,"value","newcasesEl");
-    this.caseRefs(this.$refs.totalcases.$refs,"value","totalcasesEl");
+    this.caseRefs(this.$refs.newcases.$refs, "value", "newcasesEl");
+    this.caseRefs(this.$refs.totalcases.$refs, "value", "totalcasesEl");
     this.counter();
-    
+
     this.scroll();
     this.cards();
-  }
+  },
 };
 </script>
 
@@ -186,14 +173,14 @@ export default {
 @include styles.mxs-themes(light) {
   .grid {
     &--1 {
-      @supports(mask: url("~@/assets/bgs/circle-grid-10.svg")) {
+      @supports (mask: url("~@/assets/bgs/circle-grid-10.svg")) {
         mask: url("~@/assets/bgs/circle-grid-10.svg");
         @include styles.mxs-svg-contain;
       }
       background: url("~@/assets/bgs/circle-grid-10@2x.png");
     }
     &--2 {
-      @supports(mask: url("~@/assets/bgs/circle-grid-10.svg")) {
+      @supports (mask: url("~@/assets/bgs/circle-grid-10.svg")) {
         mask: url("~@/assets/bgs/circle-grid-10.svg");
         @include styles.mxs-svg-contain;
       }
@@ -206,17 +193,40 @@ export default {
   }
   .col {
     :deep(.case-content--block) {
+      background: styles.fns-lighten(var(--c-lprimary), 2);
+      // background: var(--c-white);
+    }
+  }
+}
+@include styles.mxs-themes(dark) {
+  .col {
+    :deep(.case-content--block) {
+      // background: var(--c-white);
+    }
+  }
+}
+
+@include styles.mxs-colorThemes("brown", light) {
+  .col {
+    :deep(.case-content--block) {
+      background: styles.fns-lighten(var(--c-lprimary), 10);
+      // background: var(--c-white);
+    }
+  }
+}
+@include styles.mxs-colorThemes("brown", dark) {
+  .col {
+    :deep(.case-content--block) {
       background: var(--c-white);
     }
   }
 }
 </style>
 
-
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
 
-// row 
+// row
 .row {
   height: 100%;
   width: 70%;
@@ -263,7 +273,6 @@ export default {
     @include styles.mxs-font-size(subtitle1);
   }
 }
-
 
 // grid
 .grid {

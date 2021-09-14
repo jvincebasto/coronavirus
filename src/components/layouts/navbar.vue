@@ -87,7 +87,6 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
 
-
 @include styles.mxs-themes(light) {
   .themebtn {
     &--1 {
@@ -126,8 +125,7 @@ export default {
     background: var(--c-lprimary);
     // box-shadow: 0 0 10px black;
   }
-} 
-
+}
 
 @include styles.mxs-themes(dark) {
   .nav-logo {
@@ -144,7 +142,7 @@ export default {
   }
 }
 
-@include styles.mxs-colorThemes('brown',light) {
+@include styles.mxs-colorThemes("brown", light) {
   .nav {
     background: var(--c-white);
   }
@@ -167,7 +165,7 @@ export default {
     }
   }
 }
-@include styles.mxs-colorThemes('brown',dark) {
+@include styles.mxs-colorThemes("brown", dark) {
   .nav-bg {
     background: var(--c-white);
   }

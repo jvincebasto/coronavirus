@@ -1,24 +1,23 @@
 <template>
   <section class="section section-hero" id="hero" ref="sectHero">
     <div class="section-margin row">
-      
       <!-- headline block -->
       <div class="col col--1">
         <div class="headline headline-block">
           <h2 class="headline-title" ref="title">Search Covid Cases</h2>
-          <p class="headline-subtitle" ref="subtitle">by country, continent and globally.</p>
-
+          <p class="headline-subtitle" ref="subtitle">
+            by country, continent and globally.
+          </p>
 
           <div class="headline-btn" ref="btn">
             <a class="headline-btn--text" href="#countries">Go Search</a>
           </div>
-      
+
           <div class="covidgroup covidgroup--1" ref="covid1">
             <div class="covidgroup-img covidgroup-img--1">&nbsp;</div>
           </div>
         </div>
       </div>
-
 
       <!-- bg block -->
       <div class="col col--2">
@@ -32,11 +31,8 @@
         </div>
       </div>
     </div>
-
   </section>
 </template>
-
-
 
 <script>
 import { gsap } from "gsap";
@@ -48,77 +44,76 @@ export default {
       const timelineObj = { repeat: -1, yoyo: true };
       const filter = "drop-shadow(0 15px 20px rgba(0,0,0, 0.8))";
       function animateObj() {
-        return { 
+        return {
           ease: "ease",
-          duration: 5
-        }
+          duration: 5,
+        };
       }
 
-
       const model = gsap.timeline(timelineObj);
-      model.to(this.$refs.person,{ y: -20, ...animateObj() });
-      model.to(this.$refs.person,{ filter, ...animateObj() },"<");
+      model.to(this.$refs.person, { y: -20, ...animateObj() });
+      model.to(this.$refs.person, { filter, ...animateObj() }, "<");
 
-
-      return model
+      return model;
     },
     covidIcon() {
       const timelineObj = { repeat: -1, yoyo: true };
       const filter = "drop-shadow(0 2px 10px rgba(0,0,0, 0.5))";
       function animateObj(duration = 2) {
-        return { 
+        return {
           ease: "ease",
           duration,
-        }
-      };
+        };
+      }
 
       const covid1 = gsap.timeline(timelineObj);
-      covid1.to(this.$refs.covid1 ,{ y: 10, ...animateObj() });
-      covid1.to(this.$refs.covid1 ,{ filter, ...animateObj() },"<");
+      covid1.to(this.$refs.covid1, { y: 10, ...animateObj() });
+      covid1.to(this.$refs.covid1, { filter, ...animateObj() }, "<");
 
       const covid2 = gsap.timeline(timelineObj);
-      covid2.to(this.$refs.covid2 ,{ y: 10, ...animateObj(1) });
-      covid2.to(this.$refs.covid2 ,{ filter, ...animateObj(1) },"<");
+      covid2.to(this.$refs.covid2, { y: 10, ...animateObj(1) });
+      covid2.to(this.$refs.covid2, { filter, ...animateObj(1) }, "<");
     },
     fadeIns() {
       function animateObj() {
-        return { 
+        return {
           opacity: 0,
           ease: "ease",
-          duration: .5
-        }
+          duration: 0.5,
+        };
       }
 
       const model = this.model;
       const covidIcon = this.covidIcon;
-      const headline = gsap.timeline({ onComplete: function() {
-
+      const headline = gsap.timeline({
+        onComplete: function () {
           model();
           covidIcon();
-        }
+        },
       });
       // content
-      headline.from(this.$refs.title,{ x: -50, ...animateObj() },"+1");
-      headline.from(this.$refs.subtitle,{ x: -50, ...animateObj() });
-      headline.from(this.$refs.btn,{ y: -10, ...animateObj() });
-
+      headline.from(this.$refs.title, { x: -50, ...animateObj() }, "+1");
+      headline.from(this.$refs.subtitle, { x: -50, ...animateObj() });
+      headline.from(this.$refs.btn, { y: -10, ...animateObj() });
 
       // bg
-      headline.from(this.$refs.person,{ ...animateObj() },"<+.2");
-      headline.from(".section-hero .covidgroup",{ stagger: .3, ...animateObj() });
+      headline.from(this.$refs.person, { ...animateObj() }, "<+.2");
+      headline.from(".section-hero .covidgroup", {
+        stagger: 0.3,
+        ...animateObj(),
+      });
 
       return headline;
-    }
+    },
   },
   mounted() {
     this.fadeIns();
-  }
+  },
 };
 </script>
 
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
-
 
 @include styles.mxs-themes(light) {
   .section-hero {
@@ -151,18 +146,18 @@ export default {
     }
   }
   .covidgroup {
-    filter: drop-shadow(0 0 0 rgba(black,0));
+    filter: drop-shadow(0 0 0 rgba(black, 0));
 
     &-img {
       &--1 {
-        @supports(mask: url("~@/assets/covidicons/covidCluster1.svg")) {
+        @supports (mask: url("~@/assets/covidicons/covidCluster1.svg")) {
           mask: url("~@/assets/covidicons/covidCluster1.svg");
           @include styles.mxs-svg-contain;
         }
         background: url("~@/assets/covidicons/covidCluster1@2x.png");
       }
       &--2 {
-        @supports(mask: url("~@/assets/covidicons/covidCluster2.svg")) {
+        @supports (mask: url("~@/assets/covidicons/covidCluster2.svg")) {
           mask: url("~@/assets/covidicons/covidCluster2.svg");
           @include styles.mxs-svg-contain;
         }
@@ -177,27 +172,24 @@ export default {
   }
 }
 
-
 @include styles.mxs-themes(dark) {
   .section-hero {
     background: var(--c-white);
   }
 }
 
-
-@include styles.mxs-colorThemes('green',light) {
+@include styles.mxs-colorThemes("green", light) {
   .model--person {
     filter: hue-rotate(-60deg) saturate(2);
-  }  
+  }
 }
-@include styles.mxs-colorThemes('green',dark) {
+@include styles.mxs-colorThemes("green", dark) {
   .model--person {
     filter: hue-rotate(-60deg);
-  }  
+  }
 }
 
-
-@include styles.mxs-colorThemes('brown',light) {
+@include styles.mxs-colorThemes("brown", light) {
   .section-hero {
     background: styles.fns-lighten(var(--c-lprimary), 5);
   }
@@ -219,7 +211,8 @@ export default {
     }
   }
   .model--person {
-    filter: hue-rotate(-186deg) saturate(2);
+    // filter: hue-rotate(-186deg) saturate(1);
+    filter: sepia(1);
   }
   .covidgroup {
     &-img {
@@ -228,8 +221,7 @@ export default {
   }
 }
 
-
-@include styles.mxs-colorThemes('brown',dark) {
+@include styles.mxs-colorThemes("brown", dark) {
   .section-hero {
     background: var(--c-white);
   }
@@ -251,7 +243,7 @@ export default {
     }
   }
   .model--person {
-    filter: hue-rotate(-186deg) saturate(2);
+    filter: hue-rotate(-186deg) saturate(2) grayscale(1);
   }
   .covidgroup {
     &-img {
@@ -261,11 +253,8 @@ export default {
 }
 </style>
 
-
-
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
-
 
 .row {
   margin-top: 12rem;
@@ -313,15 +302,12 @@ export default {
   }
 }
 
-
-
 // bg group
 .model {
   &--bggroup {
     height: 40rem;
     width: 38rem;
     position: relative;
-
 
     @include styles.mxs-respond(ltablet) {
       height: 35rem;
@@ -346,9 +332,6 @@ export default {
     @include styles.mxs-img-contain;
   }
 }
-
-
-
 
 // headline
 .headline {
@@ -386,12 +369,10 @@ export default {
     }
   }
   &-btn {
-
     -webkit-tap-highlight-color: transparent;
     display: inline-block;
     position: relative;
     cursor: pointer;
-
 
     &--text {
       font-family: tsemibold;
@@ -405,8 +386,6 @@ export default {
     }
   }
 }
-
-
 
 // covid icon
 .covidgroup {

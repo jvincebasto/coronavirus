@@ -10,7 +10,7 @@ export default {
       { country: "Antigua and Barbuda", iso2: "AG", iso3: "ATG" },
       { country: "Argentina", iso2: "AR", iso3: "ARG" },
       { country: "Armenia", iso2: "AM", iso3: "ARM" },
-      { country: "Aruba", iso2: "AW", iso3: "ABW" }
+      { country: "Aruba", iso2: "AW", iso3: "ABW" },
       // { country: "Diamond Princess", iso2: "null", iso3: "null" },
       // { country: "MS Zaandam", iso2: "null", iso3: "null" },
     ];
@@ -235,19 +235,19 @@ export default {
       { country: "Western Sahara", iso2: "EH", iso3: "ESH" },
       { country: "Yemen", iso2: "YE", iso3: "YEM" },
       { country: "Zambia", iso2: "ZM", iso3: "ZMB" },
-      { country: "Zimbabwe", iso2: "ZW", iso3: "ZWE" }
+      { country: "Zimbabwe", iso2: "ZW", iso3: "ZWE" },
     ];
 
     const api = "https://disease.sh/v3/covid-19";
     const options = {
       method: "GET",
-      redirect: "follow"
+      redirect: "follow",
     };
 
     let globalData = [];
     let continents = [];
     let countries = [];
-    let overall = [globalData,countries, continents];
+    let overall = [globalData, countries, continents];
 
     return {
       countryTest,
@@ -259,14 +259,14 @@ export default {
       globalData,
       continents,
       countries,
-      overall
+      overall,
     };
   },
   getters: {
     covidConst(state) {
       return {
         api: state.api,
-        options: state.options
+        options: state.options,
       };
     },
     dataStats(state) {
@@ -278,10 +278,10 @@ export default {
       };
     },
 
-    nameCheck: state => obj => {
+    nameCheck: (state) => (obj) => {
       const { stateProp, value } = obj;
 
-      let bool = state[`${stateProp}`].some(stateObj => {
+      let bool = state[`${stateProp}`].some((stateObj) => {
         let bool = false;
 
         if (
@@ -295,7 +295,7 @@ export default {
 
       return bool;
     },
-    indexCheck: state => obj => {
+    indexCheck: (state) => (obj) => {
       const { stateProp, value } = obj;
       let index;
 
@@ -315,7 +315,7 @@ export default {
 
       if (bool) return index;
       else return -1;
-    }
+    },
   },
   mutations: {
     globalData(state, res) {
@@ -338,7 +338,7 @@ export default {
       for (const cur of res) {
         state.countries.push(cur);
       }
-    }
+    },
   },
   actions: {
     async countryInfos({ dispatch }) {
@@ -422,7 +422,7 @@ export default {
           commitName: "storeContinent",
           stateProp: "continents",
           data: await res,
-          value: continent.toLowerCase()
+          value: continent.toLowerCase(),
         });
         return await res;
       } else return await res.error;
@@ -437,7 +437,7 @@ export default {
           commitName: "storeCountry",
           stateProp: "countries",
           data: await res,
-          value: country.toLowerCase()
+          value: country.toLowerCase(),
         });
         return await res;
       } else return await res.error;
@@ -462,7 +462,7 @@ export default {
             commitName: "storeCountry",
             stateProp: "countries",
             data: await cur,
-            value: cur.country.toLowerCase()
+            value: cur.country.toLowerCase(),
           });
         }
         return await res;
@@ -473,11 +473,11 @@ export default {
       const { countries } = getters.dataStats;
       const index = getters.indexCheck({
         stateProp: "countries",
-        value: country.toLowerCase()
+        value: country.toLowerCase(),
       });
       if (index !== -1) return countries[index];
       else return { result: "No Match Found" };
-    }
+    },
   },
-  modules: {}
+  modules: {},
 };

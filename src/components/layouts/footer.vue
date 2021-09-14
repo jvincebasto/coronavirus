@@ -1,10 +1,15 @@
 <template>
   <footer
-    data-section="contacts" class="section section-footer" 
-      id="contacts" ref="sectFooter" color-static="light">
-
+    data-section="contacts"
+    class="section section-footer"
+    id="contacts"
+    ref="sectFooter"
+    color-static="light"
+  >
     <div class="section-margin section-margin--footer">
-      <label class="section-copyright">&#169; 2021 CORONASTATS | All Rights Reserved</label>
+      <label class="section-copyright"
+        >&#169; 2021 CORONASTATS | All Rights Reserved</label
+      >
       <ul class="section-icongroup">
         <li class="icongroup">
           <span class="icon icon-facebook">&nbsp;</span>
@@ -28,12 +33,9 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
-
 export default {
-  methods: {
-  },
-  mounted() {
-  }
+  methods: {},
+  mounted() {},
 };
 </script>
 
@@ -41,7 +43,6 @@ export default {
 @use "~@/sass/styles" as styles;
 
 @include styles.mxs-themes(light) {
-
   .section {
     &-footer {
       background: var(--sc-black);
@@ -99,14 +100,12 @@ export default {
       background: var(--sc-black);
     }
     &:hover .icon {
-      background: var(--sc-defwhite);    
+      background: var(--sc-defwhite);
     }
   }
 }
 
-
 @include styles.mxs-themes(dark) {
-
   .icongroup {
     // background: styles.fns-darken(var(--sc-black), 4);
   }
@@ -115,7 +114,6 @@ export default {
 
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
-
 
 .section {
   &-footer {
@@ -144,9 +142,7 @@ export default {
   }
 }
 
-
 .section {
-
   &-title {
     margin-top: 4rem;
     margin-bottom: 3rem;
@@ -167,10 +163,9 @@ export default {
 
   &-copyright {
     @include styles.mxs-font-size(captions);
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
 }
-
 
 // social media icons
 .icongroup {
@@ -181,8 +176,7 @@ export default {
   border-radius: 1rem;
 
   cursor: pointer;
-  transition: all .4s ease-in-out;
-
+  transition: all 0.4s ease-in-out;
 
   @include styles.mxs-respond(lphone) {
     height: 3rem;
@@ -194,6 +188,6 @@ export default {
   height: 100%;
   width: 100%;
 
-  transition: all .4s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 </style>

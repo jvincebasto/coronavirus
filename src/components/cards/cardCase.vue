@@ -65,14 +65,14 @@
 import stringUtilities from "@/mixins/stringUtilities.vue";
 
 export default {
-  props: ["data","options"],
+  props: ["data", "options"],
   mixins: [stringUtilities],
   methods: {
     setDomValue(val, defval) {
       if (!val && this.options.numberFormat) return defval;
       else return val;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -80,7 +80,6 @@ export default {
 @use "~@/sass/styles" as styles;
 
 @include styles.mxs-themes(light) {
-
   .case-content {
     &--block {
       box-shadow: styles.$vars-box-shadow;
@@ -116,9 +115,7 @@ export default {
   }
 }
 
-
 @include styles.mxs-themes(dark) {
-
   .case-content {
     &--title {
       color: var(--c-dprimary);
@@ -128,13 +125,11 @@ export default {
   .case {
     &--title,
     &--value {
-      color: styles.fns-alpha(var(--c-defblack),.8);
+      color: styles.fns-alpha(var(--c-defblack), 0.8);
     }
   }
 }
-
 </style>
-
 
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
@@ -178,8 +173,6 @@ export default {
     text-align: end;
   }
 }
-
-
 
 // case icon
 .caseicon {

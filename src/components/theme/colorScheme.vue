@@ -80,7 +80,7 @@ export default {
   }
 }
 
-@include styles.mxs-colorThemes('brown',light) { 
+@include styles.mxs-colorThemes("brown", light) {
   .themelist {
     &--container {
       background: var(--c-white);
@@ -88,14 +88,13 @@ export default {
   }
 }
 
-@include styles.mxs-colorThemes('brown',dark) { 
+@include styles.mxs-colorThemes("brown", dark) {
   .themelist {
     &--container {
       background: var(--c-white);
     }
   }
 }
-
 
 // theme css functions
 .theme {

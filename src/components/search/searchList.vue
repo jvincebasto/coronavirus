@@ -1,18 +1,20 @@
 <template>
-
-  <input type="checkbox" :id="input.id" class="countrylist--checkbox" 
-    @click="searchListToggle($event)" ref="btn"/>
-
+  <input
+    type="checkbox"
+    :id="input.id"
+    class="countrylist--checkbox"
+    @click="searchListToggle($event)"
+    ref="btn"
+  />
 
   <div class="countrylist--container" ref="container">
     <div class="countrylist countrylist--overflow-scroll" ref="overflowScroll">
       <template v-for="(obj, index) in countryNames" :key="index">
-        <search-list-item :data="obj" :ref="el=>listEl(el,obj)">
+        <search-list-item :data="obj" :ref="(el) => listEl(el, obj)">
         </search-list-item>
-      </template>    
+      </template>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -22,15 +24,14 @@ import { gsap } from "gsap";
 import { reactive, onBeforeUpdate } from "vue";
 import { createNamespacedHelpers } from "vuex";
 const { mapState: covidState } = createNamespacedHelpers("covid");
-const { mapGetters: countryGetters, mapMutations: countryMutations } = createNamespacedHelpers("countrySearch");
-
-
+const { mapGetters: countryGetters, mapMutations: countryMutations } =
+  createNamespacedHelpers("countrySearch");
 
 export default {
   props: ["input"],
   mixins: [stringUtilities],
   components: {
-    searchListItem
+    searchListItem,
   },
   setup() {
     let listItems = reactive([]);
@@ -40,38 +41,38 @@ export default {
     });
 
     return {
-      listItems
+      listItems,
     };
   },
   computed: {
     ...covidState({
-      countryNames: state => state.countryNames,
+      countryNames: (state) => state.countryNames,
     }),
     ...countryGetters(["searchStates"]),
   },
   methods: {
-    ...countryMutations(["pushState","spliceState","stateObjs"]),
-
-
+    ...countryMutations(["pushState", "spliceState", "stateObjs"]),
 
     // List Items
     listEl(el, obj) {
       if (el) {
         this.listItems.push({ data: obj, el: el.$el, refs: el.$refs });
-        this.pushState({ prop: "listItems", data: { data: obj, el: el.$el, refs: el.$refs } });
+        this.pushState({
+          prop: "listItems",
+          data: { data: obj, el: el.$el, refs: el.$refs },
+        });
       }
     },
 
-
     // List Init
     setSearchEls() {
-      this.stateObjs({ els: {
-        searchList: this.$refs.container,
-        searchListBtn: this.$refs.btn,
-        }
+      this.stateObjs({
+        els: {
+          searchList: this.$refs.container,
+          searchListBtn: this.$refs.btn,
+        },
       });
     },
-
 
     // SearchList Event
     searchListToggle(event) {
@@ -81,39 +82,37 @@ export default {
       const container = this.$refs.container;
 
       const animate = gsap.timeline();
-      if(toggleState) {
+      if (toggleState) {
         animate.to(container, { display: "block", duration: 0 });
-        animate.to(container, { opacity: 1, duration: .3 },">");
-        animate.to(container, { y: 80, duration },"<");
-      }
-      else {
+        animate.to(container, { opacity: 1, duration: 0.3 }, ">");
+        animate.to(container, { y: 80, duration }, "<");
+      } else {
         animate.to(container, { y: 20, duration });
-        animate.to(container, { opacity: 0, duration: .4 },"<");
-        animate.to(container, { display: "none", duration: 0 },">");
+        animate.to(container, { opacity: 0, duration: 0.4 }, "<");
+        animate.to(container, { display: "none", duration: 0 }, ">");
       }
-    }
-
+    },
   },
   beforeUpdate() {
     this.spliceState({ prop: "listItems", data: 0 });
   },
   beforeMount() {
     this.spliceState({ prop: "listItems", data: 0 });
-    this.stateObjs({ els: {
-      searchList: null,
-      searchListBtn: null,
-      }
+    this.stateObjs({
+      els: {
+        searchList: null,
+        searchListBtn: null,
+      },
     });
   },
   mounted() {
     this.setSearchEls();
-  }
+  },
 };
 </script>
 
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
-
 
 @include styles.mxs-themes(light) {
   .countrylist {
@@ -122,7 +121,7 @@ export default {
       box-shadow: styles.$vars-box-shadow;
     }
   }
-  .countrylist--overflow-scroll  {
+  .countrylist--overflow-scroll {
     scrollbar-width: 15px;
     scrollbar-color: var(--sc-defwhite);
 
@@ -147,7 +146,7 @@ export default {
       background: var(--c-white);
     }
   }
-  .countrylist--overflow-scroll  {
+  .countrylist--overflow-scroll {
     scrollbar-color: var(--c-dprimary);
 
     &::-webkit-scrollbar-track {
@@ -158,7 +157,6 @@ export default {
     }
   }
 }
-
 </style>
 
 <style scoped lang="scss">
@@ -191,7 +189,6 @@ export default {
     display: none;
   }
 }
-
 
 // Searchlist Functions
 .countrylist {

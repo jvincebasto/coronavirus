@@ -29,7 +29,7 @@ export default {
     },
 
     // String Split
-    stringFilter(input,delimeter = ",") {
+    stringFilter(input, delimeter = ",") {
       const string = input.toLowerCase();
       const strings = string.split(delimeter);
       const filtered = [];
@@ -56,8 +56,6 @@ export default {
       return distincts;
     },
 
-
-
     // String Capitalize
     stringCapitalize(input) {
       const words = input.split(" ");
@@ -81,9 +79,7 @@ export default {
       return format;
     },
 
-
-
-    // 
+    //
     letterCheck(inputs, value) {
       const letters = [...value.toLowerCase()];
       const wordLength = letters.length - 1;
@@ -116,6 +112,6 @@ export default {
 
       return newInputs;
     },
-  }
+  },
 };
 </script>

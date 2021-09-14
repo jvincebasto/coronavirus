@@ -15,6 +15,7 @@ export default {
   props: ["data"],
   setup() {
     const colors = ["blue", "green", "brown"];
+    // const colors = ["blue", "green"];
 
     return {
       colors,
@@ -81,7 +82,7 @@ export default {
   }
 }
 
-@include styles.mxs-scopedStaticModes(light,dark) {
+@include styles.mxs-scopedStaticModes(light, dark) {
   .colortheme {
     &-color {
       &--blue {

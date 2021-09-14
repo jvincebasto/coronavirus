@@ -4,14 +4,16 @@
 
     <div class="carousel-slider" ref="slider">
       <template v-for="(value, index) in continents" :key="index">
-        <slider-card :index="`${(index += 1)}`" :ref="el=>componentList(el)">
+        <slider-card
+          :index="`${(index += 1)}`"
+          :ref="(el) => componentList(el)"
+        >
           <slot name="component" :prop="value">
             {{ `item-${index}` }}
           </slot>
         </slider-card>
       </template>
     </div>
-
   </div>
 </template>
 
@@ -22,9 +24,8 @@ import sliderCard from "@/components/slider/sliderCard.vue";
 import mixinSlider from "@/mixins/mixinSlider.vue";
 import { ref, reactive } from "vue";
 import { createNamespacedHelpers } from "vuex";
-const { mapGetters, mapMutations, mapActions } = createNamespacedHelpers(
-  "slider"
-);
+const { mapGetters, mapMutations, mapActions } =
+  createNamespacedHelpers("slider");
 
 export default {
   components: {
@@ -41,7 +42,7 @@ export default {
     return {
       continents,
       slides,
-      start
+      start,
     };
   },
   computed: {
@@ -56,65 +57,76 @@ export default {
     },
     componentList(comp) {
       if (comp) {
-        const el = comp.$el
+        const el = comp.$el;
         this.slides.push(ref(el));
         this.pushState({ prop: "slides", data: ref(el) });
       }
     },
     ...mapMutations(["stateItems", "stateObjs", "pushState", "spliceState"]),
-    ...mapActions(["sliderEndPos","sliderCenterPos", "sliderCurPos", "transposeSlides"]),
+    ...mapActions([
+      "sliderEndPos",
+      "sliderCenterPos",
+      "sliderCurPos",
+      "transposeSlides",
+    ]),
     ...mapActions(["slideIndices"]),
 
     // Init
     sliderInit() {
-      const state = this.sliderStates(["options", "positions", "indices","els"]);
+      const state = this.sliderStates([
+        "options",
+        "positions",
+        "indices",
+        "els",
+      ]);
       this.stateObjs({
         els: {
           container: this.$refs.container,
-          slider: this.$refs.slider
-        }
+          slider: this.$refs.slider,
+        },
       });
-
 
       if (state.options.center && state.options.loop) {
         this.stateObjs({
           options: {
             offset: true,
-            loop: true
+            loop: true,
           },
           offset: {
             mutate: false,
-            initial: true
+            initial: true,
           },
           indices: {
-            offset: Math.floor(this.slides.length / 2)
-          }
+            offset: Math.floor(this.slides.length / 2),
+          },
         });
-
 
         this.sliderEndPos(state.els.container);
         this.sliderCenterPos(state.els);
 
-
         this.transposeSlides({
           slider: state.els.slider,
           mode: "prepend",
-          value: state.indices.offset
+          value: state.indices.offset,
         });
         this.slideIndices("decr");
         this.sliderCurPos(state.indices.trails);
 
         const init = gsap.timeline({
-          onComplete: function() {
+          onComplete: function () {
             const fadeinSlide = gsap.timeline();
             fadeinSlide.to(state.els.container, {
               opacity: 1,
               transition: "ease-in-out",
-              duration: 0.3
+              duration: 0.3,
             });
-          }
+          },
         });
-        init.to(state.els.container, { opacity: 0, transition: "none", duration: 0 });
+        init.to(state.els.container, {
+          opacity: 0,
+          transition: "none",
+          duration: 0,
+        });
         init.add(this.animateSlider(state.positions.curPos));
         init.to(state.els.container, { opacity: 1, duration: 0.3 });
 
@@ -131,28 +143,26 @@ export default {
     this.stateObjs({
       els: {
         container: null,
-        slider: null
-      }
+        slider: null,
+      },
     });
   },
   mounted() {
     this.stateItems({ data: this.data });
     this.sliderInit();
 
-
     const container = this.$refs.container;
-    container.oncontextmenu = event => {
+    container.oncontextmenu = (event) => {
       event.preventDefault();
       event.stopPropagation();
       return false;
     };
-  }
+  },
 };
 </script>
 
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
-
 
 @include styles.mxs-themes(light) {
   .btn {
@@ -181,10 +191,8 @@ export default {
 }
 </style>
 
-
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
-
 
 .block {
   height: 10rem;
@@ -241,7 +249,6 @@ export default {
     width: 100%;
     min-height: 20rem;
     min-width: 20rem;
-
 
     margin: auto;
     display: flex;

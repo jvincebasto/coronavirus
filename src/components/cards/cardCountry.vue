@@ -5,9 +5,11 @@
     </div>
 
     <div class="cardimg--box">
-      <div class="cardimg--country" ref="icon"
-        :style="cardImage(data.countryInfo.iso2)">
-      </div>
+      <div
+        class="cardimg--country"
+        ref="icon"
+        :style="cardImage(data.countryInfo.iso2)"
+      ></div>
     </div>
 
     <card-case>
@@ -27,7 +29,6 @@
         {{ numberFormat(`${data.cases}`) }}
       </template>
     </card-case>
-
   </div>
 </template>
 
@@ -38,11 +39,12 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 import { createNamespacedHelpers } from "vuex";
-const { mapGetters: countryGetters, mapMutations: countryMutations } = createNamespacedHelpers("countrySearch");
+const { mapGetters: countryGetters, mapMutations: countryMutations } =
+  createNamespacedHelpers("countrySearch");
 
 export default {
   components: {
-    cardCase
+    cardCase,
   },
   mixins: [stringUtilities],
   props: ["data"],
@@ -50,111 +52,115 @@ export default {
     return {};
   },
   computed: {
-    ...countryGetters(["searchStates","validateCountryName","validateCountryNameList"]),
+    ...countryGetters([
+      "searchStates",
+      "validateCountryName",
+      "validateCountryNameList",
+    ]),
   },
   methods: {
     ...countryMutations(["spliceStateItem"]),
-    
 
     // Props
-    nullCheck(value,nullValue = "") {
-      if(value !== "null") return value;
-      else return nullValue
+    nullCheck(value, nullValue = "") {
+      if (value !== "null") return value;
+      else return nullValue;
     },
-    propName(prefix,value,nullValue = ""){
-      return `${prefix}${this.nullCheck(value,nullValue)}`
+    propName(prefix, value, nullValue = "") {
+      return `${prefix}${this.nullCheck(value, nullValue)}`;
     },
     cardImage(image) {
       const img = image.toLowerCase();
       let path = "";
-      if (image !== "null") path = `${require(`@/assets/flags/original/${img}.png`)}`;
-      else if (this.data.countryInfo.iso2 !== "null") path = this.data.countryInfo.flag;
+      if (image !== "null")
+        path = `${require(`@/assets/flags/original/${img}.png`)}`;
+      else if (this.data.countryInfo.iso2 !== "null")
+        path = this.data.countryInfo.flag;
       else path = "";
       return `background-image: url(${path})`;
     },
-
-
 
     // Enable List Item
     enableListItem(input) {
       const state = this.searchStates(["listItems"]);
       const value = input.toLowerCase();
-      const match = state.listItems.find((obj) => this.validateCountryNameList(obj.data,value,obj));
-      if(match) { 
+      const match = state.listItems.find((obj) =>
+        this.validateCountryNameList(obj.data, value, obj)
+      );
+      if (match) {
         match.refs.input.checked = false;
         match.refs.input.disabled = false;
       }
     },
     // Remove Card Event
     removeCard(event) {
-      const state = this.searchStates(["countries"])
+      const state = this.searchStates(["countries"]);
       event.cancelBubble = true;
 
       const country = this.data.country.toLowerCase();
       const first = state.countries[0].country.toLowerCase();
-      if(country === first) { 
+      if (country === first) {
         this.spliceStateItem({ prop: "countries", data: 0 });
         this.enableListItem(country);
-      }
-      else {
-        const index = state.countries.findIndex((obj,index) => this.validateCountryName(obj,country,index));
-        if(index > -1) {
-          this.spliceStateItem({ prop: "countries", data: index });        
+      } else {
+        const index = state.countries.findIndex((obj, index) =>
+          this.validateCountryName(obj, country, index)
+        );
+        if (index > -1) {
+          this.spliceStateItem({ prop: "countries", data: index });
           this.enableListItem(country);
         }
       }
-
     },
-
-
 
     // animations
     fadeIns() {
-      const scroll = (el) => gsap.timeline({
-        scrollTrigger: {
-          // markers: {
-          //   startColor: "green",
-          //   endColor: "red",
-          //   fontSize: "16px"
-          // },
+      const scroll = (el) =>
+        gsap.timeline({
+          scrollTrigger: {
+            // markers: {
+            //   startColor: "green",
+            //   endColor: "red",
+            //   fontSize: "16px"
+            // },
 
-          // trigger | (trigger, viewport)
-          trigger: el,
-          start: "top 95%",
-          end: "bottom bottom",
-          // scrub: 1,
-        }
-      });
+            // trigger | (trigger, viewport)
+            trigger: el,
+            start: "top 95%",
+            end: "bottom bottom",
+            // scrub: 1,
+          },
+        });
       function animateObj() {
         return {
           ease: "ease",
           opacity: 0,
-          duration: 2
-        }
+          duration: 2,
+        };
       }
 
       const card = scroll(this.$refs.card);
-      card.from(this.$refs.card,{ y: -25, ...animateObj() });
-    }
+      card.from(this.$refs.card, { y: -25, ...animateObj() });
+    },
   },
   mounted() {
     this.fadeIns();
-  }
+  },
 };
 </script>
 
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
 
-
 @include styles.mxs-themes(light) {
   .card {
-    background: styles.fns-darken(var(--c-white), 4);
+    background: styles.fns-lighten(var(--c-lprimary), 6);
+    // background: styles.fns-darken(var(--c-white), 4);
     box-shadow: styles.$vars-box-shadow;
   }
   .cardbtn {
     &--icon {
-      @supports(mask: url("~@/assets/icons/cross.svg")) {
+      @supports (mask: url("~@/assets/icons/cross.svg")) {
         mask: url("~@/assets/icons/cross.svg");
         @include styles.mxs-svg-contain;
       }
@@ -182,30 +188,28 @@ export default {
   }
 }
 
-
 @include styles.mxs-themes(dark) {
   .card {
     background: var(--c-white);
   }
 }
 
-
-@include styles.mxs-colorThemes('brown',light) {
+@include styles.mxs-colorThemes("brown", light) {
   .card {
-    background: styles.fns-lighten(var(--c-white), 6);
+    background: styles.fns-lighten(var(--c-lprimary), 10);
+    // background: styles.fns-lighten(var(--c-white), 6);
   }
 }
-@include styles.mxs-colorThemes('brown',dark) {
+@include styles.mxs-colorThemes("brown", dark) {
   .card {
-    background: styles.fns-darken(var(--c-white), 3);
+    background: var(--c-white);
+    // background: styles.fns-darken(var(--c-white), 3);
   }
 }
 </style>
 
-
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
-
 
 .card {
   max-width: 30rem;
@@ -230,8 +234,6 @@ export default {
     width: 100%;
   }
 }
-
-
 
 // cardBtn
 .cardbtn {
@@ -265,7 +267,6 @@ export default {
   }
 }
 
-
 // cardImg
 .cardimg {
   &--box {
@@ -287,7 +288,6 @@ export default {
   }
 }
 
-
 // cardCase
 .card {
   :deep(.case-content--block) {
@@ -299,5 +299,4 @@ export default {
     }
   }
 }
-
 </style>

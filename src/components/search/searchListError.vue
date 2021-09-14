@@ -1,7 +1,7 @@
 <template>
   <div class="search-errors">
     <template v-for="(obj, index) in errors" :key="index">
-      <div class="search--errorgroup" :ref="`error--${obj.title}`">      
+      <div class="search--errorgroup" :ref="`error--${obj.title}`">
         <p class="search--error-title">{{ obj.title }}</p>
         <p class="search--error-content">{{ obj.content }}</p>
       </div>
@@ -9,22 +9,18 @@
   </div>
 </template>
 
-
 <script>
 import { createNamespacedHelpers } from "vuex";
 const { mapState: countryState } = createNamespacedHelpers("countrySearch");
 
-
 export default {
   computed: {
     ...countryState({
-      errors: state => state.errors,
+      errors: (state) => state.errors,
     }),
   },
-  methods: {
-  }
+  methods: {},
 };
-
 </script>
 
 <style scoped lang="scss">
@@ -45,7 +41,8 @@ export default {
       &-content {
         color: var(--sc-white);
       }
-      &-title, &-content {
+      &-title,
+      &-content {
         display: flex;
         align-items: flex-end;
       }
@@ -54,10 +51,8 @@ export default {
 }
 </style>
 
-
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
-
 
 // Search Errors
 .search {
@@ -68,7 +63,7 @@ export default {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
 
     padding: 1rem;
     padding-left: 2rem;
@@ -77,18 +72,18 @@ export default {
   &--error {
     &-title {
       margin-right: 1rem;
-  
+
       font-family: tsemibold;
       @include styles.mxs-font-size(body2);
     }
     &-content {
       @include styles.mxs-font-size(captions);
     }
-    &-title, &-content {
+    &-title,
+    &-content {
       display: flex;
       align-items: flex-end;
     }
   }
 }
-
 </style>

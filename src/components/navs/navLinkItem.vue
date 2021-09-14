@@ -26,7 +26,6 @@ export default {
 <style scoped lang="scss">
 @use "~@/sass/styles" as styles;
 
-
 @include styles.mxs-themes(light) {
   // navlink text
   .link {
@@ -42,7 +41,6 @@ export default {
     }
   }
 }
-
 
 @include styles.mxs-themes(dark) {
   .link {

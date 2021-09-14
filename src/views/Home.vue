@@ -1,12 +1,10 @@
 <template>
-
   <navbar :data="data" />
   <hero />
   <global />
   <continent />
   <countries />
   <my-footer />
-
 </template>
 
 <script>
